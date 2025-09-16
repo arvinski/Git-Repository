@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Html
+
+<div class="row">
+	<div class="col-lg-12">
+
+		<form asp-action="CMEntry" method="post">
+			<div class="form-group">
+				<textarea class="form-control" name="query" rows="10" style = "max-width:100% !important;"></textarea>
+				<button type="submit">Go</button>
+			</div>
+
+		</form>
+
+		@if (ViewBag.Result != null)
+		{
+			<div>
+				@Html.Raw(ViewBag.Result)
+			</div>
+		}
+	</div>
+</div>

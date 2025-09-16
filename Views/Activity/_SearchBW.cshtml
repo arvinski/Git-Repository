@@ -1,0 +1,100 @@
+﻿@*<link rel="stylesheet" href="~/assets/js/plugins/datatables/dataTables.bootstrap4.css">*@
+
+<div class="block block-themed block-transparent mb-0">
+	<div class="block-header bg-gd-sea">
+		<h3 class="block-title">SEARCH CLIENT IN BANKWORKS</h3>
+		<div class="block-options">
+			<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+				<i class="si si-close"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="block-content">
+
+		@*<p>Wala na si @ViewBag.Wala</p>*@
+		<table id="ListBWSearch" class="table-sm table-bordered table-hover table-vcenter" style="width:100%;">
+			<thead class="bg-primary-light">
+				<tr>
+					<th class="d-none d-sm-table-cell">CARD NUMBER</th>
+					<th class="d-none d-sm-table-cell">ACCOUNT NAME</th>
+					<th class="d-none d-sm-table-cell">CARD STATUS</th>
+					<th class="d-none d-sm-table-cell">NOTE</th>
+					<th class="d-none d-sm-table-cell">EXPIRY DATE</th>
+					<th class="d-none d-sm-table-cell">ACCOUNT BALANCE</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var usr in ViewBag.ListBWClients)
+				{
+				<tr>
+					<td class="d-none d-sm-table-cell">
+						<a class="font-w600" href="@Url.Action("NewCMEntry","Activity", new { name = @usr.CLIENT_NAME  });" onclick="SetName();">@usr.CARD_NUMBER</a>
+					</td>
+
+					<td class="d-none d-sm-table-cell">
+						@usr.FULL_NAME
+					</td>
+
+					<td class="d-none d-sm-table-cell">
+						@usr.CARD_STATUS
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.NOTE_TEXT
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.CARD_EXPIRY_DATE
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.BALANCE
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+		<br />
+	</div>
+
+</div>
+
+@*<div class="modal-footer">
+		<button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-alt-primary"><i class="fa fa-check"></i> Save</button>
+	</div>
+
+
+	<script src="~/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+	<script src="~/assets/js/pages/be_tables_datatables.min.js"></script>*@
+
+<script>
+
+	$(document).ready(function () {
+
+		$("#ListBWSearch").DataTable({
+
+			"pageLength": 8,
+			"lengthMenu": [[5, 8, 15, 20], [5, 8, 15, 20]],
+			"autoWidth": false,
+			"destroy": true
+
+		});
+
+		//$('.dataTables_filter input[type="search"]').
+		//	attr('placeholder', 'Type here to search records').
+		//	css({ 'width': '200px', 'display': 'inline-block' });
+
+	});
+
+	function SetName() {
+		if (window.opener != null && !window.opener.closed) {
+			var txtName = window.opener.document.getElementById("search");
+			txtName.value = document.getElementById('name').value;
+		}
+
+		window.close();
+	}
+
+
+
+</script>

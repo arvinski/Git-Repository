@@ -1,0 +1,64 @@
+﻿@model NewMenu
+
+<form asp-action="NewMenu" method="post">
+    <div class="block block-themed block-transparent mb-0">
+        <div class="block-header bg-gd-sea">
+            <h3 class="block-title">NEW MENU</h3>
+            <div class="block-options">
+                <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                    <i class="si si-close"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="block-content">
+            <div class="row justify-content-center py-20">
+                <div class="col-lg-12">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label text-right">View <span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="View" placeholder="Enter Controller View" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="View"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label text-right">Page <span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="Page" placeholder="Enter Page" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="Page"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label text-right">Title<span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Enter Title of the Page" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="Title"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-alt-primary" ><i class="fa fa-check"></i> Save</button>
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script>
+	$(document).ready(function () {
+
+
+	});
+
+</script>

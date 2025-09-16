@@ -1,0 +1,194 @@
+﻿@*@model AgentDesktop.Models.Inquiry*@
+
+@{
+	ViewData["Title"] = "Inquiry - ICBA";
+}
+
+<h2 class="content-heading text-black">Filter Inquiry - ICBA</h2>
+
+@*<div class="row">
+		<div class="col-md-6">
+			<form asp-controller="Inquiry" asp-action="InquiryICBA" method="post">
+				<div class="block">
+					<div class="block-header block-header-default">
+						<h3 class="block-title">Please fill necessary field for filteration</h3>
+						<div class="block-options">
+							<button type="submit" class="btn btn-sm btn-alt-primary">
+								<i class="fa fa-check"></i> Submit
+							</button>
+						</div>
+					</div>
+					<div class="block-content">
+						<div class="form-group row">
+							<label class="col-sm-8">Card Number</label>
+							<div class="col-sm-8">
+								<input id="CardNo" name="CardNo" class="form-control" placeholder="Enter Card Number" autocomplete="off" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-8">First Name</label>
+							<div class="col-sm-8">
+								<input id="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-8">Last Name</label>
+							<div class="col-sm-8">
+								<input id="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" autocomplete="off" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-8">Full Name</label>
+							<div class="col-sm-8">
+								<input id="FullName" name="FullName" class="form-control" placeholder="Enter Full Name" autocomplete="off" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>*@
+
+<form asp-controller="Inquiry" asp-action="InquiryICBA" method="post">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-primary-dark">
+					<h3 class="block-title">Please fill necessary field for filteration</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="row">
+						<div class="col-md-6 col-xl-3">
+							<div class="block">
+								<div class="block-content">
+									<div class="form-group">
+										<label class="control-label text-danger">Account/Card Number</label>
+										<input id="CardNo" name="CardNo" class="form-control" placeholder="Enter Card Number" autocomplete="off" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<div class="block">
+								<div class="block-content">
+									<div class="form-group row">
+										<label class="control-label text-danger">First Name</label>
+										<input id="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<div class="block">
+								<div class="block-content">
+									<div class="form-group row">
+										<label class="control-label text-danger">Last Name</label>
+										<input id="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" autocomplete="off" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<div class="block">
+								<div class="block-content">
+									<div class="form-group row">
+										<label class="control-label text-danger">Full Name</label>
+										<input id="FullName" name="FullName" class="form-control" placeholder="Enter Full Name" autocomplete="off" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</form>
+
+
+
+
+<div class="block">
+	<div class="block-header block-header-default bg-gray-light">
+		<h3 class="block-title text-uppercase">INQUIRY ICBA</h3>
+
+		@*<div class="block-options">
+				<input type="text" id="myInput" hidden>
+				<a id="btn" href="#" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" data-placement="top" data-toggle="tooltip" title="Export to Excel">
+					<i class="fa fa-file-excel-o"></i>
+				</a>
+			</div>*@
+	</div>
+
+	<div class="block-content block-content-full">
+		<table id="ListICBA" class="table table-bordered table-striped table-vcenter js-searchicba-dataTable">
+			<thead>
+				<tr>
+					<th class="d-none d-sm-table-cell">ACCOUNT / CARD NUMBER</th>
+					<th class="d-none d-sm-table-cell">CUSTOMER NAME</th>
+					<th class="d-none d-sm-table-cell">PRODUCT NAME</th>
+					<th class="d-none d-sm-table-cell">PRODUCT CATEGORY</th>
+					<th class="d-none d-sm-table-cell">STATUS</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					if (ViewBag.Inquiry == "Meron")
+					{
+						@foreach (var usr in ViewBag.ListICBAClients)
+						{
+							<tr>
+								<td class="d-none d-sm-table-cell">
+									<a class="font-w600" href="@Url.Action("InquiryRedirect","Inquiry", new { actno = usr.acctno, crline = usr.crline, cif = usr.cifkey })">@usr.acctno</a>
+								</td>
+
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.lname
+								</td>
+
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.descr
+								</td>
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.crline
+								</td>
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.acsts
+								</td>
+							</tr>
+						}
+					}
+				}
+
+
+
+			</tbody>
+		</table>
+		<!-- END Orders Table -->
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+
+
+		});
+
+		$('#ListICBA').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+	</script>
+}
+

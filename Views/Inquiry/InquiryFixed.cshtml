@@ -1,0 +1,931 @@
+﻿@model AgentDesktop.Models.MasterFDFile
+@using AgentDesktop.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<style>
+	.footah {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		color: white;
+		text-align: center;
+	}
+
+	.scroll-to-top {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		display: none;
+		width: 2.75rem;
+		height: 2.75rem;
+		text-align: center;
+		color: #fff;
+		background: rgba(90, 92, 105, 0.5);
+		line-height: 46px;
+	}
+
+		.scroll-to-top:focus, .scroll-to-top:hover {
+			color: white;
+		}
+
+		.scroll-to-top:hover {
+			background: #5a5c69;
+		}
+
+		.scroll-to-top i {
+			font-weight: 800;
+		}
+
+	.rounded-sm {
+		border-radius: 0.2rem !important;
+	}
+</style>
+
+<!-- Block Template -->
+<!--
+<div class="block">
+	<div class="block-header block-header-default">
+		<div class="block-title">
+
+		</div>
+		<div class="block-options">
+
+		</div>
+	</div>
+	<div class="block-content block-content-full">
+
+	</div>
+</div>
+-->
+<!-- Multiple Items -->
+<div class="block block-rounded block-themed">
+	<div class="block-header bg-gd-elegancet">
+		<h3 class="block-title">INQUIRY ICBA - FIXED DEPOSIT</h3>
+
+	</div>
+	<div class="block-content">
+		<div id="inqloan" role="tablist" aria-multiselectable="true">
+			@{
+				string accountno = HttpContextAccessor.HttpContext.Session.GetString("accountno");
+				string cifkey = HttpContextAccessor.HttpContext.Session.GetString("cifkey");
+			}
+
+			@*CUSTOMER INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="customer_info_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#customer_info" aria-expanded="true" aria-controls="customer_info">
+						CUSTOMER INFORMATION
+					</a>
+				</div>
+				<div id="customer_info" class="collapse show" role="tabpanel" aria-labelledby="customer_info_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var item in Model.vwCustomerInfo)
+							{
+								string custype = item.custcat == "I" ? "INDIVIDUAL" : "CORPORATE";
+								string gender = item.sex == "M" ? "MALE" : "FEMALE";
+								string custstat = item.custsts == "F" ? "FROZEN" : "NORMAL";
+								string language = item.corrlan == "E" ? "ENGLISH" : item.corrlan;
+								bool blklisted = item.blklisted == "N" ? false : true;
+								bool forain = item.foreigner == "N" ? false : true;
+								bool stap = item.staff == "N" ? false : true;
+
+								bool lrgloancust = item.lrgcust == "N" ? false : true;
+								bool cmbstate = item.comstmt == "N" ? false : true;
+
+								string relabnkdt = string.IsNullOrEmpty(item.relbnkdt.ToString()) ? string.Empty : item.relbnkdt.ToString("dd-MMM-yyy");
+
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">Account Number</label>
+										<label class="form-control form-control-sm">@accountno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">ID Number</label>
+										<label class="form-control form-control-sm">@item.idno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Short Name</label>
+										<label class="form-control form-control-sm">@item.sname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Type</label>
+										<label class="form-control form-control-sm">@custype</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Full Name</label>
+										<label class="form-control form-control-sm">@item.lname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Title</label>
+										<label class="form-control form-control-sm">@item.title</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">First Name</label>
+										<label class="form-control form-control-sm">@item.fsname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Middle Name</label>
+										<label class="form-control form-control-sm">@item.mdname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Last Name</label>
+										<label class="form-control form-control-sm">@item.lsname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Preffered Name</label>
+										<label class="form-control form-control-sm">@item.pname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Marital Status</label>
+										<label class="form-control form-control-sm">@item.maritsts</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+
+									<div class="form-group">
+										<label class="control-label">Sex Gender</label>
+										<label class="form-control form-control-sm">@gender</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Birthdate</label>
+										<label class="form-control form-control-sm">@item.birthdt.ToString("dd-MMM-yyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Age</label>
+										<label class="form-control form-control-sm">@item.age</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Nationality</label>
+										<label class="form-control form-control-sm">@item.nation</label>
+									</div>
+
+
+									<div class="form-group">
+										<label class="control-label">Country of Origin</label>
+										<label class="form-control form-control-sm">@item.cntryorigin</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Home Branch</label>
+										<label class="form-control form-control-sm">@item.branch</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Cost Center</label>
+										<label class="form-control form-control-sm">@item.costcentre</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Status</label>
+										<label class="form-control form-control-sm">@custstat</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Corresponding Language</label>
+										<label class="form-control form-control-sm">@language</label>
+									</div>
+
+									<div class="form-group row">
+										<div class="col-12">
+											<div class="custom-control custom-checkbox mb-5">
+												@if (blklisted)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox1">Black Listed</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (forain)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox2">Foreign</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (stap)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox3">Staff</label>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relationship Date</label>
+										<label class="form-control form-control-sm">@relabnkdt</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group">
+										<label class="control-label">Create Date</label>
+										<label class="form-control form-control-sm">@item.cifcrtdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Last Update</label>
+										<label class="form-control form-control-sm">@item.lstupdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Category</label>
+										<label class="form-control form-control-sm">@item.custcategory</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">ID Type</label>
+										<label class="form-control form-control-sm">@item.idtype</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Industry Code</label>
+										<label class="form-control form-control-sm">@item.indcode</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Sector Code</label>
+										<label class="form-control form-control-sm">@item.sectorcode</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relation Officer</label>
+										<label class="form-control form-control-sm">@item.relofficer</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relation Officer 2</label>
+										<label class="form-control form-control-sm">@item.relofficer2</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Networth</label>
+										<label class="form-control form-control-sm">@item.crrating</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Class</label>
+										<label class="form-control form-control-sm">@item.custclass</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Account Officer</label>
+										<label class="form-control form-control-sm">@item.acofficer</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group row">
+										<div class="col-12">
+											<div class="custom-control custom-checkbox mb-5">
+												@if (lrgloancust)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox1">Large Loan Customer</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (cmbstate)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label">Combine Statement</label>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Employer</label>
+										<label class="form-control form-control-sm">@item.employer</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Nature of Business</label>
+										<label class="form-control form-control-sm">@item.sourceoffund</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Home Telephone No.</label>
+										<label class="form-control form-control-sm">@item.hometel</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Mobile No.</label>
+										<label class="form-control form-control-sm">@item.mobile</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Office Telephone No.</label>
+										<label class="form-control form-control-sm">@item.office</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Fax No.</label>
+										<label class="form-control form-control-sm">@item.fax</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Other Telephone No. 1</label>
+										<label class="form-control form-control-sm">@item.othertel1</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Other Telephone No. 2</label>
+										<label class="form-control form-control-sm">@item.othertel2</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">SSS No.</label>
+										<label class="form-control form-control-sm">@item.ssno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">TIN No.</label>
+										<label class="form-control form-control-sm">@item.taxno</label>
+									</div>
+								</div>
+							}
+
+						</div>
+
+						<div class="row row-deck">
+							@foreach (var add in Model.vwCustomerInfo)
+							{
+								bool curadd = add.perseq == add.corradrseq ? true : false;
+								bool peradd = add.perseq == add.corradrseq ? true : false;
+								bool ofcadd = add.offseq == add.corradrseq ? true : false;
+								bool othadd = add.othseq == add.corradrseq ? true : false;
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Current Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 1</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.presentadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (curadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Permanent Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 2</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.permanentadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (peradd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Office Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 3</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.officeadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (ofcadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Other Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 4</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.otheradd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (othadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Swift / Telex</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 5</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.telxadd</textarea>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Email</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 6</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.emailadd</textarea>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							}
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+			@*SAVINGS INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="savings_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#savings" aria-expanded="true" aria-controls="savings">
+						FIXED DEPOSIT INFORMATION
+					</a>
+				</div>
+
+				<div id="savings" class="collapse" role="tabpanel" aria-labelledby="savings_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">CERTIFICATE INFO</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="row items-push">
+											@foreach (var tot in Model.vwCertInfo)
+											{
+												string prd = tot.fldchar == "M" ? "Month / s" : "Day / s";
+												string advice = tot.advice == "Y" ? "Yes" : "No";
+												<div class="col-md-6 col-xl-3">
+													<div class="form-group">
+														<label class="control-label">Certificate No</label>
+														<label class="form-control form-control-sm text-danger">@tot.crtno</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Principal Amount</label>
+														<label class="form-control form-control-sm text-primary">@Convert.ToDecimal(tot.prcamt).ToString("N2")</label>
+													</div>
+
+													<div class="form-group row">
+														<label class="col-12">Period</label>
+														<div class="col-12">
+															<div class="input-group">
+																<input type="text" class="form-control col-sm-3" value="@tot.period" readonly>
+																<div class="input-group-append">
+																	<span class="input-group-text">@prd</span>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Issue Date</label>
+														<label class="form-control form-control-sm">@tot.issdt.ToString("dd-MMM-yyy")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Effective Date</label>
+														<label class="form-control form-control-sm">@tot.effdt.ToString("dd-MMM-yyy")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Due Date</label>
+														<label class="form-control form-control-sm">@tot.duedt.ToString("dd-MMM-yyy")</label>
+													</div>
+												</div>
+
+												<div class="col-md-6 col-xl-3">
+													<div class="form-group">
+														<label class="control-label">Withdrawn/Renewal Date</label>
+														<label class="form-control form-control-sm">@tot.wdldt.ToString("dd-MMM-yyy")</label>
+													</div>
+
+													<div class="form-group row">
+														<label class="col-12">Interim Code</label>
+														<div class="col-12">
+															<div class="input-group">
+																<input type="text" class="form-control col-sm-2" value="@tot.intcd" readonly>
+																<div class="input-group-append">
+																	@switch (tot.intcd)
+																	{
+																		case "1":
+																			<span class="input-group-text">Credit to SA/CA Account</span>
+																			break;
+
+																		case "2":
+																			<span class="input-group-text">Send Cheque</span>
+																			break;
+																		case "3":
+																			<span class="input-group-text">Create New Certificate</span>
+																			break;
+
+																		case "4":
+																			<span class="input-group-text">Collect Personally</span>
+																			break;
+
+																	}
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Credit A/C No.</label>
+														<label class="form-control form-control-sm">@tot.creditno</label>
+													</div>
+
+													<div class="form-group row">
+														<label class="col-12">Status</label>
+														<div class="col-12">
+															<div class="input-group">
+																<input type="text" class="form-control col-sm-2" value="@tot.certsts" readonly>
+																<div class="input-group-append">
+																	@switch (tot.certsts)
+																	{
+																		case "A":
+																			<span class="input-group-text">Active</span>
+																			break;
+
+																		case "R":
+																			<span class="input-group-text">Renewed</span>
+																			break;
+																		case "W":
+																			<span class="input-group-text">Mature Withdrawal</span>
+																			break;
+
+																		case "P":
+																			<span class="input-group-text">Premature Withdrawal</span>
+																			break;
+																		case "E":
+																			<span class="input-group-text">Error Out</span>
+																			break;
+
+																	}
+																</div>
+															</div>
+														</div>
+													</div>
+
+												</div>
+
+												<div class="col-md-6 col-xl-3">
+
+													<div class="form-group">
+														<label class="control-label">Product Code</label>
+														<label class="form-control form-control-sm">@tot.prodcd</label>
+													</div>
+													<div class="form-group">
+														<label class="control-label">Interest Rate</label>
+														<label class="form-control form-control-sm">@Convert.ToDecimal(tot.intrt).ToString("N4")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Total Interest</label>
+														<label class="form-control form-control-sm text-danger">@Convert.ToDecimal(tot.totint).ToString("N2")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Last Interest Paid Date</label>
+														<label class="form-control form-control-sm">@tot.intpddt.ToString("dd-MMM-yyy")</label>
+													</div>
+												</div>
+
+												<div class="col-md-6 col-xl-3">
+													<div class="form-group">
+														<label class="control-label">Total Interest Paid</label>
+														<label class="form-control form-control-sm">@Convert.ToDecimal(tot.intpaid).ToString("N2")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Withholding Tax</label>
+														<label class="form-control form-control-sm">@Convert.ToDecimal(tot.whtax).ToString("N2")</label>
+													</div>
+
+													<div class="form-group row">
+														<label class="col-12">Sending Advice</label>
+														<div class="col-12">
+															<div class="input-group">
+																<input type="text" class="form-control col-sm-2" value="@tot.advice" readonly>
+																<div class="input-group-append">
+																	<span class="input-group-text">@advice</span>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Certificate Serial No.</label>
+														<label class="form-control form-control-sm">@tot.certsr</label>
+													</div>
+
+												</div>
+
+											}
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">TRANSACTION HISTORY</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListFDHistory" class="table table-bordered table-striped table-vcenter js-atmactivity-dataTable" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">ID</th>
+														<th class="d-none d-sm-table-cell">TRAN DATE</th>
+														<th class="d-none d-sm-table-cell">TRAN CODE</th>
+														<th class="d-none d-sm-table-cell">ITEM CODE</th>
+														<th class="d-none d-sm-table-cell">SEQ NO</th>
+														<th class="d-none d-sm-table-cell">SEQ COUNT</th>
+														<th class="d-none d-sm-table-cell">ERROR FLAG</th>
+														<th class="d-none d-sm-table-cell">CERTIFICATE NO</th>
+														<th class="d-none d-sm-table-cell">TRAN AMOUNT</th>
+														<th class="d-none d-sm-table-cell">DR/CR</th>
+														<th class="d-none d-sm-table-cell">BALANCE</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.vwFDHistory)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell">
+																@usr.ID
+															</td>
+															<td class="d-none d-sm-table-cell" data-sort="YYYYMMDD">
+																@usr.TRNDT.ToString("dd-MMM-yyyy")
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.TRNCD
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.ITEMCD
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.SEQNO
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.SEQCNT
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.ERRFLG
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.CRTNO
+															</td>
+															<td class="d-none d-sm-table-cell text-danger">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.TRNAMT))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.DR
+															</td>
+															<td class="d-none d-sm-table-cell text-danger">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.BALANCE))
+															</td>
+
+														</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+
+
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">TOTAL SUMMARY</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListTotalSummary" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">PRODUCT CODE</th>
+														<th class="d-none d-sm-table-cell">TOT CERT AMT</th>
+														<th class="d-none d-sm-table-cell">MTD DEP AMT</th>
+														<th class="d-none d-sm-table-cell">DEP CNT</th>
+														<th class="d-none d-sm-table-cell">MTD WID AMT</th>
+														<th class="d-none d-sm-table-cell">WID CNT</th>
+														<th class="d-none d-sm-table-cell">TOT FLT AMT</th>
+														<th class="d-none d-sm-table-cell">INCTV PAID</th>
+														<th class="d-none d-sm-table-cell">ZAKAT PAID</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.vwFDSummary)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell">
+																@usr.prodcd
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.certbal))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mdepamt))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mdepcnt))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mwdlamt))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mwdlcnt))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.fltamt))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mincetvpd))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.mzakatpd))
+															</td>
+
+														</tr>
+													}
+												</tbody>
+											</table>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<h5 class="content-header text-danger"></h5>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+

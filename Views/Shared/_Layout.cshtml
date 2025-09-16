@@ -1,0 +1,795 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+@*<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>@ViewData["Title"] - AgentDesktop</title>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+		<link rel="stylesheet" href="~/AgentDesktop.styles.css" asp-append-version="true" />
+	</head>*@
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+	<title>
+		@if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+		{
+			@ViewBag.Title@: - AgentDesktop 5
+		}
+	</title>
+
+	<meta name="description" content="AgentDesktop">
+	<meta name="author" content="Arvin Livara">
+	<meta name="robots" content="noindex, nofollow">
+
+	<!-- Icons -->
+	<!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+	<link rel="shortcut icon" href="~/favicon.ico">
+	<link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="~/favicon.ico">
+	<!-- END Icons -->
+	<!-- Stylesheets -->
+	<!-- Fonts and Codebase framework -->
+	<link href="~/assets/fonts/Nunito_Sans/NunitoSans.css?family=Nunito+Sans:300,400,400i,600,700&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" id="css-main" href="~/assets/css/codebase.min.css">
+
+	<!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+	<!-- <link rel="stylesheet" id="css-theme" href="~/assets/css/themes/flat.min.css"> -->
+	@*<link rel="stylesheet" id="css-theme" href="~/assets/css/themes/earth.min.css">*@
+
+	<!-- Page JS Plugins CSS -->
+	<link rel="stylesheet" href="~/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/jquery-auto-complete/jquery.auto-complete.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/dropzonejs/dist/dropzone.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/flatpickr/flatpickr.min.css">
+	<link rel="stylesheet" href="~/assets/js/plugins/datatables/dataTables.bootstrap4.css">
+	<link rel="stylesheet" href="~/lib/sweetalert2/dist/sweetalert2.min.css">
+
+
+</head>
+
+
+<body>
+	<!-- Page Container -->
+	<div id="page-container" class="sidebar-mini sidebar-o sidebar-inverse enable-page-overlay side-scroll page-header-fixed content_layout_full_width">
+
+		<!-- Side Overlay-->
+		<!--<aside id="side-overlay">-->
+		<!-- Side Header -->
+		<!--<div class="content-header content-header-fullrow">
+			<div class="content-header-section align-parent">-->
+		<!-- Close Side Overlay -->
+		<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+		<!--<button type="button" class="btn btn-dual-secondary align-v-r" data-toggle="layout" data-action="side_overlay_close">
+			<i class="fa fa-times text-danger"></i>
+		</button>-->
+		<!-- END Close Side Overlay -->
+		<!-- User Info -->
+		<!--<div class="content-header-item">
+			<a class="img-link mr-5" href="javascript:void(0)">
+				<img class="img-avatar img-avatar32" src="~/assets/media/avatars/avatar14.jpg" alt="">
+			</a>
+			<a class="align-middle link-effect font-w600" href="javascript:void(0)">Admin</a>
+		</div>-->
+		<!-- END User Info -->
+		<!--</div>
+		</div>-->
+		<!-- END Side Header -->
+		<!-- Side Content -->
+		<!--<div class="content-side">-->
+		<!-- Mini Stats -->
+		<!--<div class="block pull-t pull-r-l">
+			<div class="block-content block-content-full block-content-sm bg-danger-light">
+				<div class="row text-center">
+					<div class="col-4">
+						<div class="font-size-sm font-w600 text-uppercase text-pulse-dark">Sales</div>
+						<div class="font-size-h4 text-pulse-darker">350</div>
+					</div>
+					<div class="col-4">
+						<div class="font-size-sm font-w600 text-uppercase text-pulse-dark">Tickets</div>
+						<div class="font-size-h4 text-pulse-darker">25</div>
+					</div>
+					<div class="col-4">
+						<div class="font-size-sm font-w600 text-uppercase text-pulse-dark">Projects</div>
+						<div class="font-size-h4 text-pulse-darker">17</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<!-- END Mini Stats -->
+		<!-- Search -->
+		<!--<div class="block pull-r-l">
+			<div class="block-content block-content-full block-content-sm bg-body-light">
+				<form>
+					<div class="input-group">
+						<input type="text" class="form-control" id="side-overlay-search" name="side-overlay-search" placeholder="Search..">
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-secondary px-10">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>-->
+		<!-- END Search -->
+		<!-- Notifications -->
+		<!--<div class="block pull-r-l">
+			<div class="block-header bg-body-light">
+				<h3 class="block-title">Notifications</h3>
+				<div class="block-options">
+					<button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
+						<i class="si si-refresh"></i>
+					</button>
+					<button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+				</div>
+			</div>
+			<div class="block-content">
+				<ul class="list list-activity">
+					<li>
+						<i class="si si-wallet text-success"></i>
+						<div class="font-w600">+$29 New sale</div>
+						<div>
+							<a href="javascript:void(0)">Admin Template</a>
+						</div>
+						<div class="font-size-xs text-muted">5 min ago</div>
+					</li>
+					<li>
+						<i class="si si-close text-danger"></i>
+						<div class="font-w600">Project removed</div>
+						<div>
+							<a href="javascript:void(0)">Best Icon Set</a>
+						</div>
+						<div class="font-size-xs text-muted">26 min ago</div>
+					</li>
+					<li>
+						<i class="si si-pencil text-info"></i>
+						<div class="font-w600">You edited the file</div>
+						<div>
+							<a href="javascript:void(0)">
+								<i class="fa fa-file-text-o"></i> Docs.doc
+							</a>
+						</div>
+						<div class="font-size-xs text-muted">3 hours ago</div>
+					</li>
+					<li>
+						<i class="si si-plus text-success"></i>
+						<div class="font-w600">New user</div>
+						<div>
+							<a href="javascript:void(0)">StudioWeb - View Profile</a>
+						</div>
+						<div class="font-size-xs text-muted">5 hours ago</div>
+					</li>
+					<li>
+						<i class="si si-wrench text-warning"></i>
+						<div class="font-w600">Core v3.9 is available</div>
+						<div>
+							<a href="javascript:void(0)">Update now</a>
+						</div>
+						<div class="font-size-xs text-muted">8 hours ago</div>
+					</li>
+					<li>
+						<i class="si si-user-follow text-pulse"></i>
+						<div class="font-w600">+1 Friend Request</div>
+						<div>
+							<a href="javascript:void(0)">Accept</a>
+						</div>
+						<div class="font-size-xs text-muted">1 day ago</div>
+					</li>
+				</ul>
+			</div>
+		</div>-->
+		<!-- END Notifications -->
+		<!--</div>-->
+		<!-- END Side Content -->
+		<!--</aside>-->
+		<!-- END Side Overlay -->
+		<!-- Sidebar -->
+		<nav id="sidebar">
+			<!-- Sidebar Content -->
+			<div class="sidebar-content">
+				<!-- Side Header -->
+				<div class="content-header content-header-fullrow px-15">
+					<!-- Mini Mode -->
+					<div class="content-header-section sidebar-mini-visible-b">
+						<!-- Logo -->
+						<span class="content-header-item font-w700 font-size-xl float-left animated fadeIn">
+							<span class="text-dual-primary-dark">A</span><span class="text-primary">D</span>
+						</span>
+						<!-- END Logo -->
+					</div>
+					<!-- END Mini Mode -->
+					<!-- Normal Mode -->
+					<div class="content-header-section text-center align-parent sidebar-mini-hidden">
+						<!-- Close Sidebar, Visible only on mobile screens -->
+						<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+						<button type="button" class="btn btn-dual-secondary d-lg-none align-v-r" data-toggle="layout" data-action="sidebar_close">
+							<i class="fa fa-times text-danger"></i>
+						</button>
+						<!-- END Close Sidebar -->
+						<!-- Logo -->
+						<div class="content-header-item">
+							<a class="link-effect font-w700" asp-controller="Home" asp-action="Index">
+								<i class="si si-earphones-alt text-primary"></i>
+								<span class="font-size-xl text-dual-primary-dark">Agent</span><span class="font-size-xl text-primary">Desktop</span>
+							</a>
+						</div>
+						<!-- END Logo -->
+					</div>
+					<!-- END Normal Mode -->
+				</div>
+				<!-- END Side Header -->
+				<!-- Side Navigation -->
+				<div class="content-side content-side-full">
+					<ul class="nav-main">
+						<li>
+							<a class="active" asp-controller="Home" asp-action="Index"><i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+						</li>
+
+						<li class="nav-main-heading"><span class="sidebar-mini-visible">ACT</span><span class="sidebar-mini-hidden">Activity</span></li>
+						<li class="@(ViewBag.Interface == "Activity" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-earphones-alt"></i><span class="sidebar-mini-hide">Customer Service</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "CustomerService" ? "active" : "")" asp-controller="Activity" asp-action="CustomerService">Activity</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMLogs" ? "active" : "")" asp-controller="Activity" asp-action="ATMLogs">ATM Logs</a>
+								</li>
+							</ul>
+
+						</li>
+
+						<li class="@(ViewBag.Interface == "ATM" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-users"></i><span class="sidebar-mini-hide">ATM Operations</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "ATMOps" ? "active" : "")" asp-controller="Activity" asp-action="ATMOps">Activity</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ResolvedActivity" ? "active" : "")" asp-controller="Activity" asp-action="ResolvedActivity">Resolved Activity</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "UnresolvedActivity" ? "active" : "")" asp-controller="Activity" asp-action="UnresolvedActivity">Un-Resolved Activity</a>
+								</li>
+
+							</ul>
+						</li>
+
+
+
+						<li class="nav-main-heading"><span class="sidebar-mini-visible">RPT</span><span class="sidebar-mini-hidden">Report</span></li>
+						<li class="@(ViewBag.Interface == "Report" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-earphones-alt"></i><span class="sidebar-mini-hide">Customer Service</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "CMSummary" ? "active" : "")" asp-controller="Report" asp-action="CMSummary">Summary Report</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "CMManagement" ? "active" : "")" asp-controller="Report" asp-action="CMManagement">Management Report</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "CMAging" ? "active" : "")" asp-controller="Report" asp-action="CMAging">Aging Report</a>
+								</li>
+
+								<li>
+									<a class="@(ViewBag.Page == "CMReportIRC" ? "active" : "")" asp-controller="Report" asp-action="CMReportIRC">Reason Codes I/R/C</a>
+								</li>
+
+							</ul>
+
+						</li>
+
+						<li class="@(ViewBag.Interface == "ATMReport" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-users"></i><span class="sidebar-mini-hide">ATM Ops</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "ATMSummary" ? "active" : "")" asp-controller="Report" asp-action="ATMSummary">Summary Report</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMManagement" ? "active" : "")" asp-controller="Report" asp-action="ATMManagement">Management Report</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMAging" ? "active" : "")" asp-controller="Report" asp-action="ATMAging">Aging Report</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMReportIRC" ? "active" : "")" asp-controller="Report" asp-action="ATMReportIRC">Reason Codes I/R/C</a>
+								</li>
+
+							</ul>
+
+						</li>
+
+						<li class="nav-main-heading"><span class="sidebar-mini-visible">INQ</span><span class="sidebar-mini-hidden">Inquiry</span></li>
+						@*<li class="@(ViewBag.Interface == "Inquiry" ? "open" : "")">
+								<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wallet"></i><span class="sidebar-mini-hide">ICBA</span></a>
+								<ul>
+									<li>
+										<a class="@(ViewBag.Page == "Savings" ? "active" : "")" asp-controller="Inquiry" asp-action="inquiryicbasa">Savings</a>
+									</li>
+									<li>
+										<a class="@(ViewBag.Page == "Current" ? "active" : "")" asp-controller="Inquiry" asp-action="inquiryicbaca">Current</a>
+									</li>
+									<li>
+										<a class="@(ViewBag.Page == "Fixed" ? "active" : "")" asp-controller="Inquiry" asp-action="inquiryicbafd">Fixed Deposit</a>
+									</li>
+									<li>
+										<a class="@(ViewBag.Page == "Loans" ? "active" : "")" asp-controller="Inquiry" asp-action="inquiryicbaln">Loans</a>
+									</li>
+
+								</ul>
+
+							</li>*@
+
+
+						<li>
+							<a class="@(ViewBag.Page == "ICBA" ? "active" : "")" asp-controller="Inquiry" asp-action="InquiryICBA"><i class="si si-wallet"></i><span class="sidebar-mini-hide">ICBA</span></a>
+						</li>
+
+
+
+						<li>
+							<a class="@(ViewBag.Page == "Prepaid" ? "active" : "")" asp-controller="Inquiry" asp-action="InquiryPrepaid"><i class="fa fa-credit-card"></i><span class="sidebar-mini-hide">BANKWORKS</span></a>
+						</li>
+
+
+
+						<li class="nav-main-heading"><span class="sidebar-mini-visible">MNT</span><span class="sidebar-mini-hidden">Maintenance</span></li>
+						<li class="@(ViewBag.Interface == "Admin" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-user-follow"></i><span class="sidebar-mini-hide">User Maintenance</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "Index" ? "active" : "")" asp-controller="Admin" asp-action="Index">List of Users</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "UserMenu" ? "active" : "")" asp-controller="Admin" asp-action="UserMenu">List of User Menu</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "AuditLogs" ? "active" : "")" asp-controller="Admin" asp-action="AuditLogs">Audit Logs</a>
+								</li>
+
+							</ul>
+						</li>
+
+						<li class="@(ViewBag.Interface == "Maintenance" ? "open" : "")">
+							<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-settings"></i><span class="sidebar-mini-hide">Activity Tools</span></a>
+							<ul>
+								<li>
+									<a class="@(ViewBag.Page == "ReasonCodes" ? "active" : "")" asp-controller="Admin" asp-action="ReasonCodes">Reason Codes</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "PaymentInstitution" ? "active" : "")" asp-controller="Admin" asp-action="PaymentInstitution">Payment Institution</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "Bancnet" ? "active" : "")" asp-controller="Admin" asp-action="Bancnet">Bancnet</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMUsed" ? "active" : "")" asp-controller="Admin" asp-action="ATMUsed">ATM Used</a>
+								</li>
+								<li>
+									<a class="@(ViewBag.Page == "ATMLocation" ? "active" : "")" asp-controller="Admin" asp-action="ATMLocation">ATM Location</a>
+								</li>
+
+								<li>
+									<a class="@(ViewBag.Page == "EndorsedEmail" ? "active" : "")" asp-controller="Admin" asp-action="EndorsedEmail">Endorsed Email</a>
+								</li>
+
+								<li>
+									<a class="@(ViewBag.Page == "SubStatus" ? "active" : "")" asp-controller="Admin" asp-action="SubStatus">Sub Status</a>
+								</li>
+
+								<li>
+									<a class="@(ViewBag.Page == "NatureComplain" ? "active" : "")" asp-controller="Admin" asp-action="NatureComplain">Nature of Complaint</a>
+								</li>
+
+
+								<li>
+									<a class="@(ViewBag.Page == "ReferredBy" ? "active" : "")" asp-controller="Admin" asp-action="ReferredBy">Referred By</a>
+								</li>
+
+								@*<li>
+										<a class="@(ViewBag.Page == "Calendar" ? "active" : "")" asp-controller="Admin" asp-action="Calendar">Calendar</a>
+									</li>*@
+
+							</ul>
+						</li>
+
+
+					</ul>
+				</div>
+				<!-- END Side Navigation -->
+			</div>
+			<!-- Sidebar Content -->
+		</nav>
+		<!-- END Sidebar -->
+		<!-- Header -->
+		<header id="page-header">
+			<!-- Header Content -->
+			<div class="content-header">
+				<!-- Left Section -->
+				<div class="content-header-section">
+					<!-- Toggle Sidebar -->
+					<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+					<button type="button" class="btn btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
+						<i class="fa fa-navicon"></i>
+					</button>
+					<!-- END Toggle Sidebar -->
+
+				</div>
+				<!-- END Left Section -->
+				<!-- Right Section -->
+				<div class="content-header-section">
+					<!-- Open Search Section -->
+					<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+					@*<button type="button" class="btn btn-dual-secondary d-sm-none" data-toggle="layout" data-action="header_search_on">
+							<i class="fa fa-search"></i>
+						</button>*@
+					<!-- END Open Search Section -->
+					<!-- Full Search -->
+					@*<div class="content-header-item d-none d-sm-inline-block ml-5">
+							<form>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search..">
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-secondary">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>*@
+					<!-- END Full Search -->
+					<!-- Toggle Side Overlay -->
+					<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+					@*<button type="button" class="btn btn-dual-secondary" data-toggle="layout" data-action="side_overlay_toggle">
+							<span class="badge badge-pill badge-danger mr-5">6</span> <i class="fa fa-cog"></i>
+						</button>*@
+					<!-- END Toggle Side Overlay -->
+					<!-- User Dropdown -->
+					<div class="dropdown d-inline-block" role="group">
+						<button type="button" class="btn btn-dual-secondary dropdown-toggle" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							@HttpContextAccessor.HttpContext.Session.GetString("FullName")
+						</button>
+						<div class="dropdown-menu min-width-200" aria-labelledby="page-header-user-dropdown">
+							@*<a class="dropdown-item" href="javascript:void(0)">
+									<i class="si si-user mr-5"></i> Profile
+								</a>
+								<a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
+									<span><i class="si si-envelope-open mr-5"></i> Inbox</span>
+									<span class="badge badge-primary">3</span>
+								</a>
+								<a class="dropdown-item" href="javascript:void(0)">
+									<i class="si si-note mr-5"></i> Invoices
+								</a>
+								<div class="dropdown-divider"></div>*@
+
+							<!-- Toggle Side Overlay -->
+							<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+							<a class="dropdown-item" asp-controller="Login" asp-action="PassChange">
+								<i class="si si-key mr-5"></i> Change Password
+							</a>
+							<!-- END Side Overlay -->
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+								<i class="si si-logout mr-5"></i> Sign Out
+							</a>
+						</div>
+					</div>
+					<!-- END User Dropdown -->
+
+				</div>
+				<!-- END Right Section -->
+			</div>
+			<!-- END Header Content -->
+			<!-- Header Search -->
+			<div id="page-header-search" class="overlay-header">
+				<div class="content-header content-header-fullrow">
+					<form>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<!-- Close Search Section -->
+								<!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+								<button type="button" class="btn btn-secondary px-15" data-toggle="layout" data-action="header_search_off">
+									<i class="fa fa-times"></i>
+								</button>
+								<!-- END Close Search Section -->
+							</div>
+							<input type="text" class="form-control" placeholder="Search or hit ESC.." id="page-header-search-input" name="page-header-search-input">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-secondary px-15">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- END Header Search -->
+			<!-- Header Loader -->
+			<div id="page-header-loader" class="overlay-header bg-primary">
+				<div class="content-header content-header-fullrow text-center">
+					<div class="content-header-item">
+						<i class="fa fa-sun-o fa-spin text-white"></i>
+					</div>
+				</div>
+			</div>
+			<!-- END Header Loader -->
+		</header>
+		<!-- END Header -->
+		<!-- Main Container -->
+		<main id="main-container">
+
+			<div class="content">
+				@RenderBody()
+			</div>
+
+		</main>
+		<!-- END Main Container -->
+		<!-- Footer -->
+		<footer id="page-footer" class="opacity-0">
+			<div class="content py-20 font-size-sm clearfix">
+				<div class="float-right">
+					Crafted with <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">rvn</a>
+				</div>
+				<div class="float-left">
+					<a class="font-w600" href="https://1.envato.market/95j" target="_blank">AgentDesktop 5</a> &copy; <span class="js-year-copy"></span>
+				</div>
+			</div>
+		</footer>
+		<!-- END Footer -->
+	</div>
+	<!-- END Page Container -->
+
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-popout" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header bg-gd-sea">
+						<h3 class="block-title">Ready to Leave?</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="si si-close"></i>
+							</button>
+						</div>
+					</div>
+
+					<div class="block-content">
+						<div class="modal-body">Select "Logout" if you are ready to end your current session.</div>
+					</div>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" asp-controller="Login" asp-action="Logoff">Logout</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	@*<footer class="border-top footer text-muted">
+			<div class="container">
+				&copy; 2022 - AgentDesktop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			</div>
+		</footer>
+
+
+		<script src="~/lib/jquery/dist/jquery.min.js"></script>
+		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="~/js/site.js" asp-append-version="true"></script>*@
+
+	<!--
+			Codebase JS Core
+
+			Vital libraries and plugins used in all pages. You can choose to not include this file if you would like
+			to handle those dependencies through webpack. Please check out assets/_es6/main/bootstrap.js for more info.
+
+			If you like, you could also include them separately directly from the assets/js/core folder in the following
+			order. That can come in handy if you would like to include a few of them (eg jQuery) from a CDN.
+
+			assets/js/core/jquery.min.js
+			assets/js/core/bootstrap.bundle.min.js
+			assets/js/core/simplebar.min.js
+			assets/js/core/jquery-scrollLock.min.js
+			assets/js/core/jquery.appear.min.js
+			assets/js/core/jquery.countTo.min.js
+			assets/js/core/js.cookie.min.js
+		-->
+	<script src="~/assets/js/codebase.core.min.js"></script>
+
+	<!--
+		Codebase JS
+
+		Custom functionality including Blocks/Layout API as well as other vital and optional helpers
+		webpack is putting everything together at assets/_es6/main/app.js
+	-->
+	<script src="~/assets/js/codebase.app.min.js"></script>
+
+	<!-- Page JS Plugins -->
+	<script src="~/assets/js/plugins/pwstrength-bootstrap/pwstrength-bootstrap.min.js"></script>
+	<script src="~/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="~/assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+	<script src="~/assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+	<script src="~/assets/js/plugins/select2/js/select2.full.min.js"></script>
+	<script src="~/assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.js"></script>
+	<script src="~/assets/js/plugins/jquery-auto-complete/jquery.auto-complete.min.js"></script>
+	<script src="~/assets/js/plugins/masked-inputs/jquery.maskedinput.min.js"></script>
+	<script src="~/assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+	<script src="~/assets/js/plugins/dropzonejs/dropzone.min.js"></script>
+	<script src="~/assets/js/plugins/flatpickr/flatpickr.min.js"></script>
+
+
+	<!-- Page JS Plugins -->
+	<script src="~/assets/js/plugins/chartjs/Chart.bundle.min.js"></script>
+
+	<script src="~/assets/js/pages/be_pages_dashboard.min.js"></script>
+
+	<script src="~/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+
+	<script src="~/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+	<script src="~/assets/js/pages/be_tables_datatables.min.js"></script>
+
+	<!-- Page JS Plugins -->
+	<script src="~/js/InitDataTables.js"></script>
+	<script src="~/js/InitCombo.js"></script>
+
+	<script src="~/assets/_es6/pages/be_pages_crypto_dashboard.js"></script>
+	<!-- Page JS Code -->
+	<script src="~/assets/js/pages/db_pop.min.js"></script>
+
+	<script src="~/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+
+
+	<script>
+		jQuery(function () {
+			Codebase.helpers(['flatpickr', 'datepicker', 'colorpicker', 'maxlength', 'select2', 'masked-inputs', 'rangeslider', 'tags-inputs']);
+		});
+	</script>
+
+
+	@await RenderSectionAsync("Scripts", required: false)
+
+	<script>
+		$(document).ready(function () {
+
+            var msgErr = "@(TempData["msgErr"] as string)";
+			var msgOk = "@(TempData["msgok"] as string)";
+			var msgAuth = "@(TempData["msgAuth"] as string)";
+			var msgDup = "@(TempData["msgDup"] as string)";
+            var msginfo = "@(TempData["msginfo"] as string)";
+			var msgSendErr = "@(TempData["msgSendErr"] as string)";
+			var msgpass = "@(TempData["msgpass"] as string)";
+			var msgExpire = "@(TempData["msgExpire"] as string)";
+			var msgChange = "@(TempData["msgChange"] as string)";
+
+            if (msgErr !== "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Process Failure',
+					text: msgErr
+				})
+            }
+
+            if (msgOk !== "") {
+				Swal.fire({
+                    text: msgOk,
+                    icon: "success"
+                });
+            }
+
+			if (msgAuth !== "") {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Unauthorized',
+					text: msgAuth
+				})
+
+			}
+
+			if (msgDup !== "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Duplicate',
+					text: msgDup
+				})
+
+			}
+
+            if (msginfo !== "") {
+				Swal.fire({
+					text: msginfo,
+					icon: 'info'
+				});
+			}
+
+            if (msgSendErr !== "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Send Message Failed',
+					text: msgSendErr
+				})
+			}
+
+			if (msgpass !== "") {
+
+				Swal.fire({
+					title: 'Change Password',
+					text: msgpass,
+					icon: 'info'
+				}).then(function () {
+					window.location.href = '/Login/PassChange/';
+				});
+			}
+
+			if (msgExpire !== "") {
+				swal({
+					title: 'Password Reminder',
+					text: msgExpire,
+					icon: 'info',
+					dangerMode: true
+				});
+			}
+
+			if (msgChange !== "") {
+				Swal.fire({
+					icon: 'success',
+					title: 'Successfully Changed Password',
+					text: msgChange
+				})
+
+			}
+
+			$('#modal-container').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget); // Button that triggered the modal
+				var url = button.attr("href");
+				var modal = $(this);
+				// note that this will replace the content of modal-content everytime the modal is opened
+				modal.find('.modal-content').load(url);
+			});
+
+			$('#modal-container').on('hidden.bs.modal', function () {
+				// remove the bs.modal data attribute from it
+				$(this).removeData('bs.modal');
+				// and empty the modal-content element
+				$('#modal-container .modal-content').empty();
+
+			});
+
+
+		});
+
+		//session end
+		var sessionTimeoutWarning = 30 - 1;
+
+		var sTimeout = parseInt(sessionTimeoutWarning) * 30 * 1000;
+		setTimeout('SessionEnd()', sTimeout);
+
+		function SessionEnd() {
+			//window.location = "/Login/Logoff";
+			Swal.fire({
+				icon: 'warning',
+				title: 'Session Time out',
+				text: 'You have been idle for 30 minutes you were forced to logout'
+			}).then(
+			function () {
+				window.location = "/Login/Logoff";
+			});
+		}
+
+
+	</script>
+
+</body>
+</html>

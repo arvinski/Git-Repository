@@ -1,0 +1,159 @@
+﻿@model AgentDesktop.Models.ReportSummary
+
+@{
+	ViewData["Title"] = "ATM Ops - Report Summary";
+}
+
+<h2 class="content-heading text-black">Filter Report - Summary</h2>
+
+<form asp-controller="Report" asp-action="ATMSummary" method="post">
+	<div class="row items-push">
+		<div class="col-lg-3">
+			<p class="text-muted">
+				Please fill necessary field for filteration.
+			</p>
+
+		</div>
+
+
+		<div class="col-lg-7 offset-lg-1">
+			<div class="form-group">
+				<label for="re-listing-name">Date Filter</label>
+				<div class="input-daterange input-group" data-date-format="dd-M-yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+					<input type="text" class="form-control" asp-for="Date1" placeholder="Start Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+					<div class="input-group-prepend input-group-append">
+						<span class="input-group-text font-w600">to</span>
+					</div>
+					<input type="text" class="form-control" asp-for="Date2" placeholder="End Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+				</div>
+
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-8">
+					<label for="ReportType">Report Type</label>
+					<select class="form-control form-control" asp-for="ReportType">
+						<option value="0">Select report type</option>
+						<option value="1">Comm Channel</option>
+						<option value="2">Reason Code</option>
+						<option value="3">Status</option>
+					</select>
+					<span asp-validation-for="ReportType" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-8">
+					<label for="re-listing-status">Comm Type</label>
+					<select class="form-control form-control" asp-for="CommType">
+						<option value="0">Select comm type</option>
+						<option value="1">Inbound</option>
+						<option value="2">Outbound</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-8">
+					<label for="re-listing-status">Agent</label>
+					<select class="js-select2 form-control" asp-for="Agent" asp-items="ViewBag.cmbAgent" style="width: 100%;" data-placeholder="Choose Agent">
+						<option></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-alt-primary">Show Report</button>
+			</div>
+
+		</div>
+
+	</div>
+</form>
+<div class="block">
+	<div class="block-header block-header-default bg-gray-light">
+		<h3 class="block-title text-uppercase">REPORT SUMMARY - ATM OPS</h3>
+
+		<div class="block-options">
+			<input type="text" id="myInput" hidden>
+			<a id="btn" href="#" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" data-placement="top" data-toggle="tooltip" title="Export to Excel">
+				<i class="fa fa-file-excel-o"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="block-content block-content-full">
+		<table id="ListSummary" class="table table-bordered table-striped table-vcenter js-atmactivity-dataTable">
+			<thead>
+				<tr>
+					<th class="d-none d-sm-table-cell">Description</th>
+					<th class="d-none d-sm-table-cell">Quantity</th>
+					<th class="d-none d-sm-table-cell">Percentage</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					if (ViewBag.ChkType != "WALA")
+					{
+						foreach (var usr in ViewBag.ListATMReportSummary)
+						{
+							<tr>
+
+								<td class="d-none d-sm-table-cell">
+									@usr.descr
+								</td>
+
+								<td class="d-none d-sm-table-cell text-primary">
+									@usr.qty
+								</td>
+								<td class="d-none d-sm-table-cell text-danger">
+									@usr.suma
+								</td>
+							</tr>
+						}
+
+					}
+				}
+			</tbody>
+		</table>
+		<!-- END Orders Table -->
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+			$('#Agent').select2({
+				static: true
+			});
+
+			$('#Date1').datepicker({ autoclose: true });
+
+			$('#Date2').datepicker({ autoclose: true });
+		});
+
+		$('#ListSummary').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Report/ExportATMSummary/";
+						}
+					}
+				});
+			});
+		});
+
+	</script>
+}

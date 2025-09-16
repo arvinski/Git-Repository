@@ -1,0 +1,93 @@
+﻿@model NewUser
+
+<form asp-action="NewUser" method="post">
+    <div class="block block-themed block-transparent mb-0">
+        <div class="block-header bg-gd-sea">
+            <h3 class="block-title">NEW USER</h3>
+            <div class="block-options">
+                <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                    <i class="si si-close"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="block-content">
+            <div class="row justify-content-center py-20">
+                <div class="col-xl-8">
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" asp-for="loginid">User ID <span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="loginid" placeholder="Enter User ID" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="loginid"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" asp-for="fullname">User Name <span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="fullname" placeholder="Enter User Name" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="fullname"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+						<label class="col-lg-4 col-form-label" asp-for="group">Group<span class="text-danger">*</span></label>
+						<div class="col-lg-8">
+
+							<select class="js-select2 form-control" asp-for="group" asp-items="ViewBag.ListGroup" style="width: 100%;" data-placeholder="Choose Group">
+								<option></option>
+							</select>
+							<span class="field-validation-valid text-danger" asp-validation-for="group"></span>
+						</div>
+					</div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" asp-for="email">Email<span class="text-danger">*</span></label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" asp-for="email" placeholder="Enter Email Address" autocomplete="off">
+                            <span class="field-validation-valid text-danger" asp-validation-for="email"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+						<label class="col-lg-4 col-form-label" asp-for="department">Department<span class="text-danger">*</span></label>
+						<div class="col-lg-8">
+
+							<select class="js-select2 form-control" asp-for="department" asp-items="ViewBag.ListDept" style="width: 100%;" data-placeholder="Choose Department">
+								<option></option>
+							</select>
+							<span class="field-validation-valid text-danger" asp-validation-for="department"></span>
+						</div>
+					</div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-alt-primary" ><i class="fa fa-check"></i> Save</button>
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script>
+	$(document).ready(function () {
+
+		$('#group').select2({
+			static: true
+		});
+
+        $('#department').select2({
+			static: true
+		});
+
+	});
+
+</script>

@@ -1,0 +1,84 @@
+﻿<div class="block block-themed block-transparent mb-0">
+	<div class="block-header bg-gd-sea">
+		<h3 class="block-title">SEARCH CLIENT IN ICBA</h3>
+		<div class="block-options">
+			<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+				<i class="si si-close"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="block-content">
+
+		<table id="ListICBASearch" class="table-sm table-bordered table-hover table-vcenter" style="width:100%;">
+			<thead class="bg-primary-light">
+				<tr>
+					<th class="d-none d-sm-table-cell font-size-xs">ACCOUNT NUMBER</th>
+					<th class="d-none d-sm-table-cell font-size-xs">CUSTOMER NAME</th>
+					<th class="d-none d-sm-table-cell font-size-xs">PRODUCT NAME</th>
+					<th class="d-none d-sm-table-cell font-size-xs">PRODUCT CATEGORY</th>
+					<th class="d-none d-sm-table-cell font-size-xs">STATUS</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var usr in ViewBag.ListICBAClients)
+				{
+					<tr>
+						<td class="d-none d-sm-table-cell">
+							<a class="font-w600" href="@Url.Action("NewCMEntry","Activity", new { name = @usr.CLIENT_NAME  });"  onclick="SetName();" >@usr.ACCTNO</a>
+						</td>
+
+						<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+							@usr.LNAME
+						</td>
+
+						<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+							@usr.DESCR
+						</td>
+						<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+							@usr.CRLINE
+						</td>
+						<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+							@usr.ACSTS
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<br />
+	</div>
+
+</div>
+
+
+<script>
+
+	$(document).ready(function () {
+
+		$("#ListICBASearch").DataTable({
+
+			"pageLength": 8,
+			"lengthMenu": [[5, 8, 15, 20], [5, 8, 15, 20]],
+			"autoWidth": false,
+			"destroy": true
+
+		});
+
+		//$('.dataTables_filter input[type="search"]').
+		//	attr('placeholder', 'Type here to search records').
+		//	css({ 'width': '200px', 'display': 'inline-block' });
+
+	});
+
+	function SetName() {
+		if (window.opener != null && !window.opener.closed) {
+			var txtName = window.opener.document.getElementById("search");
+			txtName.value = document.getElementById('name').value;
+		}
+
+		window.close();
+	}
+
+
+
+</script>

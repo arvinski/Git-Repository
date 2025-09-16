@@ -1,0 +1,1942 @@
+﻿@model AgentDesktop.Models.EditCallReport
+@using AgentDesktop.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewBag.Title = "Update CM Entry";
+}
+
+
+<style>
+	.footah {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		color: white;
+		text-align: center;
+	}
+
+	.scroll-to-top {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		display: none;
+		width: 2.75rem;
+		height: 2.75rem;
+		text-align: center;
+		color: #fff;
+		background: rgba(90, 92, 105, 0.5);
+		line-height: 46px;
+	}
+
+		.scroll-to-top:focus, .scroll-to-top:hover {
+			color: white;
+		}
+
+		.scroll-to-top:hover {
+			background: #5a5c69;
+		}
+
+		.scroll-to-top i {
+			font-weight: 800;
+		}
+
+	.rounded-sm {
+		border-radius: 0.2rem !important;
+	}
+</style>
+
+<form asp-action="UpdateCMEntry" method="post" enctype="multipart/form-data">
+	<!-- Multiple Items -->
+	<div class="block block-rounded block-themed">
+		<div class="block-header bg-gd-primary">
+			<h3 class="block-title">Customer Service Activity Update for Ticket No. @ViewBag.TktNo</h3>
+		</div>
+		<div class="block-content">
+			<input type="hidden" asp-for="RID">
+			<input type="hidden" asp-for="TicketNo">
+			<div id="cmactivity" role="tablist" aria-multiselectable="true">
+				@{
+					string updatedby = HttpContextAccessor.HttpContext.Session.GetString("updatedby");
+				}
+
+
+				@*Client Information/Details*@
+				<div class="block block-bordered block-rounded mb-2">
+					<div class="block-header" role="tab" id="client_details_header">
+						<a class="font-w600" data-toggle="collapse" data-parent="#cmactivity" href="#client_details" aria-expanded="true" aria-controls="client_details">
+							CLIENT INFORMATION / DETAILS
+						</a>
+					</div>
+					<div id="client_details" class="collapse show" role="tabpanel" aria-labelledby="client_details_header">
+						<div class="block-content">
+							<div class="row">
+								<div class="col-md-6">
+
+									<div class="form-group row">
+
+										<div class="col-lg-12">
+											<label class="control-label">Customer/Client Search</label>
+											<div class="input-group">
+												<input type="text" class="form-control form-control-sm" id="myInput" placeholder="Search Customer" autocomplete="off" />
+												<div class="input-group-append">
+													<span data-toggle="tooltip" data-placement="top" title="Search Customer via ICBA">
+														<a id="btn_icba" href="#" + val data-target="#modal-container" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-alt-primary">
+															ICBA
+														</a>
+													</span>
+												</div>
+												<div class="input-group-append">
+													<span data-toggle="tooltip" data-placement="top" title="Search Customer via BW">
+														<a id="btn_bw" href="#" + val data-target="#modal-container" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-alt-primary">
+															BW
+														</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label asp-for="CustomerName" class="control-label"></label>
+										<input asp-for="CustomerName" class="form-control form-control-sm" placeholder="Enter Customer Name" autocomplete="off" />
+										<span asp-validation-for="CustomerName" class="text-danger"></span>
+									</div>
+
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label asp-for="LastName" class="control-label"></label>
+										<input asp-for="LastName" class="form-control form-control-sm" placeholder="Enter Last Name" autocomplete="off" />
+										<span asp-validation-for="LastName" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="FirstName" class="control-label"></label>
+										<input asp-for="FirstName" class="form-control form-control-sm" placeholder="Enter First Name" autocomplete="off" />
+
+										<span asp-validation-for="FirstName" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="MiddleName" class="control-label"></label>
+										<input asp-for="MiddleName" class="form-control form-control-sm" placeholder="Enter Middle Name if any leave it if none" autocomplete="off" />
+										<span asp-validation-for="MiddleName" class="text-danger"></span>
+									</div>
+
+									@*<div class="form-group">
+											<label asp-for="CardNo" class="control-label"></label>
+											<div class="input-group">
+												<input asp-for="CardNo" class="form-control form-control-sm" placeholder="Enter Card Number" autocomplete="off" value="@card_no" />
+												<div class="input-group-append">
+													<span data-toggle="tooltip" data-placement="top" title="Search Card Number">
+														<a id="btn_card" href="#" + val data-target="#modal-card" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-alt-primary">
+															<i class="fa fa-search"></i>
+														</a>
+													</span>
+												</div>
+											</div>
+											<span asp-validation-for="CardNo" class="text-danger"></span>
+										</div>*@
+
+									@*<div class="form-group">
+											<label asp-for="CardNo" class="control-label"></label>
+											<input asp-for="CardNo" class="form-control form-control-sm" placeholder="Enter Card Number" autocomplete="off" value="@card_no" />
+											<span asp-validation-for="CardNo" class="text-danger"></span>
+										</div>*@
+
+									<div class="form-group row">
+										<div class="col-lg-12">
+											<label class="control-label">Card Number</label>
+											<div class="input-group">
+												<input asp-for="CardNo" class="form-control form-control-sm" placeholder="Enter Card Number" autocomplete="off" />
+												<div class="input-group-append">
+													<span data-toggle="tooltip" data-placement="top" title="Search Card Number">
+														<a id="btn_card" href="#" + val data-target="#modal-container" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-alt-primary">
+															<i class="fa fa-search"></i>
+														</a>
+													</span>
+												</div>
+
+											</div>
+											<span asp-validation-for="CardNo" class="text-danger"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Branch" class="control-label"></label>
+										<select class="js-select2 form-control form-control-sm" asp-for="Branch" asp-items="ViewBag.cmbBranch" style="width: 100%;" data-placeholder="Choose Branch">
+											<option></option>
+										</select>
+										<span asp-validation-for="Branch" class="text-danger"></span>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@*SERVICE TICKET DETAILS*@
+				<div class="block block-bordered block-rounded mb-2">
+					<div class="block-header" role="tab" id="service_ticket_header">
+						<a class="font-w600" data-toggle="collapse" data-parent="#cmactivity" href="#service_ticket" aria-expanded="true" aria-controls="service_ticket">
+							SERVICE TICKET DETAILS
+						</a>
+					</div>
+
+					<div id="service_ticket" class="collapse show" role="tabpanel" aria-labelledby="service_ticket_header">
+						<div class="block-content">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label asp-for="ReasonCode" class="control-label"></label>
+										<select class="js-select2 form-control form-control-sm js-change-reasoncode" asp-for="ReasonCode" asp-items="ViewBag.cmbReasonCode" style="width: 100%;" data-placeholder="Choose Reason Codes">
+											<option></option>
+										</select>
+										<span asp-validation-for="ReasonCode" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="CommChannel" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="CommChannel" asp-items="ViewBag.cmbCommChannel" style="width: 100%;" data-placeholder="Choose Comm Channel">
+											<option></option>
+										</select>
+										<span asp-validation-for="CommChannel" class="text-danger"></span>
+									</div>
+
+
+									<div class="form-group">
+										<label asp-for="InOutBound" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="InOutBound" asp-items="ViewBag.cmbCommType" style="width: 100%;" data-placeholder="Choose Comm Type">
+											<option></option>
+										</select>
+										<span asp-validation-for="InOutBound" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label asp-for="Status" class="control-label"></label>
+										<select class="js-select2 form-control js-change-status" asp-for="Status" asp-items="ViewBag.cmbStatus" style="width: 100%;" data-placeholder="Choose Status">
+											<option></option>
+										</select>
+										<span asp-validation-for="Status" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="SubStatus" class="control-label"></label>
+										<input asp-for="SubStatus" class="form-control form-control-sm" placeholder="Enter Sub Status" autocomplete="off" />
+										@*<select class="js-select2 form-control form-control-sm" asp-for="SubStatus" style="width: 100%;" data-placeholder="Choose Sub Status">
+												<option></option>
+											</select>*@
+										<span asp-validation-for="SubStatus" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Tagging" class="control-label"></label>
+										<select class="js-select2 form-control js-change-tagging" asp-for="Tagging" asp-items="ViewBag.cmbClassification" style="width: 100%;" data-placeholder="Choose Classification">
+											<option></option>
+										</select>
+										<span asp-validation-for="Tagging" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Resolved" class="control-label"></label>
+										<input asp-for="Resolved" class="form-control form-control-sm" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-M-yyyy" placeholder="Enter Due Date" autocomplete="off" />
+										<span asp-validation-for="Resolved" class="text-danger"></span>
+									</div>
+
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				@*Details of Concern/Activity*@
+				<div class="block block-bordered block-rounded mb-2">
+					<div class="block-header" role="tab" id="activity_header">
+						<a class="font-w600" data-toggle="collapse" data-parent="#cmactivity" href="#concern_activity" aria-expanded="true" aria-controls="concern_activity">
+							DETAILS OF CONCERN / ACTIVITY
+						</a>
+					</div>
+					<div id="concern_activity" class="collapse show" role="tabpanel" aria-labelledby="activity_header">
+						<div class="block-content">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label asp-for="TransType" class="control-label text-sm-left"></label>
+										<select class="js-select2 form-control form-control-sm js-change-transtype" asp-for="TransType" asp-items="ViewBag.cmbChannel" style="width: 100%;" data-placeholder="Choose Channel">
+											<option></option>
+										</select>
+										<span asp-validation-for="TransType" class="text-danger text-sm-left"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Destination" class="control-label"></label>
+										<input asp-for="Destination" class="form-control  form-control-sm" placeholder="Enter Destination" autocomplete="off" />
+										<span asp-validation-for="Destination" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="ATMTrans" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="ATMTrans" asp-items="ViewBag.cmbTransType" style="width: 100%;" data-placeholder="Choose Transaction Type">
+											<option></option>
+										</select>
+										<span asp-validation-for="ATMTrans" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="ATMUsed" class="control-label"></label>
+										@*<input asp-for="ATMUsed" class="form-control form-control-sm" placeholder="Enter ATM Used" autocomplete="off" />*@
+										<select class="js-select2 form-control form-control-sm js-change-atmused" asp-for="ATMUsed" asp-items="ViewBag.cmbATMUsed" style="width: 100%;" data-placeholder="Choose ATM Used">
+											<option></option>
+										</select>
+										<span asp-validation-for="ATMUsed" class="text-danger"></span>
+									</div>
+
+
+									<div class="form-group">
+										<label asp-for="Location" class="control-label"></label>
+
+										@if (ViewBag.isATMNga == "meron")
+										{
+											<select class="js-select2 form-control form-control-sm" asp-for="Location" asp-items="ViewBag.cmbLocation" style="width: 100%;" data-placeholder="Choose ATM Branch Location">
+												<option></option>
+											</select>
+											<span asp-validation-for="Location" class="text-danger"></span>
+
+										}
+										else
+										{
+											<input asp-for="Location2" class="form-control form-control-sm" placeholder="Enter Location" autocomplete="off" id="location2" />
+											<span asp-validation-for="Location2" class="text-danger"></span>
+										}
+
+										
+									</div>
+
+									<div class="form-group">
+										<label asp-for="PaymentOf" class="control-label"></label>
+										<select class="js-select2 form-control form-control-sm" asp-for="PaymentOf" asp-items="ViewBag.cmbPayInst" style="width: 100%;" data-placeholder="Choose Payment Institution">
+											<option></option>
+										</select>
+										<span asp-validation-for="PaymentOf" class="text-danger"></span>
+									</div>
+
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group">
+										<label asp-for="TerminalUsed" class="control-label"></label>
+										<select class="js-select2 form-control form-control-sm" asp-for="TerminalUsed" asp-items="ViewBag.cmbTermUsed" style="width: 100%;" data-placeholder="Choose Terminal Used">
+											<option></option>
+										</select>
+										<span asp-validation-for="TerminalUsed" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="BillerName" class="control-label"></label>
+										<input asp-for="BillerName" class="form-control form-control-sm" placeholder="Enter Biller Name" autocomplete="off" />
+										<span asp-validation-for="BillerName" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Merchant" class="control-label"></label>
+										<input asp-for="Merchant" class="form-control form-control-sm" placeholder="Enter Merchant / Website" autocomplete="off" />
+										<span asp-validation-for="Merchant" class="text-danger"></span>
+									</div>
+
+									<div class="form-group row">
+										<label asp-for="CardPresent" class="col-12"></label>
+										<div class="col-12">
+											<label class="css-control css-control-primary css-radio">
+												<input type="radio" class="css-control-input" asp-for="CardPresent" id="cpPresent" value="Present">
+												<span class="css-control-indicator"></span>Present
+											</label>
+
+											<label class="css-control css-control-primary css-radio">
+												<input type="radio" class="css-control-input" asp-for="CardPresent" id="cpNotPresent" value="Not Present">
+												<span class="css-control-indicator"></span>Not Present
+											</label>
+
+											<span asp-validation-for="CardPresent" class="text-danger"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="BancnetUsed" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="BancnetUsed" asp-items="ViewBag.cmbBancUsed" style="width: 100%;" data-placeholder="Choose Bancnet ATM">
+											<option></option>
+										</select>
+										<span asp-validation-for="BancnetUsed" class="text-danger"></span>
+									</div>
+
+
+
+									<div class="form-group">
+										<label asp-for="Website" class="control-label"></label>
+										<div class="custom-control custom-checkbox custom-control-inline mb-5 pull-right">
+											<input class="custom-control-input" type="checkbox" asp-for="Online">
+											<label class="custom-control-label" asp-for="Online"></label>
+										</div>
+										<input asp-for="Website" class="form-control form-control-sm" placeholder="Enter Website if online is checked" autocomplete="off" />
+										<span asp-validation-for="Website" class="text-danger"></span>
+									</div>
+
+
+								</div>
+
+								<div class="col-md-3">
+									<div class="form-group row">
+										<label class="col-12">Amount and Currency</label>
+										<div class="col-12">
+											<div class="input-group">
+												@*<input asp-for="Amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control form-control-sm" placeholder="Enter Amount" autocomplete="off" />*@
+												<input asp-for="Amount" type="number" step="0.01" class="form-control form-control-sm" placeholder="Enter Amount" autocomplete="off" />
+												<div class="input-group-append">
+													<select class="js-select2 form-control" asp-for="Currency" asp-items="ViewBag.cmbCurrency" style="width: 100%;" data-placeholder="Currency">
+														<option></option>
+													</select>
+												</div>
+												<span asp-validation-for="Amount" class="text-danger"></span>
+												<span asp-validation-for="Currency" class="text-danger"></span>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="DateTrans" class="control-label"></label>
+										<input asp-for="DateTrans" class="js-datepicker form-control form-control-sm" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-M-yyyy" placeholder="Enter Transaction Date" autocomplete="off" />
+										<span asp-validation-for="DateTrans" class="text-danger"></span>
+									</div>
+
+									<div class="form-group row">
+										<label asp-for="Inter" class="col-12"></label>
+										<div class="col-12">
+											<label class="css-control css-control-primary css-radio">
+												<input type="radio" class="css-control-input" asp-for="Inter" id="inte" value="Inter">
+												<span class="css-control-indicator"></span>Inter
+											</label>
+
+											<label class="css-control css-control-primary css-radio">
+												<input type="radio" class="css-control-input" asp-for="Inter" id="inta" value="Intra">
+												<span class="css-control-indicator"></span>Intra
+											</label>
+
+											<span asp-validation-for="Inter" class="text-danger"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="PLStatus" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="PLStatus" asp-items="ViewBag.cmbLoanStat" style="width: 100%;" data-placeholder="Choose Loan Status">
+											<option></option>
+										</select>
+										<span asp-validation-for="PLStatus" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="RemitFrom" class="control-label"></label>
+										<input asp-for="RemitFrom" class="form-control form-control-sm" placeholder="Enter Remittance From" autocomplete="off" />
+										<span asp-validation-for="RemitFrom" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="RemitConcern" class="control-label"></label>
+										<input asp-for="RemitConcern" class="form-control form-control-sm" placeholder="Enter Remittance Concern" autocomplete="off" />
+										<span asp-validation-for="RemitConcern" class="text-danger"></span>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group">
+										<label asp-for="EndoredTo" class="control-label"></label>
+										<select class="js-select2 form-control js-change-endoredto" asp-for="EndoredTo" asp-items="ViewBag.cmbEndorsedTo" style="width: 100%;" data-placeholder="Choose Endorsed To">
+											<option></option>
+										</select>
+										<span asp-validation-for="EndoredTo" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="EndorsedFrom" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="EndorsedFrom" asp-items="ViewBag.cmbEndrosedFrom" style="width: 100%;" data-placeholder="Choose Endorsed From">
+											<option></option>
+										</select>
+										<span asp-validation-for="EndorsedFrom" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="Remarks" class="control-label"></label>
+										<select class="js-select2 form-control form-control-sm" asp-for="Remarks" asp-items="ViewBag.cmbRemarks" style="width: 100%;" data-placeholder="Choose Nature of Complaint">
+											<option></option>
+										</select>
+										<span asp-validation-for="Remarks" class="text-danger"></span>
+									</div>
+
+
+									<div class="form-group">
+										<div class="custom-control custom-checkbox custom-control-inline mb-5">
+											<input class="custom-control-input" type="checkbox" asp-for="CardBlocked">
+											<label class="custom-control-label" asp-for="CardBlocked"></label>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label asp-for="Activity" class="control-label"></label>
+										<textarea class="form-control" asp-for="Activity" rows="6" placeholder="Enter Activity Here..."></textarea>
+										<span asp-validation-for="Activity" class="text-danger"></span>
+										<div class="custom-file col-6">
+											<!-- Populating custom file input label with the selected filename (data-toggle="custom-file-input" is initialized in Helpers.coreBootstrapCustomFileInput()) -->
+											<!-- When multiple files are selected, we use the word 'Files'. You can easily change it to your own language by adding the following to the input, eg for DE: data-lang-files="Dateien" -->
+											<input type="file" class="custom-file-input" name="files" id="fileInput" data-toggle="custom-file-input" multiple>
+											<label class="custom-file-label" for="files">Choose file/s to insert from activity</label>
+										</div>
+
+										<div id="fileList"></div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				@*Other Details*@
+				<div class="block block-bordered block-rounded mb-2">
+					<div class="block-header" role="tab" id="other_det_header">
+						<a class="font-w600" data-toggle="collapse" data-parent="#cmactivity" href="#other_details" aria-expanded="true" aria-controls="other_details">
+							OTHER DETAILS
+						</a>
+					</div>
+					<div id="other_details" class="collapse show" role="tabpanel" aria-labelledby="other_det_header">
+						<div class="block-content">
+							<div class="row">
+								<div class="col-md-6">
+
+									<div class="form-group">
+										<label asp-for="ReferedBy" class="control-label"></label>
+										<select class="js-select2 form-control" asp-for="ReferedBy" asp-items="ViewBag.cmbReferedBy" style="width: 100%;" data-placeholder="Choose Referred By">
+											<option></option>
+										</select>
+										<span asp-validation-for="ReferedBy" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="ContactPerson" class="control-label"></label>
+										<input asp-for="ContactPerson" class="form-control form-control-sm" placeholder="Enter Contact Person" autocomplete="off" />
+										<span asp-validation-for="ContactPerson" class="text-danger"></span>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="CallTime" class="control-label"></label>
+										<input asp-for="CallTime" class="js-masked-time form-control form-control-sm" placeholder="Enter Time of Call" autocomplete="off" />
+										<span asp-validation-for="CallTime" class="text-danger"></span>
+									</div>
+
+
+
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label asp-for="LocalNum" class="control-label"></label>
+										<input asp-for="LocalNum" class="form-control form-control-sm" placeholder="Enter Local Number" autocomplete="off" />
+										<span asp-validation-for="LocalNum" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="Created_By" class="control-label"></label>
+										<input asp-for="Created_By" class="form-control form-control-sm" placeholder="Enter Created By" autocomplete="off" />
+										<span asp-validation-for="Created_By" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="Last_Update" class="control-label"></label>
+										<input asp-for="Last_Update" class="form-control form-control-sm" placeholder="Enter Last Updated By" autocomplete="off" value="@updatedby" />
+										<span asp-validation-for="Last_Update" class="text-danger"></span>
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@*Activity History*@
+				<div class="block block-bordered block-rounded">
+					<div class="block-header" role="tab" id="history_header">
+						<a class="font-w600" data-toggle="collapse" data-parent="#cmactivity" href="#history" aria-expanded="true" aria-controls="history">
+							ACTIVITY HISTORY
+						</a>
+					</div>
+					<div id="history" class="collapse show" role="tabpanel" aria-labelledby="history_header">
+						<div class="block-content">
+							<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+								<!-- CM Activity Table -->
+								<table id="ListTicketNo" class="table-sm table-bordered table-hover table-vcenter js-cmactivity-dataTable">
+									<thead class="bg-primary-light">
+										<tr>
+											<th class="d-none d-sm-table-cell font-size-xs">TICKET NO</th>
+											<th class="d-none d-sm-table-cell font-size-xs">INBOUND/ OUTBOUND</th>
+											<th class="d-none d-sm-table-cell font-size-xs">COMM CHANNEL</th>
+											<th class="d-none d-sm-table-cell font-size-xs">DATE RECEIVED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">TIME RECEIVED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">REASON CODE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CUSTOMER NAME</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CARD NO</th>
+											<th class="d-none d-sm-table-cell font-size-xs">DESTINATION</th>
+											<th class="d-none d-sm-table-cell font-size-xs">TRANS TYPE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ATM TRANS</th>
+											<th class="d-none d-sm-table-cell font-size-xs">LOCATION</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ATM USED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">PAYMENT OF</th>
+											<th class="d-none d-sm-table-cell font-size-xs">TERMINAL USED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">BILLERNAME</th>
+											<th class="d-none d-sm-table-cell font-size-xs">MERCHANT</th>
+											<th class="d-none d-sm-table-cell font-size-xs">INTER</th>
+											<th class="d-none d-sm-table-cell font-size-xs">BANCNET USED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ONLINE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">WEB SITE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">REMIT FROM</th>
+											<th class="d-none d-sm-table-cell font-size-xs">REMIT CONCERN</th>
+											<th class="d-none d-sm-table-cell font-size-xs">AMOUNT</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CURRENCY</th>
+											<th class="d-none d-sm-table-cell font-size-xs">DATE TRANS</th>
+											<th class="d-none d-sm-table-cell font-size-xs">PL STATUS</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CARD BLOCKED</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ACTIVITY</th>
+											<th class="d-none d-sm-table-cell font-size-xs">STATUS</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CREATED BY</th>
+											<th class="d-none d-sm-table-cell font-size-xs">LAST UPDATED BY</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ENDORSED TO</th>
+											<th class="d-none d-sm-table-cell font-size-xs">ENDORSED FROM</th>
+											<th class="d-none d-sm-table-cell font-size-xs">DUE DATE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">RESOLVED DATE</th>
+											<th class="d-none d-sm-table-cell font-size-xs">NATURE OF COMPLAINT</th>
+											<th class="d-none d-sm-table-cell font-size-xs">REFERRED BY</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CONTACT PERSON</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CLASSIFICATION</th>
+											<th class="d-none d-sm-table-cell font-size-xs">TIME OF CALL</th>
+											<th class="d-none d-sm-table-cell font-size-xs">LOCAL NUMBER</th>
+											<th class="d-none d-sm-table-cell font-size-xs">CARD PRESENT</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (var usr in ViewBag.ListTicketNo)
+										{
+											<tr>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.TicketNo
+												</td>
+
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.InOutBound
+												</td>
+
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CommChannel
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.DateReceived.ToString("dd-MMM-yyyy")
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.DateReceived.ToString("HH:mm:ss")
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.abbreviation
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CustomerName
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CardNo
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Destination
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.TransType
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.ATMTrans
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Location
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.ATMUsed
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.PaymentOf
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.TerminalUsed
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.BillerName
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Merchant
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Inter
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.BancnetUsed
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Online
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Website
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.RemitFrom
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.RemitConcern
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Amount
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Currency
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.DateTrans
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.PLStatus
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CardBlocked
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Activity
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Status
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.created_by
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Last_Update
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.EndoredTo
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.EndorsedFrom
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Resolved
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.ResolvedDate
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Remarks
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.ReferedBy
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.ContactPerson
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.Tagging
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CallTime
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.LocalNum
+												</td>
+												<td class="d-none d-sm-table-cell font-size-xs nowrap" style="white-space:nowrap">
+													@usr.CardPresent
+												</td>
+
+											</tr>
+										}
+									</tbody>
+								</table>
+								<!-- END CM Activity Table -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg-image" style="background-image: url('../../wwwroot/assets/media/various/landing-promo-developer-minded-html@2x.png');">
+			<div class="bg-white-op-90">
+				<div class="content">
+					<div class="py-50 nice-copy text-center">
+						@*<a class="btn btn-hero btn-noborder btn-lg btn-rounded btn-success" href="javascript:void(0)"> S   A   V   E</a>*@
+						<button type="submit" class="btn btn-hero btn-noborder btn-lg btn-rounded btn-danger"> U   P   D   A   T   E </button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+	<!-- END Multiple Items -->
+</form>
+
+<div class="modal fade" id="modal-container" tabindex="-1" role="dialog" aria-labelledby="modal-container" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-popout modal-xl" role="document">
+		<div class="modal-content">
+		</div>
+	</div>
+</div>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+
+			$('#modal-container').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget); // Button that triggered the modal
+				var url = button.attr("href");
+				var modal = $(this);
+				// note that this will replace the content of modal-content everytime the modal is opened
+				modal.find('.modal-content').load(url);
+			});
+
+			$('#modal-container').on('hidden.bs.modal', function () {
+				// remove the bs.modal data attribute from it
+				$(this).removeData('bs.modal');
+				// and empty the modal-content element
+				$('#modal-container .modal-content').empty();
+
+			});
+
+			$('#Resolved').datepicker({
+				weekStart: 1,
+				autoclose: true,
+				todayHighlight: true,
+				format: 'dd-M-yyyy'
+			});
+
+			$('#ReasonCode').select2({
+				static: true
+			});
+
+			$('#TransType').select2({
+				static: true
+			});
+
+			$('#ATMTrans').select2({
+				static: true
+			});
+
+			$('#PaymentOf').select2({
+				static: true
+			});
+
+			$('#TerminalUsed').select2({
+				static: true
+			});
+
+			$('#BancnetUsed').select2({
+				static: true
+			});
+
+			$('#PLStatus').select2({
+				static: true
+			});
+
+			$('#EndoredTo').select2({
+				static: true
+			});
+
+			$('#EndorsedFrom').select2({
+				static: true
+			});
+
+			$('#InOutBound').select2({
+				static: true
+			});
+
+			$('#CommChannel').select2({
+				static: true
+			});
+
+			$('#Status').select2({
+				static: true
+			});
+
+			$('#Tagging').select2({
+				static: true
+			});
+
+			//$('#SubStatus').select2({
+			//	disabled: true
+			//});
+
+			$('#Remarks').select2({
+				static: true
+			});
+
+			$('#ReferedBy').select2({
+				static: true
+			});
+
+			$('#Currency').select2({
+				static: true
+			});
+
+			$('#Branch').select2({
+				static: true
+			});
+
+			document.getElementById('location2').style.display = 'none';
+
+			$("#myInput").on('change keydown paste input', function () {
+				var href_icba = "/Activity/SearchICBA/" + $("#myInput").val();
+				var href_bw = "/Activity/SearchBW/" + $("#myInput").val();
+				document.getElementById("btn_icba").href = href_icba;
+				document.getElementById("btn_bw").href = href_bw;
+			});
+
+			$("#CardNo").on('change keydown paste input', function () {
+				var href_card = "/Activity/SearchCardNo/" + $("#CardNo").val();
+				document.getElementById("btn_card").href = href_card;
+			});
+
+			var au = $("#ATMUsed").val();
+
+			switch (au) {
+				case "325":
+					$('#Location').next(".select2-container").show();
+
+					document.getElementById('location2').style.display = 'none';
+					break;
+				default:
+					$('#Location').next(".select2-container").hide();
+
+					document.getElementById('location2').style.display = 'block';
+					break;
+			}
+
+		});
+
+		$('#fileInput').on('change', function () {
+			// Get the selected files
+			var files = $(this).prop('files');
+
+			// Clear the file list container
+			$('#fileList').empty();
+
+			// Loop through the files and add them to the container
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
+				var fileName = file.name;
+				var fileSize = Math.round(file.size / 1024) + ' KB';
+
+				// Create a list item for the file
+				var listItem = $('<li>').text(fileName + ' (' + fileSize + ') ');
+
+				// Add a remove button to the list item
+				//var removeButton = $('<button class="btn btn-sm btn-outline-danger mr-5 mb-5">').text('Remove').data('file', file).click(function () {
+				//	var fileToRemove = $(this).data('file');
+				//	$(this).parent().remove();
+				//	$('#fileInput').val('');
+				//});
+
+				//listItem.append(removeButton);
+
+				// Add the list item to the container
+				$('#fileList').append(listItem);
+			}
+		});
+
+		$(window).on('load', function () {
+			LoadReson();
+			LoadStatus();
+			LoadATMUsed();
+			LoadTransType();
+			LoadEndoredTo();
+			LoadTagging();
+		});
+
+		function LoadReson() {
+			var rc = $("#ReasonCode").val();
+			switch (rc) {
+				case "IPC":
+				case "IPR":
+				case "NCC":
+				case "PNC":
+				case "SPR":
+
+					$('#TransType').select2({
+						disabled: false
+					});
+
+					document.getElementById("Destination").disabled = false;
+
+					$('#ATMTrans').select2({
+						disabled: false
+					});
+
+					$('#ATMUsed').select2({
+						disabled: false
+					});
+
+					$('#Location').select2({
+						disabled: false
+					});
+
+					$('#PaymentOf').select2({
+						disabled: false
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: false
+					});
+
+					document.getElementById("BillerName").disabled = false;
+					document.getElementById("Merchant").disabled = false;
+
+					document.getElementById("cpPresent").disabled = false;
+
+
+					document.getElementById("cpNotPresent").disabled = false;
+
+
+					$('#BancnetUsed').select2({
+						disabled: false
+					});
+
+					document.getElementById("Online").disabled = false;
+					document.getElementById("Website").disabled = false;
+
+					document.getElementById("Amount").disabled = false;
+
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = false;
+
+
+					document.getElementById("inta").disabled = false;
+
+
+					$('#PLStatus').select2({
+						disabled: true
+					});
+
+					document.getElementById("RemitFrom").disabled = true;
+					document.getElementById("RemitConcern").disabled = true;
+
+					break;
+
+				case "DGI":
+				case "DLR":
+				case "DRR":
+				case "PAI":
+				case "PAS":
+				case "PGI":
+					$('#TransType').select2({
+						disabled: true
+					});
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = true;
+
+					$('#Currency').select2({
+						disabled: true
+					});
+
+					document.getElementById("DateTrans").disabled = true;
+
+					document.getElementById("inte").disabled = true;
+
+					document.getElementById("inta").disabled = true;
+
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+					document.getElementById("RemitFrom").disabled = true;
+					document.getElementById("RemitConcern").disabled = true;
+
+					break;
+
+				case "FCS":
+				case "FCP":
+				case "BRC":
+
+					$('#TransType').select2({
+						disabled: false
+					});
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = true;
+
+					$('#Currency').select2({
+						disabled: true
+					});
+
+					document.getElementById("DateTrans").disabled = true;
+
+					document.getElementById("inte").disabled = true;
+
+					document.getElementById("inta").disabled = true;
+
+
+					document.getElementById("RemitFrom").disabled = true;
+					document.getElementById("RemitConcern").disabled = true;
+
+					$('#PLStatus').select2({
+						disabled: true
+					});
+
+
+					break;
+
+				default:
+
+					$('#TransType').select2({
+						disabled: true
+					});
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = true;
+					$('#Currency').select2({
+						disabled: true
+					});
+
+					document.getElementById("DateTrans").disabled = true;
+
+					document.getElementById("inte").disabled = true;
+
+					document.getElementById("inta").disabled = true;
+
+
+					document.getElementById("RemitFrom").disabled = true;
+					document.getElementById("RemitConcern").disabled = true;
+
+					$('#PLStatus').select2({
+						disabled: true
+					});
+
+					//$('#SubStatus').select2({
+					//	disabled: false
+					//});
+
+					$('#EndoredTo').select2({
+						disabled: false
+					});
+
+					$('#Remarks').select2({
+						disabled: false
+					});
+
+					break;
+
+			}
+
+
+
+		};
+
+		function LoadStatus() {
+			var st = $("#Status").val() ;
+				/*console.log(st);*/
+				/*$("#SubStatus").empty();*/
+
+				switch (st) {
+					case "Endorsed":
+						//$('#SubStatus').select2({
+						//	disabled: false
+						//});
+
+						$('#EndoredTo').select2({
+							disabled: false
+						});
+
+						$('#Remarks').select2({
+							disabled: false
+						});
+
+						document.getElementById("Resolved").disabled = false;
+
+						$('#ReferedBy').select2({
+							disabled: false
+						});
+
+						//document.getElementById("ContactPerson").disabled = false;
+
+						@*$.ajax({
+							type: 'GET',
+							url: '@Url.Action("GetSubStatus", "Activity")',
+							dataType: 'json',
+							data: { Status: $("#Status").val() },
+							success: function (substatus) {
+								$.each(substatus, function (i, row) {
+									console.log(i, row);
+									$("#SubStatus").append('<option value="' + row.value + '">' + row.text + '</option>');
+								});
+							},
+							error: function (ex) {
+								alert('Failed to retrieve Sub Status.' + ex);
+							}
+						});*@
+
+						break;
+
+					case "Commitment":
+
+						//$('#SubStatus').select2({
+						//	disabled: true
+						//});
+
+						$('#EndoredTo').select2({
+							disabled: true
+						});
+
+						//$('#Remarks').select2({
+						//	disabled: true
+						//});
+
+						document.getElementById("Resolved").disabled = false;
+
+						$('#ReferedBy').select2({
+							disabled: false
+						});
+
+						//document.getElementById("ContactPerson").disabled = true;
+
+						break;
+
+					default:
+
+						//$('#SubStatus').select2({
+						//	disabled: true
+						//});
+
+						$('#EndoredTo').select2({
+							disabled: true
+						});
+
+						//$('#Remarks').select2({
+						//	disabled: true
+						//});
+
+						//document.getElementById("Resolved").disabled = true;
+
+						$('#ReferedBy').select2({
+							disabled: true
+						});
+
+						//document.getElementById("ContactPerson").disabled = true;
+				}
+
+		};
+
+		function LoadATMUsed() {
+
+			@*$("#Location").empty();
+			$.ajax({
+				type: 'GET',
+				url: '@Url.Action("GetATMLocation", "Activity")',
+				dataType: 'json',
+				data: { ATMUsed: $("#ATMUsed").val() },
+				success: function (location) {
+
+					/*$("#Location").append('<option value="' + -1 + '">' + "Choose ATM Branch Location" + '</option>');*/
+					$.each(location, function (i, row) {
+						console.log(i, row);
+						$("#Location").append('<option value="' + row.value + '">' + row.text + '</option>');
+					});
+				},
+				error: function (ex) {
+					alert('Failed to retrieve Location.' + ex);
+				}
+			});*@
+
+
+			var au = $("#ATMUsed").val();
+
+			console.log(au);
+			switch (au) {
+				case "325":
+					$('#Location').next(".select2-container").show();
+
+					document.getElementById('location2').style.display = 'none';
+					break;
+				default:
+					$('#Location').next(".select2-container").hide();
+
+					document.getElementById('location2').style.display = 'block';
+					break;
+			}
+
+
+		};
+
+		function LoadTransType() {
+			var ch = $("#TransType").val();
+			switch (ch) {
+				case "ATM":
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: false
+					});
+
+					$('#Location').select2({
+						disabled: false
+					});
+
+					$('#ATMUsed').select2({
+						disabled: false
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+					//document.getElementById("cpNotPresent").prop('checked', false);
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = false;
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = true;
+					//document.getElementById("inte").prop('checked', false);
+					document.getElementById("inta").disabled = true;
+
+
+					document.getElementById("RemitFrom").disabled = true;
+					document.getElementById("RemitConcern").disabled = true;
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+
+					break;
+				case "BILLS PAYMENT":
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: false
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = false;
+					document.getElementById("Merchant").disabled = false;
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+					//document.getElementById("cpNotPresent").prop('checked', false);
+
+					$('#BancnetUsed').select2({
+						disabled: false
+					});
+
+					document.getElementById("Online").disabled = false;
+					document.getElementById("Website").disabled = false;
+
+					document.getElementById("Amount").disabled = false;
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = true;
+					//document.getElementById("inte").prop('checked', false);
+					document.getElementById("inta").disabled = true;
+
+
+					document.getElementById("RemitFrom").disabled = false;
+					document.getElementById("RemitConcern").disabled = false;
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+					break;
+
+				case "IBFT":
+
+					document.getElementById("Destination").disabled = false;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+					document.getElementById("cpPresent").disabled = true;
+
+					document.getElementById("cpNotPresent").disabled = true;
+					//document.getElementById("cpNotPresent").prop('checked', false);
+
+					$('#BancnetUsed').select2({
+						disabled: false
+					});
+
+					document.getElementById("Online").disabled = false;
+					document.getElementById("Website").disabled = false;
+
+					document.getElementById("Amount").disabled = false;
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = false;
+					//document.getElementById("inte").prop('checked', false);
+					document.getElementById("inta").disabled = false;
+
+
+					document.getElementById("RemitFrom").disabled = false;
+					document.getElementById("RemitConcern").disabled = false;
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+					break;
+
+				case "POS":
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: false
+					});
+
+					document.getElementById("BillerName").disabled = false;
+					document.getElementById("Merchant").disabled = false;
+					document.getElementById("cpPresent").disabled = false;
+
+					document.getElementById("cpNotPresent").disabled = false;
+					//document.getElementById("cpNotPresent").prop('checked', false);
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = false;
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = true;
+					//document.getElementById("inte").prop('checked', false);
+					document.getElementById("inta").disabled = true;
+
+
+					document.getElementById("RemitFrom").disabled = false;
+					document.getElementById("RemitConcern").disabled = false;
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+					break;
+
+				case "REMITTANCE":
+
+					document.getElementById("Destination").disabled = true;
+
+					$('#ATMTrans').select2({
+						disabled: true
+					});
+
+					$('#Location').select2({
+						disabled: true
+					});
+
+					$('#ATMUsed').select2({
+						disabled: true
+					});
+
+					$('#PaymentOf').select2({
+						disabled: true
+					});
+
+					$('#TerminalUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("BillerName").disabled = true;
+					document.getElementById("Merchant").disabled = true;
+					document.getElementById("cpPresent").disabled = true;
+					document.getElementById("cpNotPresent").disabled = true;
+
+
+					//document.getElementById("cpNotPresent").prop('checked', false);
+
+
+					$('#BancnetUsed').select2({
+						disabled: true
+					});
+
+					document.getElementById("Online").disabled = true;
+					document.getElementById("Website").disabled = true;
+
+					document.getElementById("Amount").disabled = false;
+					$('#Currency').select2({
+						disabled: false
+					});
+
+					document.getElementById("DateTrans").disabled = false;
+
+					document.getElementById("inte").disabled = true;
+					document.getElementById("inta").disabled = true;
+
+					//document.getElementById("inte").prop('checked', false);
+
+
+					document.getElementById("RemitFrom").disabled = false;
+					document.getElementById("RemitConcern").disabled = false;
+
+					$('#PLStatus').select2({
+						disabled: false
+					});
+
+					break;
+
+			}
+
+		};
+
+		function LoadEndoredTo() {
+			var et = $("#EndoredTo").val();
+			if (et == "Others") {
+				$('#EndorsedFrom').select2({
+					disabled: false
+				});
+			}
+			else {
+				$('#EndorsedFrom').select2({
+					disabled: true
+				});
+
+			}
+
+		};
+
+		function LoadTagging() {
+			var ch = $("#Tagging").val();
+			switch (ch) {
+				case "SIMPLE":
+
+					var simple_date = new Date();
+
+					simple_date.setDate(simple_date.getDate() + 7)
+
+					$('#Resolved').datepicker({
+						format: 'dd-M-yyyy',
+						autoclose: true
+					});
+
+					$('#Resolved').datepicker('setDate', simple_date);
+
+					var rc = $("#ReasonCode").val();
+
+					if (rc == "FSI") {
+
+						$('#EndoredTo').select2({
+							disabled: true
+						});
+
+						$("#EndoredTo").val('').trigger('change');
+
+						$('#EndorsedFrom').select2({
+							disabled: true
+						});
+
+						$("#EndorsedFrom").val('').trigger('change');
+
+						//$('#Remarks').select2({
+						//	disabled: true
+						//});
+
+						$("#Remarks").val('').trigger('change');
+
+						$('#ReferedBy').select2({
+							disabled: true
+						});
+
+						$("#ReferedBy").val('').trigger('change');
+
+						document.getElementById("CallTime").value = "";
+					}
+
+
+					break;
+
+				case "COMPLEX":
+
+					var complx_date = new Date();
+
+					complx_date.setDate(complx_date.getDate() + 45)
+
+					$('#Resolved').datepicker({
+						format: 'dd-M-yyyy',
+						autoclose: true
+					});
+
+					$('#Resolved').datepicker('setDate', complx_date);
+
+					var today = new Date();
+					var hour = today.getHours();
+					var minute = today.getMinutes();
+
+					var rc = $("#ReasonCode").val();
+
+					if (rc == "FSI") {
+
+						$('#EndoredTo').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+						$('#EndorsedFrom').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						$('#Remarks').select2({
+							disabled: false,
+							allowClear: true
+
+						});
+
+						$('#ReferedBy').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						document.getElementById("CallTime").value = String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
+
+					}
+
+					break;
+
+				case "COMPLEX - EMV":
+
+					var cmplx_emv_date = new Date();
+
+					cmplx_emv_date.setDate(cmplx_emv_date.getDate() + 10)
+
+					$('#Resolved').datepicker({
+						format: 'dd-M-yyyy',
+						autoclose: true
+					});
+
+					$('#Resolved').datepicker('setDate', cmplx_emv_date);
+
+					var today = new Date();
+					var hour = today.getHours();
+					var minute = today.getMinutes();
+
+					var rc = $("#ReasonCode").val();
+
+					if (rc == "FSI") {
+
+						$('#EndoredTo').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+						$('#EndorsedFrom').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						$('#Remarks').select2({
+							disabled: false,
+							allowClear: true
+
+						});
+
+						$('#ReferedBy').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						document.getElementById("CallTime").value = String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
+
+					}
+
+					break;
+
+				case "CCOMPLEX - DATA PRIVACY":
+
+					var cmplx_dta_date = new Date();
+
+					cmplx_dta_date.setDate(cmplx_dta_date.getDate() + 26)
+
+					$('#Resolved').datepicker({
+						format: 'dd-M-yyyy',
+						autoclose: true
+					});
+
+					$('#Resolved').datepicker('setDate', cmplx_dta_date);
+
+					var today = new Date();
+					var hour = today.getHours();
+					var minute = today.getMinutes();
+
+					var rc = $("#ReasonCode").val();
+
+					if (rc == "FSI") {
+
+						$('#EndoredTo').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+						$('#EndorsedFrom').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						$('#Remarks').select2({
+							disabled: false,
+							allowClear: true
+
+						});
+
+						$('#ReferedBy').select2({
+							disabled: false,
+							allowClear: true
+						});
+
+
+						document.getElementById("CallTime").value = String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
+
+					}
+
+					break;
+
+			}
+
+		};
+
+		$("form").submit(function () {
+			if ($('form').valid()) {
+				$("input").removeAttr("disabled");
+			}
+		});
+
+
+	</script>
+}

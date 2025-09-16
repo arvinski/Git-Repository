@@ -1,0 +1,202 @@
+﻿@using AgentDesktop.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "ATM Ops Un-Resolved Activity";
+}
+
+<style>
+	.dataTables_scroll {
+		overflow: auto;
+	}
+
+	th, td {
+		white-space: nowrap;
+	}
+</style>
+
+<h2 class="content-heading">UN-RESOLVED ACTIVITY - ATM OPERATIONS</h2>
+
+<div class="block">
+	<div class="block-header block-header-default">
+		<div class="block-title">
+			<div class="col-lg-6">
+				<form asp-controller="Activity" asp-action="UnresolvedActivity" method="post">
+					<div class="input-daterange input-group" data-date-format="mm-dd-yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+						<input type="text" class="form-control" id="dt1" name="dt1" placeholder="Start Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+						<div class="input-group-prepend input-group-append">
+							<span class="input-group-text font-w600">to</span>
+						</div>
+						<input type="text" class="form-control" id="dt2" name="dt2" placeholder="End Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+						<div class="input-group-append">
+							<button class="btn btn-success" type="submit" data-toggle="tooltip" title="Search by Date"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+		<div class="block-options">
+			<input type="text" id="myInput" hidden>
+
+			<a id="btn" href="#" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" data-placement="top" data-toggle="tooltip" title="Export to Excel">
+				<i class="fa fa-file-excel-o"></i>
+			</a>
+
+		</div>
+	</div>
+
+	<div class="block-content block-content-full">
+		<div class="dataTables_scroll">
+			<!-- CM Activity Table -->
+			<table id="ListATMUnresolved" class="table-sm table-bordered table-hover table-vcenter js-atmactivity-dataTable">
+				<thead class="bg-gd-corporate">
+					<tr>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">TICKET NO</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">INBOUND/OUTBOUND</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">COMM CHANNEL</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">DATE RECEIVED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">TIME RECEIVED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">REASON CODE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CUSTOMER NAME</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CARD NO</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">DESTINATION</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CHANNEL</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">TRANS TYPE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">LOCATION</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">ATM USED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">PAYMENT OF</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">TERMINAL USED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">MERCHANT</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">INTER</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">BANCNET USED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">ONLINE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">WEB SITE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">REMIT FROM</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">REMIT CONCERN</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">AMOUNT</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">DATE TRANS</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">PL STATUS</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CARD BLOCKED</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">ACTIVITY</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">STATUS</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">SUB STATUS</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">AGENT</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">ENDORSED TO</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">DUE DATE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">RESOLVED DATE</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">NATURE OF COMPLAINT</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">REFERRED BY</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CONTACT PERSON</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CLASSIFICATION</th>
+						<th class="d-none d-sm-table-cell font-size-xs text-white">CARD PRESENT</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var usr in ViewBag.ListATMOpsUnresolved)
+					{
+						<tr>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+								<a class="font-w600" asp-controller="Activity" asp-action="ATMEntry" asp-route-id=@usr.RID>
+									@usr.TicketNo
+								</a>
+							</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.InOutBound</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.CommChannel</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap" data-sort="YYYYMMDD">@usr.DateReceived.ToString("dd-MMM-yyyy")</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap" data-sort="YYYYMMDD">@usr.DateReceived.ToString("HH:mm:ss")</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.abbreviation</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.CustomerName</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.CardNo</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Destination</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.TransType</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.ATMTrans</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Location</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.ATMUsed</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.PaymentOf</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.TerminalUsed</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Merchant</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Inter</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.BancnetUsed</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Online</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Website</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.RemitFrom</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.RemitConcern</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Amount</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.DateTrans</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.PLStatus</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.CardBlocked</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Activity</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Status</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.SubStatus</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Agent</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.EndoredTo</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Resolved</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.ResolvedDate</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Remarks</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.ReferedBy</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.ContactPerson</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.Tagging</td>
+							<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">@usr.CardPresent</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			<!-- END CM Activity Table -->
+
+		</div>
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+
+        $(document).ready(function () {
+
+
+			$('#modal-container').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget); // Button that triggered the modal
+				var url = button.attr("href");
+				var modal = $(this);
+				// note that this will replace the content of modal-content everytime the modal is opened
+				modal.find('.modal-content').load(url);
+			});
+
+			$('#modal-container').on('hidden.bs.modal', function () {
+				// remove the bs.modal data attribute from it
+				$(this).removeData('bs.modal');
+				// and empty the modal-content element
+				$('#modal-container .modal-content').empty();
+
+			});
+
+        });
+
+		$('#ListATMUnresolved').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Activity/ExportATMUnResolved";
+						}
+					}
+				});
+			});
+		});
+
+	</script>
+
+}

@@ -1,0 +1,364 @@
+﻿@*@model AgentDesktop.Models.Inquiry*@
+
+@{
+	ViewData["Title"] = "Inquiry - BANKWORKS";
+}
+
+<h2 class="content-heading text-black">Filter Inquiry - BANKWORKS</h2>
+
+@*<div class="row">
+		<div class="col-lg-12">
+			<form asp-controller="Inquiry" asp-action="InquiryPrepaid" method="post">
+				<div class="block block-themed block-rounded">
+					<div class="block-header bg-primary-dark">
+						<h3 class="block-title">Please fill necessary field for filteration</h3>
+						<div class="block-options">
+							<button type="submit" class="btn btn-sm btn-alt-primary">
+								<i class="fa fa-check"></i> Submit
+							</button>
+							<button type="reset" class="btn btn-sm btn-alt-danger">
+								<i class="fa fa-file-excel-o"></i> Excel
+							</button>
+						</div>
+					</div>
+					<div class="block-content">
+						<div class="row">
+							<div class="col-4">
+								<div class="block">
+									<div class="block-content">
+										<div class="form-group">
+											<label class="control-label">Card Number</label>
+											<input id="CardNo" name="CardNo" class="form-control" placeholder="Enter Card Number" autocomplete="off" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="block">
+									<div class="block-content">
+										<div class="form-group row">
+											<label class="control-label">First Name</label>
+											<input id="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="block">
+									<div class="block-content">
+										<div class="form-group row">
+											<label class="control-label">Last Name</label>
+											<input id="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" autocomplete="off" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>*@
+
+<!--<div class="row">
+	<form asp-controller="Inquiry" asp-action="InquiryPrepaid" method="post" enctype="multipart/form-data">
+		<div class="col-md-6">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-primary-dark">
+					<h3 class="block-title">Filter by All Cards</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="form-group row">
+						<label class="col-sm-8">Card Number</label>
+						<div class="col-sm-8">
+							<input id="CardNo" name="CardNo" class="form-control" placeholder="Enter Card Number" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-8">First Name</label>
+						<div class="col-sm-8">
+							<input id="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-8">Last Name</label>
+						<div class="col-sm-8">
+							<input id="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" autocomplete="off" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-6">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-primary-dark">
+					<h3 class="block-title">Bulk Upload Search</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="custom-file col-md-6">-->
+						<!-- Populating custom file input label with the selected filename (data-toggle="custom-file-input" is initialized in Helpers.coreBootstrapCustomFileInput()) -->
+						<!-- When multiple files are selected, we use the word 'Files'. You can easily change it to your own language by adding the following to the input, eg for DE: data-lang-files="Dateien" -->
+						<!--<input type="file" class="custom-file-input" name="files" data-toggle="custom-file-input">
+						<label class="custom-file-label" for="files">Choose file/s to insert from activity</label>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>-->
+
+<div class="row">
+	<div class="col-md-6">
+		<form asp-action="InquiryPrepaid" method="post" enctype="multipart/form-data">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-primary-dark">
+					<h3 class="block-title">FILTER BY ALL CARDS</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="form-group row">
+						<label class="col-sm-8">Card Number</label>
+						<div class="col-sm-8">
+							<input id="CardNo" name="CardNo" class="form-control" placeholder="Enter Card Number" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-8">First Name</label>
+						<div class="col-sm-8">
+							<input id="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-8">Last Name</label>
+						<div class="col-sm-8">
+							<input id="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" autocomplete="off" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-6">
+		<form asp-action="InquiryPrepaid" method="post" enctype="multipart/form-data">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-primary-dark">
+					<h3 class="block-title">BULK UPLOAD SEARCH</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="custom-file col-md-8">
+						<!-- Populating custom file input label with the selected filename (data-toggle="custom-file-input" is initialized in Helpers.coreBootstrapCustomFileInput()) -->
+						<!-- When multiple files are selected, we use the word 'Files'. You can easily change it to your own language by adding the following to the input, eg for DE: data-lang-files="Dateien" -->
+						<input type="file" class="custom-file-input" name="files" data-toggle="custom-file-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+						<label class="custom-file-label" for="files">Choose file for Bulk Upload Search</label>
+					</div>
+
+					<div class="form-group row">
+					</div>
+					<div class="form-group row">
+					</div>
+					<div class="form-group row">
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	@*<div class="col-md-6">
+		<form action="be_blocks.html" method="post">
+			<div class="block">
+				<div class="block-header block-header-default">
+					<h3 class="block-title">Block Form</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+						<button type="reset" class="btn btn-sm btn-alt-danger">
+							<i class="fa fa-repeat"></i> Reset
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="form-group row justify-content-center">
+						<label class="col-sm-8" for="block-form-username3">Username</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="block-form-username3" name="block-form-username3" placeholder="Enter your username..">
+						</div>
+					</div>
+					<div class="form-group row justify-content-center">
+						<label class="col-sm-8" for="block-form-password3">Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="block-form-password3" name="block-form-password3" placeholder="Enter your password..">
+						</div>
+					</div>
+					<div class="form-group row justify-content-center">
+						<div class="col-sm-8">
+							<label class="css-control css-control-sm css-control-primary css-switch">
+								<input type="checkbox" class="css-control-input" id="block-form-remember-me3" name="block-form-remember-me3">
+								<span class="css-control-indicator"></span> Remember Me?
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-6">
+		<form action="be_blocks.html" method="post">
+			<div class="block">
+				<div class="block-header block-header-default block-header-rtl">
+					<h3 class="block-title">Block Form</h3>
+					<div class="block-options">
+						<button type="submit" class="btn btn-sm btn-alt-primary">
+							<i class="fa fa-check"></i> Submit
+						</button>
+						<button type="reset" class="btn btn-sm btn-alt-danger">
+							<i class="fa fa-repeat"></i> Reset
+						</button>
+					</div>
+				</div>
+				<div class="block-content">
+					<div class="form-group row justify-content-center">
+						<label class="col-sm-8" for="block-form-username4">Username</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="block-form-username4" name="block-form-username4" placeholder="Enter your username..">
+						</div>
+					</div>
+					<div class="form-group row justify-content-center">
+						<label class="col-sm-8" for="block-form-password4">Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="block-form-password4" name="block-form-password4" placeholder="Enter your password..">
+						</div>
+					</div>
+					<div class="form-group row justify-content-center">
+						<div class="col-sm-8">
+							<label class="css-control css-control-sm css-control-primary css-switch">
+								<input type="checkbox" class="css-control-input" id="block-form-remember-me4" name="block-form-remember-me4">
+								<span class="css-control-indicator"></span> Remember Me?
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>*@
+</div>
+
+<div class="block">
+	<div class="block-header block-header-default bg-gray-light">
+		<h3 class="block-title text-uppercase">INQUIRY BANKWORKS</h3>
+
+		<div class="block-options">
+			<input type="text" id="myInput" hidden>
+			<a id="btn" href="#" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" data-placement="top" data-toggle="tooltip" title="Export to Excel">
+				<i class="fa fa-file-excel-o"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="block-content block-content-full">
+		<table id="ListBW" class="table table-bordered table-striped table-vcenter js-searchicba-dataTable">
+			<thead>
+				<tr>
+					<th class="d-none d-sm-table-cell">CARD NUMBER</th>
+					<th class="d-none d-sm-table-cell">ACCOUNT NAME</th>
+					<th class="d-none d-sm-table-cell">CARD STATUS</th>
+					<th class="d-none d-sm-table-cell">NOTE</th>
+					<th class="d-none d-sm-table-cell">EXPIRY DATE</th>
+					<th class="d-none d-sm-table-cell">ACCOUNT BALANCE</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					if (ViewBag.InqBW == "Meron")
+					{
+						@foreach (var usr in ViewBag.ListBWClients)
+						{
+							<tr>
+								<td class="d-none d-sm-table-cell">
+									<a class="font-w600" href="@Url.Action("InquiryBW","Inquiry", new { actno = usr.ACCT_NUMBER, cardno = usr.CNO, st = DateTime.Now.ToString("yyyyMMdd"), et = DateTime.Now.ToString("yyyyMMdd") })">@usr.CARD_NUMBER</a>
+								</td>
+
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.EMBOSS_LINE_1
+								</td>
+
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.CARD_STATUS
+								</td>
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.note_text
+								</td>
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.EXPIRY_DATE
+								</td>
+								<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+									@usr.balance
+								</td>
+							</tr>
+						}
+					}
+				}
+
+
+
+			</tbody>
+		</table>
+		<!-- END Orders Table -->
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+
+
+		});
+
+		$('#ListBW').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Inquiry/ExportPrepaid";
+						}
+					}
+				});
+			});
+		});
+
+	</script>
+}
+

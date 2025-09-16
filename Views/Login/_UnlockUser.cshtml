@@ -1,0 +1,31 @@
+﻿@model ForgotPass
+
+<form role="form" asp-action="UnlockUser" method="post">
+	<div class="block block-themed block-transparent mb-0">
+		<div class="block-header  bg-gd-sea">
+			<h3 class="block-title">UNLOCK USER</h3>
+			<div class="block-options">
+				<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+					<i class="si si-close"></i>
+				</button>
+			</div>
+		</div>
+
+		<div class="block-content">
+			<div class="form-group">
+				<input type="text" asp-for="Username" class="form-control text-center" placeholder="Enter you user name" autocomplete="off" autofocus>
+				<span class="field-validation-valid text-danger" asp-validation-for="Username"></span>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		@*<button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>*@
+		<button type="submit" class="btn btn-alt-warning"><i class="fa fa-check"></i> Unlock</button>
+	</div>
+</form>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

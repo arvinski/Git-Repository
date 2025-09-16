@@ -1,0 +1,1747 @@
+﻿@model AgentDesktop.Models.MasterDetailFile
+@using AgentDesktop.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<style>
+	.footah {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		color: white;
+		text-align: center;
+	}
+
+	.scroll-to-top {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		display: none;
+		width: 2.75rem;
+		height: 2.75rem;
+		text-align: center;
+		color: #fff;
+		background: rgba(90, 92, 105, 0.5);
+		line-height: 46px;
+	}
+
+		.scroll-to-top:focus, .scroll-to-top:hover {
+			color: white;
+		}
+
+		.scroll-to-top:hover {
+			background: #5a5c69;
+		}
+
+		.scroll-to-top i {
+			font-weight: 800;
+		}
+
+	.rounded-sm {
+		border-radius: 0.2rem !important;
+	}
+</style>
+
+<!-- Block Template -->
+<!--
+<div class="block">
+	<div class="block-header block-header-default">
+		<div class="block-title">
+
+		</div>
+		<div class="block-options">
+
+		</div>
+	</div>
+	<div class="block-content block-content-full">
+
+	</div>
+</div>
+-->
+
+<!-- Multiple Items -->
+<div class="block block-rounded block-themed">
+	<div class="block-header bg-gd-elegancet">
+		<h3 class="block-title">INQUIRY ICBA - LOAN ACCOUNT</h3>
+
+	</div>
+	<div class="block-content">
+		<div id="inqloan" role="tablist" aria-multiselectable="true">
+			@{
+				string accountno = HttpContextAccessor.HttpContext.Session.GetString("accountno");
+				string cifkey = HttpContextAccessor.HttpContext.Session.GetString("cifkey");
+			}
+
+			@*CUSTOMER INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="customer_info_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#customer_info" aria-expanded="true" aria-controls="customer_info">
+						CUSTOMER INFORMATION
+					</a>
+				</div>
+				<div id="customer_info" class="collapse show" role="tabpanel" aria-labelledby="customer_info_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var item in Model.vwCustomerInfo)
+							{
+								string custype = item.custcat == "I" ? "INDIVIDUAL" : "CORPORATE";
+								string gender = item.sex == "M" ? "MALE" : "FEMALE";
+								string custstat = item.custsts == "F" ? "FROZEN" : "NORMAL";
+								string language = item.corrlan == "E" ? "ENGLISH" : item.corrlan;
+								bool blklisted = item.blklisted == "N" ? false : true;
+								bool forain = item.foreigner == "N" ? false : true;
+								bool stap = item.staff == "N" ? false : true;
+
+								bool lrgloancust = item.lrgcust == "N" ? false : true;
+								bool cmbstate = item.comstmt == "N" ? false : true;
+
+								string relabnkdt = string.IsNullOrEmpty(item.relbnkdt.ToString()) ? string.Empty : item.relbnkdt.ToString("dd-MMM-yyy");
+
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">Account Number</label>
+										<label class="form-control form-control-sm">@accountno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">ID Number</label>
+										<label class="form-control form-control-sm">@item.idno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Short Name</label>
+										<label class="form-control form-control-sm">@item.sname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Type</label>
+										<label class="form-control form-control-sm">@custype</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Full Name</label>
+										<label class="form-control form-control-sm">@item.lname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Title</label>
+										<label class="form-control form-control-sm">@item.title</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">First Name</label>
+										<label class="form-control form-control-sm">@item.fsname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Middle Name</label>
+										<label class="form-control form-control-sm">@item.mdname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Last Name</label>
+										<label class="form-control form-control-sm">@item.lsname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Preffered Name</label>
+										<label class="form-control form-control-sm">@item.pname</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Marital Status</label>
+										<label class="form-control form-control-sm">@item.maritsts</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+
+									<div class="form-group">
+										<label class="control-label">Sex Gender</label>
+										<label class="form-control form-control-sm">@gender</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Birthdate</label>
+										<label class="form-control form-control-sm">@item.birthdt.ToString("dd-MMM-yyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Age</label>
+										<label class="form-control form-control-sm">@item.age</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Nationality</label>
+										<label class="form-control form-control-sm">@item.nation</label>
+									</div>
+
+
+									<div class="form-group">
+										<label class="control-label">Country of Origin</label>
+										<label class="form-control form-control-sm">@item.cntryorigin</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Home Branch</label>
+										<label class="form-control form-control-sm">@item.branch</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Cost Center</label>
+										<label class="form-control form-control-sm">@item.costcentre</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Status</label>
+										<label class="form-control form-control-sm">@custstat</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Corresponding Language</label>
+										<label class="form-control form-control-sm">@language</label>
+									</div>
+
+									<div class="form-group row">
+										<div class="col-12">
+											<div class="custom-control custom-checkbox mb-5">
+												@if (blklisted)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox1">Black Listed</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (forain)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox2">Foreign</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (stap)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox3">Staff</label>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relationship Date</label>
+										<label class="form-control form-control-sm">@relabnkdt</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group">
+										<label class="control-label">Create Date</label>
+										<label class="form-control form-control-sm">@item.cifcrtdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Last Update</label>
+										<label class="form-control form-control-sm">@item.lstupdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Category</label>
+										<label class="form-control form-control-sm">@item.custcategory</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">ID Type</label>
+										<label class="form-control form-control-sm">@item.idtype</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Industry Code</label>
+										<label class="form-control form-control-sm">@item.indcode</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Sector Code</label>
+										<label class="form-control form-control-sm">@item.sectorcode</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relation Officer</label>
+										<label class="form-control form-control-sm">@item.relofficer</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Relation Officer 2</label>
+										<label class="form-control form-control-sm">@item.relofficer2</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Networth</label>
+										<label class="form-control form-control-sm">@item.crrating</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Customer Class</label>
+										<label class="form-control form-control-sm">@item.custclass</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Account Officer</label>
+										<label class="form-control form-control-sm">@item.acofficer</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-3">
+
+									<div class="form-group row">
+										<div class="col-12">
+											<div class="custom-control custom-checkbox mb-5">
+												@if (lrgloancust)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label" for="example-checkbox1">Large Loan Customer</label>
+											</div>
+											<div class="custom-control custom-checkbox mb-5">
+												@if (cmbstate)
+												{
+													<input class="custom-control-input" type="checkbox" checked disabled>
+												}
+												else
+												{
+													<input class="custom-control-input" type="checkbox" disabled>
+												}
+												<label class="custom-control-label">Combine Statement</label>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Employer</label>
+										<label class="form-control form-control-sm">@item.employer</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Nature of Business</label>
+										<label class="form-control form-control-sm">@item.sourceoffund</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Home Telephone No.</label>
+										<label class="form-control form-control-sm">@item.hometel</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Mobile No.</label>
+										<label class="form-control form-control-sm">@item.mobile</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Office Telephone No.</label>
+										<label class="form-control form-control-sm">@item.office</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Fax No.</label>
+										<label class="form-control form-control-sm">@item.fax</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Other Telephone No. 1</label>
+										<label class="form-control form-control-sm">@item.othertel1</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Other Telephone No. 2</label>
+										<label class="form-control form-control-sm">@item.othertel2</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">SSS No.</label>
+										<label class="form-control form-control-sm">@item.ssno</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">TIN No.</label>
+										<label class="form-control form-control-sm">@item.taxno</label>
+									</div>
+								</div>
+							}
+
+						</div>
+
+						<div class="row row-deck">
+							@foreach (var add in Model.vwCustomerInfo)
+							{
+								bool curadd = add.perseq == add.corradrseq ? true : false;
+								bool peradd = add.perseq == add.corradrseq ? true : false;
+								bool ofcadd = add.offseq == add.corradrseq ? true : false;
+								bool othadd = add.othseq == add.corradrseq ? true : false;
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Current Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 1</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.presentadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (curadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Permanent Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 2</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.permanentadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (peradd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Office Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 3</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.officeadd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (ofcadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Other Address</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 4</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.otheradd</textarea>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<div class="custom-control custom-checkbox mb-5">
+														@if (othadd)
+														{
+															<input class="custom-control-input" type="checkbox" checked disabled>
+														}
+														else
+														{
+															<input class="custom-control-input" type="checkbox" disabled>
+														}
+														<label class="custom-control-label">CIF corresponding address</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Swift / Telex</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 5</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.telxadd</textarea>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Email</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="form-group row">
+												<label class="control-label">Address 6</label>
+												<textarea class="form-control form-control-sm" rows="3" disabled>@add.emailadd</textarea>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							}
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+			@*ACCOUNT INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="account_info_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#account_info" aria-expanded="true" aria-controls="account_info">
+						ACCOUNT INFORMATION
+					</a>
+				</div>
+
+				<div id="account_info" class="collapse" role="tabpanel" aria-labelledby="account_info_header">
+					<div class="block-content bg-gray-light">
+						<div class="row items-push">
+							@foreach (var act in Model.vwAccountInfo)
+							{
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label">Status</label>
+										<label class="form-control form-control-sm">@act.acstsdesc</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Product</label>
+										<label class="form-control form-control-sm">@act.product</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Product Description</label>
+										<label class="form-control form-control-sm">@act.prodescr</label>
+									</div>
+								</div>
+
+							}
+
+							@foreach (var col in Model.vwAccountCollateral)
+							{
+								string makemodel = col.make + "/" + col.model;
+
+								<div class="col-md-8">
+									<div class="block block-themed">
+										<div class="block-header bg-info">
+											<h3 class="block-title">Collateral</h3>
+										</div>
+										<div class="block-content">
+
+											<div class="row items-push">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="control-label">Goods Description</label>
+														<label class="form-control form-control-sm">@col.eqpdesc</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Make Model</label>
+														<label class="form-control form-control-sm">@makemodel</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Unit Code</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.unitcode</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Goods Cost</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(col.eqpcost))</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Finance Amount</label>
+														<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.finamt))</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Condition</label>
+														<label class="form-control form-control-sm">@col.eqpcond</label>
+													</div>
+
+
+												</div>
+
+												<div class="col-md-4">
+
+													<div class="form-group">
+														<label class="control-label">R.C. Sighted</label>
+														<label class="form-control form-control-sm">@col.rcflg</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Market Value</label>
+														<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.markval))</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Realisable Value</label>
+														<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.realval))</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Insure Amount</label>
+														<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.insamt))</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Repo Date</label>
+														<label class="form-control form-control-sm">@col.repodt.ToString("dd-MMM-yyyy")</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Engine No.</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.engineno</label>
+													</div>
+
+												</div>
+
+												<div class="col-md-4">
+
+													<div class="form-group">
+														<label class="control-label">Chassis No.</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.chassisno</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Reg/Serial No.</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.serregno</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Manufactured Year</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.yrmanu</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Registration Year</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.yrmanu2</label>
+													</div>
+
+
+													<div class="form-group">
+														<label class="control-label">Status</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.gdsts</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Cover Type</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.typofcover</label>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Expiry Date</label>
+														<label class="form-control form-control-sm" style="white-space: nowrap;">@col.insexpdt.ToString("dd-MMM-yyyy")</label>
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@*OS BALANCE*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="osbalance_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#osbalance" aria-expanded="true" aria-controls="osbalance">
+						OS BALANCE
+					</a>
+				</div>
+				<div id="osbalance" class="collapse" role="tabpanel" aria-labelledby="osbalance_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var osb in Model.vwOSBalance)
+							{
+								string hrisk = osb.riskflg == "N" ? "" : "Y";
+								string intsusp = osb.suspintflg == "N" ? "" : "Y";
+								string under = osb.spcproflg == "N" ? "" : "Y";
+								string forth = osb.fourthschedule == "N" ? "" : "Y";
+
+								string niiss = osb.niissued == "N" ? "" : "X";
+								string roiss = osb.roissued == "N" ? "" : "X";
+								string blklist = osb.blklisted == "N" ? "" : "X";
+
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Gross Balance</label>
+										<label class="form-control form-control-sm text-danger" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.grsbal))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Principal Balance</label>
+										<label class="form-control form-control-sm text-dange" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.prinbal))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Interest Balance</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.intbal))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Other O/S</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.othos))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Unearned Interest</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.unern))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Net Balance</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.netbal))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Commission Deferred</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@String.Format("{0:N2}", Convert.ToDecimal(osb.agcunern))</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<br />
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@hrisk</label>
+										<label class="col-lg-7 col-form-label">Hi Risk</label>
+									</div>
+
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@intsusp</label>
+										<label class="col-lg-7 col-form-label">Int. in Suspense</label>
+									</div>
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@under</label>
+										<label class="col-lg-7 col-form-label">Under Specific Provision</label>
+									</div>
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@forth</label>
+										<label class="col-lg-7 col-form-label">Under Specific Provision</label>
+									</div>
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@niiss</label>
+										<label class="col-lg-7 col-form-label">N.I. Issued</label>
+									</div>
+
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@roiss</label>
+										<label class="col-lg-7 col-form-label">R.O. Issued</label>
+									</div>
+									<div class="form-group row">
+										<label class="form-control form-control-sm" style="width:7%;white-space:nowrap;">@blklist</label>
+										<label class="col-lg-7 col-form-label">Black Listed</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Under Litigation</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.litigatsts</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Freeze Mode</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.frezmode</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Freeze Date</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.frezdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Terminate Date</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.terminatedt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Restructure</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.variation</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">NPL</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.nplflg</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">NPL Date</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.npldt.ToString("dd-MMM-yyyy")</label>
+									</div>
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Problem Code</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@osb.nplsts</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Remarks</label>
+										<textarea class="form-control form-control-sm" rows="2" disabled>@osb.remarks</textarea>
+									</div>
+								</div>
+							}
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			@*COLLECTIONS*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="collection_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#collection" aria-expanded="true" aria-controls="collection">
+						COLLECTIONS
+					</a>
+				</div>
+				<div id="collection" class="collapse" role="tabpanel" aria-labelledby="collection_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var col in Model.vwCollection)
+							{
+								string colgrace = col.grcpay == "N" ? "" : "X";
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label">Installment Collection</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.installment))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Principal</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.principal))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Interest</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.interest))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">PGI/Grace Interest</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.grace_int))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">This Month's Collection</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.month_col))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Interest Serviced</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.int_serv))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Principal Serviced</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.pri_serv))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Partial Settlement</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.part_setl))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Advance Payment</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.advamt))</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label">Last Collection Date</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@col.last_coldt.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Prepayment No.</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.prepdno))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Prepayment Amount</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.prepdamt))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Collect During Grace</label>
+										<label class="form-control form-control-sm" style="width: 10%; white-space: nowrap;">@colgrace</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Prepayment Reversal</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(col.prepdrev))</label>
+									</div>
+
+
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label">Officer In Charge</label>
+										<label class="form-control form-control-sm" style="white-space: nowrap;">@col.adminofficer</label>
+									</div>
+								</div>
+
+							}
+
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">PENDING POSTDATED CHEQUE</h3>
+									</div>
+
+									<div class="block-content">
+										<table id="ListPending" class="table table-bordered table-striped table-vcenter" style="width:100%;">
+											<thead>
+												<tr>
+													<th class="d-none d-sm-table-cell">BANK CODE</th>
+													<th class="d-none d-sm-table-cell">CHEQUE DATE</th>
+													<th class="d-none d-sm-table-cell">CHEQUE NO</th>
+													<th class="d-none d-sm-table-cell">CHEQUE AMOUNT</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach (var usr in Model.vwPostDated)
+												{
+													<tr>
+														<td class="d-none d-sm-table-cell">
+															@usr.bnkcd
+														</td>
+
+														<td class="d-none d-sm-table-cell text-primary">
+															@usr.chqdt
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.chqno
+														</td>
+														<td class="d-none d-sm-table-cell text-danger">
+															@usr.chqamt
+														</td>
+
+													</tr>
+												}
+											</tbody>
+										</table>
+										<!-- END Orders Table -->
+
+									</div>
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@*OVERDUE REPAYMENT*@
+			<div class="block block-bordered block-rounded">
+				<div class="block-header" role="tab" id="overdue_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#overdue" aria-expanded="true" aria-controls="overdue">
+						OVERDUE REPAYMENT
+					</a>
+				</div>
+				<div id="overdue" class="collapse" role="tabpanel" aria-labelledby="overdue_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var ovr in Model.vwOverdue)
+							{
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Arrear Amount</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.arrear_amt))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Principal Arrears</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.prin_arrear))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Next Repay Due Date</label>
+										<label class="form-control form-control-sm">@ovr.nxt_repay_due.ToString("dd-MMM-yyyy")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Average Overdue Days</label>
+										<label class="form-control form-control-sm"></label>
+									</div>
+
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Arrear No</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.arrear_no))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Arrears Month</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.arrear_mth))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Interest Arrears</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.arrear_int))</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Next Repayment Amount</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.nxt_repay_amt))</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<div class="form-group">
+										<label class="control-label">Remind Type</label>
+										<label class="form-control form-control-sm">@ovr.rem_typ</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Issue Date</label>
+										<label class="form-control form-control-sm">@ovr.issue_dt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">No. of NI</label>
+										<label class="form-control form-control-sm">@ovr.no_nii</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">R.O.</label>
+										<label class="form-control form-control-sm">@ovr.no_ro</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">4th Sched. Date (Act)</label>
+										<label class="form-control form-control-sm">@ovr.f4thschdt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">N.I. Date</label>
+										<label class="form-control form-control-sm">@ovr.ni_dt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">R.O. Date</label>
+										<label class="form-control form-control-sm">@ovr.ro_dt.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label text-danger">Total Due</label>
+										<label class="form-control form-control-sm"></label>
+									</div>
+
+								</div>
+
+								<div class="col-md-6 col-xl-3">
+									<h4 class="content-heading">OVERDUE PAYMENT INFORMATION</h4>
+									<div class="form-group">
+										<label class="control-label">Penalty Accrued up to</label>
+										<label class="form-control form-control-sm">@ovr.penalty_acc.ToString("dd-MMM-yyyy")</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Penalty Accrued Amount</label>
+										<label class="form-control form-control-sm">@String.Format("{0:N2}", Convert.ToDecimal(ovr.penalty_acc_amt))</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Other Penalty Accrued up to</label>
+										<label class="form-control form-control-sm"></label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Other Penalty Accrued Amount</label>
+										<label class="form-control form-control-sm"></label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">No. of Time Default Since Day 1</label>
+										<label class="form-control form-control-sm">@ovr.notday1</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">No. of Time Default During Last 0 Day</label>
+										<label class="form-control form-control-sm"></label>
+									</div>
+
+								</div>
+							}
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			@*REPAYMENT*@
+			<div class="block block-bordered block-rounded">
+				<div class="block-header" role="tab" id="repayment_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#repayment" aria-expanded="true" aria-controls="repayment">
+						REPAYMENT
+					</a>
+				</div>
+				<div id="repayment" class="collapse" role="tabpanel" aria-labelledby="repayment_header">
+					<div class="block-content">
+						<div class="row">
+							@foreach (var rep in Model.vwRepayment)
+							{
+
+								<div class="col-md-4">
+									<div class="form-group row">
+										<label class="col-12">Repayment Type</label>
+										<div class="col-12">
+											<div class="input-group">
+												<input type="text" class="form-control col-sm-2" value="@rep.reptyp" readonly>
+												<div class="input-group-append">
+													<span class="input-group-text">@rep.reptypdesc</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-12">Schedule Category</label>
+										<div class="col-12">
+											<div class="input-group">
+												<input type="text" class="form-control col-sm-2" value="@rep.repcat" readonly>
+												<div class="input-group-append">
+													<span class="input-group-text">@rep.repcatdesc</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-12">Repayment Scheme</label>
+										<div class="col-12">
+											<div class="input-group">
+												<input type="text" class="form-control col-sm-2" value="@rep.repscheme" readonly>
+												<div class="input-group-append">
+													<span class="input-group-text">@rep.repschemedesc</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-mid-4">
+									<div class="form-group">
+										<label class="control-label">Start Month (T/I)</label>
+										<label class="form-control form-control-sm">@rep.tstmth</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Start Month (P)</label>
+										<label class="form-control form-control-sm">0</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Start Month (G)</label>
+										<label class="form-control form-control-sm">0</label>
+									</div>
+								</div>
+							}
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<table id="ListRepayment" class="table table-bordered table-striped table-vcenter" style="width:100%;">
+									<thead>
+										<tr>
+											<th class="d-none d-sm-table-cell">FREQUENCY</th>
+											<th class="d-none d-sm-table-cell">SCHEDULE</th>
+											<th class="d-none d-sm-table-cell">FROM</th>
+											<th class="d-none d-sm-table-cell">TO</th>
+											<th class="d-none d-sm-table-cell">AMOUNT</th>
+											<th class="d-none d-sm-table-cell">DUE DAY</th>
+											<th class="d-none d-sm-table-cell">PRINCIPAL</th>
+											<th class="d-none d-sm-table-cell">OF WHICH GRC. PROFIT</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (var usr in Model.vwRepaymentTable)
+										{
+										<tr>
+											<td class="d-none d-sm-table-cell">
+												@usr.freq
+											</td>
+
+											<td class="d-none d-sm-table-cell">
+												@usr.repschtyp
+											</td>
+											<td class="d-none d-sm-table-cell">
+												@usr.frmprd
+											</td>
+											<td class="d-none d-sm-table-cell">
+												@usr.toprd
+											</td>
+											<td class="d-none d-sm-table-cell text-primary">
+												@String.Format("{0:N2}", Convert.ToDecimal(usr.repamt))
+											</td>
+											<td class="d-none d-sm-table-cell">
+												@usr.dueday
+											</td>
+											<td class="d-none d-sm-table-cell">
+												@usr.prcamt
+											</td>
+											<td class="d-none d-sm-table-cell">
+												@usr.pgiamt
+											</td>
+
+										</tr>
+										}
+									</tbody>
+								</table>
+							</div>
+
+
+
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">DETAILS</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListRepaymentDetail" class="table table-bordered table-striped table-vcenter js-atmactivity-dataTable" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">DUE DATE</th>
+														<th class="d-none d-sm-table-cell">AMOUNT</th>
+														<th class="d-none d-sm-table-cell">INTEREST</th>
+														<th class="d-none d-sm-table-cell">AMOUNT PAID</th>
+														<th class="d-none d-sm-table-cell">INTEREST PAID</th>
+														<th class="d-none d-sm-table-cell">PRINCIPAL PAID</th>
+														<th class="d-none d-sm-table-cell">REPCD</th>
+														<th class="d-none d-sm-table-cell">LAST PAY DATE</th>
+														<th class="d-none d-sm-table-cell">LATE FOR</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.vwRepaymentDetail)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell text-warning" data-sort="YYYYMMDD">
+																@usr.duedt.ToString("dd-MMM-yyyy")
+																@*@usr.duedt.ToString("MM/dd/yyyy")*@
+															</td>
+															<td class="d-none d-sm-table-cell text-danger">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.amtdue))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.intdue))
+															</td>
+															<td class="d-none d-sm-table-cell text-danger">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.amtpd))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.intpd))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@String.Format("{0:N2}", Convert.ToDecimal(usr.prnpd))
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.repcd
+															</td>
+															<td class="d-none d-sm-table-cell" data-sort="YYYYMMDD">
+																@usr.trndt.ToString("dd-MMM-yyyy")
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.latefor
+															</td>
+														</tr>
+													}
+												</tbody>
+											</table>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+			@*TRANSACTION HISTORY*@
+			<div class="block block-bordered block-rounded">
+				<div class="block-header" role="tab" id="history_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#history" aria-expanded="true" aria-controls="history">
+						TRANSACTION HISTORY
+					</a>
+				</div>
+				<div id="history" class="collapse" role="tabpanel" aria-labelledby="history_header">
+					<div class="block-content">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">TRANSACTION DETAIL</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListTransactionHistory" class="table table-bordered table-striped table-vcenter js-atmactivity-dataTable" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">ID</th>
+														<th class="d-none d-sm-table-cell">TRAN DATE</th>
+														<th class="d-none d-sm-table-cell">SEQ NO</th>
+														<th class="d-none d-sm-table-cell">TRAN CODE</th>
+														<th class="d-none d-sm-table-cell">ITEM CODE</th>
+														<th class="d-none d-sm-table-cell">TRAN AMOUNT</th>
+														<th class="d-none d-sm-table-cell">TOTAL BALANCE</th>
+														<th class="d-none d-sm-table-cell">DEBTOR BALANCE</th>
+														<th class="d-none d-sm-table-cell">DR TYPE</th>
+														<th class="d-none d-sm-table-cell">USER ID</th>
+														<th class="d-none d-sm-table-cell">SUPERVISOR 1</th>
+														<th class="d-none d-sm-table-cell">SUPERVISOR 2</th>
+														<th class="d-none d-sm-table-cell">INTEREST AMOUNT</th>
+														<th class="d-none d-sm-table-cell">REFERENCE NO</th>
+														<th class="d-none d-sm-table-cell">RECEIPT NO</th>
+														<th class="d-none d-sm-table-cell">TRAN DESCRIPTION</th>
+														<th class="d-none d-sm-table-cell">DEBIT A/C</th>
+														<th class="d-none d-sm-table-cell">CREDIT A/C</th>
+														<th class="d-none d-sm-table-cell">BRANCH CODE</th>
+														<th class="d-none d-sm-table-cell">ACTUAL DATE</th>
+														<th class="d-none d-sm-table-cell">BDS BRANCH CODE</th>
+														<th class="d-none d-sm-table-cell">BDS CODE</th>
+														<th class="d-none d-sm-table-cell">BDS TLRCD</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.vwLoanHistory)
+													{
+													<tr>
+														<td class="d-none d-sm-table-cell">
+															@usr.ID
+														</td>
+														<td class="d-none d-sm-table-cell" data-sort="YYYYMMDD">
+															@usr.TRNDT.ToString("dd-MMM-yyyy")
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.SEQNO
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.TRNCD
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.ITEMCD
+														</td>
+														<td class="d-none d-sm-table-cell text-danger">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.TRNAMT))
+														</td>
+														<td class="d-none d-sm-table-cell text-danger">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.BALANCE))
+														</td>
+														<td class="d-none d-sm-table-cell text-danger">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.DBBAL))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.DRTYP
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.USRID
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.SVRID
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.SVRID2
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.INTAMT))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.REFNO
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.RECEIPTNO
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.TRNDESCR
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.GLACNO
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.GLACNO2
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.BRNCD
+														</td>
+														<td class="d-none d-sm-table-cell" data-sort="YYYYMMDD">
+															@usr.ACTUALDT.ToString("dd-MMM-yyyy")
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.BDSBRNCD
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.BDSTRNCD
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.BDSJNLNO
+														</td>
+
+													</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+
+
+
+
+									</div>
+								</div>
+							</div>
+
+
+
+
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+			@*SUMMARY*@
+			<div class="block block-bordered block-rounded">
+				<div class="block-header" role="tab" id="summary_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqloan" href="#summary" aria-expanded="true" aria-controls="summary">
+						SUMMARY
+					</a>
+				</div>
+				<div id="summary" class="collapse" role="tabpanel" aria-labelledby="summary_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var sum in Model.vwLoanSummary)
+							{
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label">Loan Amount</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.lnamt).ToString("N2")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Loan Period</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.prd).ToString("N2")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Grace Term</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.grcterm).ToString("N2")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Eff. Rate</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.effrt).ToString("N4")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Eff. Yield</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.effyield).ToString("N4")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Commence Code</label>
+										<label class="form-control form-control-sm">@sum.commencecd</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Revolving</label>
+										<label class="form-control form-control-sm">@sum.revolveflg</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Int. Only on Released Mth.</label>
+										<label class="form-control form-control-sm">@sum.payint</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+									<h4 class="text-warning">GRACE PERIOD</h4>
+									<div class="form-group">
+										<label class="control-label">Upfront</label>
+										<label class="form-control form-control-sm">@sum.pgiupfront</label>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-12">Interest Rate</label>
+										<div class="col-12">
+											<div class="input-group">
+												<input type="text" class="form-control col-sm-2" value="@Convert.ToDecimal(sum.pgirt).ToString("N4")" readonly>
+												<div class="input-group-append">
+													<span class="input-group-text">@sum.pgirtcd</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Rest Type</label>
+										<label class="form-control form-control-sm">@sum.pgirest</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Overdue Rate Type</label>
+										<label class="form-control form-control-sm">@sum.pgiovdrttyp</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Overdue Rate</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.pgiovdrt).ToString("N4")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Balance Used</label>
+										<label class="form-control form-control-sm">@sum.pgiprovb</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Over Due Grace</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.pgiovdgrc).ToString("N2")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Charge Minimum of</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.minovdamt).ToString("N2")</label>
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+									<h4 class="text-warning">COMMENCED</h4>
+									<div class="form-group">
+										<label class="control-label">Upfront</label>
+										<label class="form-control form-control-sm">@sum.grcpay</label>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-12">Interest Rate</label>
+										<div class="col-12">
+											<div class="input-group">
+												<input type="text" class="form-control col-sm-2" value="@Convert.ToDecimal(sum.intrt).ToString("N4")" readonly>
+												<div class="input-group-append">
+													<span class="input-group-text">@sum.intrtcd</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Rest Type</label>
+										<label class="form-control form-control-sm">@sum.resttyp</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Overdue Rate Type</label>
+										<label class="form-control form-control-sm">@sum.ovdrttyp</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Overdue Rate</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.ovdrt).ToString("N4")</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Balance Used</label>
+										<label class="form-control form-control-sm">@sum.afrprovb</label>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Over Due Grace</label>
+										<label class="form-control form-control-sm">@Convert.ToDecimal(sum.ovdgrc).ToString("N2")</label>
+									</div>
+
+								</div>
+
+							}
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">INITIAL RATE</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListSummaryInitRate" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">TYPE</th>
+														<th class="d-none d-sm-table-cell">FROM</th>
+														<th class="d-none d-sm-table-cell">TO</th>
+														<th class="d-none d-sm-table-cell">RATE CODE</th>
+														<th class="d-none d-sm-table-cell">REPAYMENT AMOUNT</th>
+														<th class="d-none d-sm-table-cell">BASE RATE</th>
+														<th class="d-none d-sm-table-cell">MARGIN</th>
+														<th class="d-none d-sm-table-cell">TOTAL RAT</th>
+														<th class="d-none d-sm-table-cell">INT/PFT</th>
+														<th class="d-none d-sm-table-cell">OPEN BALANCE</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.vwLoanInitRate)
+													{
+													<tr>
+														<td class="d-none d-sm-table-cell">
+															@usr.typ
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.frprd
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.toprd
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@usr.rtcd
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.repamt))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N4}", Convert.ToDecimal(usr.basert))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N4}", Convert.ToDecimal(usr.mrt))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N4}", Convert.ToDecimal(usr.totrt))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.intamt))
+														</td>
+														<td class="d-none d-sm-table-cell">
+															@String.Format("{0:N2}", Convert.ToDecimal(usr.openbal))
+														</td>
+
+													</tr>
+													}
+												</tbody>
+											</table>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<h5 class="content-header text-danger">This informations is captured at initial C.A. stage, they are not update after loans has been released, they are displayed for reference only.</h5>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
+</div>
+
+

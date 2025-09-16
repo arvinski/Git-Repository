@@ -1,0 +1,107 @@
+﻿@*<link rel="stylesheet" href="~/assets/js/plugins/datatables/dataTables.bootstrap4.css">*@
+
+<div class="block block-themed block-transparent mb-0">
+	<div class="block-header bg-gd-sea">
+		<h3 class="block-title">SEARCH CARD NUMBER</h3>
+		<div class="block-options">
+			<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+				<i class="si si-close"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="block-content">
+
+		@*<p>Wala na si @ViewBag.Wala</p>*@
+		<table id="ListCardSearch" class="table-sm table-bordered table-hover table-vcenter" style="width:100%;">
+			<thead class="bg-primary-light">
+				<tr>
+					<th class="d-none d-sm-table-cell">TicketNo</th>
+					<th class="d-none d-sm-table-cell">CardNo</th>
+					<th class="d-none d-sm-table-cell">DateReceived</th>
+					<th class="d-none d-sm-table-cell">CustomerName</th>
+					<th class="d-none d-sm-table-cell">LastName</th>
+					<th class="d-none d-sm-table-cell">FirstName</th>
+					<th class="d-none d-sm-table-cell">MiddleName</th>
+					<th class="d-none d-sm-table-cell">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var usr in ViewBag.ListClientsCard)
+				{
+				<tr>
+					<td class="d-none d-sm-table-cell">
+						@usr.TicketNo
+					</td>
+					<td class="d-none d-sm-table-cell">
+						<a class="font-w600" href="@Url.Action("NewCMEntry","Activity", new { name=@usr.CLIENT_NAME });" onclick="SetName();">@usr.CardNo</a>
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.DateReceived
+					</td>
+
+					<td class="d-none d-sm-table-cell">
+						@usr.CustomerName
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.LastName
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.FirstName
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.MiddleName
+					</td>
+					<td class="d-none d-sm-table-cell">
+						@usr.Status
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+		<br />
+	</div>
+
+</div>
+
+@*<div class="modal-footer">
+		<button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-alt-primary"><i class="fa fa-check"></i> Save</button>
+	</div>
+
+
+	<script src="~/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+	<script src="~/assets/js/pages/be_tables_datatables.min.js"></script>*@
+
+<script>
+
+	$(document).ready(function () {
+
+		$("#ListCardSearch").DataTable({
+
+			"pageLength": 8,
+			"lengthMenu": [[5, 8, 15, 20], [5, 8, 15, 20]],
+			"autoWidth": false,
+			"destroy": true
+
+		});
+
+		//$('.dataTables_filter input[type="search"]').
+		//	attr('placeholder', 'Type here to search records').
+		//	css({ 'width': '200px', 'display': 'inline-block' });
+
+	});
+
+	function SetName() {
+		if (window.opener != null && !window.opener.closed) {
+			var txtName = window.opener.document.getElementById("search");
+			txtName.value = document.getElementById('name').value;
+		}
+
+		window.close();
+	}
+
+
+
+</script>

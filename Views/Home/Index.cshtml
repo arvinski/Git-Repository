@@ -1,0 +1,386 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "Dashboard";
+}
+
+<style>
+	.dt-wrap {
+		white-space: normal !important;
+	}
+</style>
+
+
+
+@if (ViewBag.IdentifyMe == "Meron")
+{
+	<h2 class="content-heading">Dashboard</h2>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="block block-themed block-rounded">
+				<div class="block-header">
+					<h3 class="block-title">SERVICE</h3>
+				</div>
+				<div class="block-content">
+					<!-- Service Ticket -->
+					<table class="table table-striped table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th class="d-none d-md-table-cell">OPEN ITEMS</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 10px;">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var rcd in ViewBag.ListServiceTicket)
+							{
+								<tr>
+									<td>
+										<a class="d-none d-md-table-cell font-w600" href="/Home/DisplayTicket/?id=aqJKrqzt2uQZLkqtraY1jA==&service=@rcd.description&cnt=@rcd.cnt">@rcd.description</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@rcd.cnt</a>
+									</td>
+								</tr>
+							}
+
+						</tbody>
+					</table>
+					<!-- END Service Ticket -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-success">
+					<h3 class="block-title">STATUS</h3>
+				</div>
+				<div class="block-content">
+					<!-- Status -->
+					<table class="table table-striped table-hover js-disable">
+						<thead class="thead-light">
+							<tr>
+								<th class="d-none d-md-table-cell">TICKET STATUS</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 10px;">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var stt in ViewBag.ListServiceStatus)
+							{
+								<tr>
+									<td>
+										<a class="d-none d-md-table-cell font-w600" href="/Home/DisplayTicketDated/?id=N8bZrE565gMnWan9jx7Njw==&service=@stt.description&cnt=@stt.cnt&dt1=XXX&dt2=XXX">@stt.description</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@stt.cnt</a>
+									</td>
+								</tr>
+							}
+
+						</tbody>
+					</table>
+					<!-- END Status -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="block block-themed block-rounded">
+				<div class="block-header bg-warning">
+					<h3 class="block-title">CHANNEL</h3>
+				</div>
+				<div class="block-content">
+					<!-- Channel -->
+					<table class="table table-striped table-hover js-disable">
+						<thead class="thead-light">
+							<tr>
+								<th d-none d-md-table-cell>COMMUNICATION CHANNELS</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 90px;">Inbound</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 90px;">Outbound</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var chn in ViewBag.ListComChannel)
+							{
+								<tr>
+									<td>
+										<a class="d-none d-md-table-cell" href="/Home/DisplayTicketDated/?id=C1cBYThjKJqCpJwXE2staA==&service=@chn.Description&cnt=@chn.inbound&dt1=XXX&dt2=XXX">@chn.Description</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@chn.inbound</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@chn.outbound</a>
+									</td>
+								</tr>
+							}
+
+
+						</tbody>
+					</table>
+					<!-- END Channel -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="block  block-themed block-rounded">
+				<div class="block-header bg-danger">
+					<h3 class="block-title">ESCALATION</h3>
+				</div>
+				<div class="block-content">
+					<!-- Escalation -->
+					<table class="table table-striped table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th class="d-none d-md-table-cell">ESCALATED TICKETS</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 10px;">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var esc in ViewBag.ListEscalations)
+							{
+								<tr>
+									<td>
+										<a class="d-none d-md-table-cell font-w600" href="/Home/DisplayTicket/?id=FhOzozfCYJawEsmweXbnBQ==&service=@esc.description&cnt=@esc.cnt">@esc.description</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@esc.cnt</a>
+									</td>
+								</tr>
+							}
+
+						</tbody>
+					</table>
+					<!-- END Escalation -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="block  block-themed block-rounded">
+				<div class="block-header bg-elegance">
+					<h3 class="block-title">REASON CODES</h3>
+				</div>
+				<div class="block-content">
+					<!-- Reason Codes -->
+					<table class="table table-striped table-hover js-disable">
+						<thead class="thead-light">
+							<tr>
+								<th colspan="2">REASON CODES</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 90px;">Inbound</th>
+								<th class="d-none d-md-table-cell text-center" style="width: 90px;">Outbound</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var rcd in ViewBag.ListReasonCode)
+							{
+								<tr>
+									<td class="text-center" style="width: 65px;">
+										<i class="si si-users fa-2x"></i>
+									</td>
+									<td>
+										<a class="font-size-h5 font-w600" href="/Home/DisplayTicketDated/?id=KzpvN9xOZGfCXfBKtHVBEw==&service=@rcd.RCode&cnt=@rcd.Description&dt1=XXX&dt2=XXX">@rcd.Description</a>
+										<div class="text-muted my-5">@rcd.title</div>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@rcd.inbound</a>
+									</td>
+									<td class="d-none d-md-table-cell text-center">
+										<a class="font-w600">@rcd.outbound</a>
+									</td>
+								</tr>
+							}
+
+
+						</tbody>
+					</table>
+					<!-- END Reason Codes -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="modal-reminder" tabindex="-1" role="dialog" aria-labelledby="modal-reminder" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-popin modal-xl" role="document">
+			<div class="modal-content">
+				<div class="block-header block-header-default bg-gray-light">
+					<h3 class="block-title text-uppercase">LIST OF PAST DUE TICKET/S</h3>
+					<div class="block-options">
+						<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+							<i class="si si-close"></i>
+						</button>
+					</div>
+				</div>
+
+				<div class="block-content block-content-full">
+					<table id="ListServiceTickets" class="table table-bordered table-striped table-vcenter js-service-dataTable">
+						<thead>
+							<tr>
+								<th class="d-none d-sm-table-cell font-size-xs" style="width: 100px;">Ticket No</th>
+								<th class="d-none d-sm-table-cell font-size-xs">Customer Name</th>
+								<th class="d-none d-sm-table-cell font-size-xs">Last Update</th>
+								<th class="d-none d-sm-table-cell font-size-xs">Status</th>
+								<th class="d-none d-sm-table-cell font-size-xs">Due Date</th>
+								<th class="d-none d-sm-table-cell font-size-xs text-right">Elapsed</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var usr in ViewBag.ListReminder)
+							{
+								<tr>
+									<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+										@switch (ViewBag.Dept)
+										{
+											case "M":
+												<a asp-controller="Activity" asp-action="UpdateCMEntry" asp-route-id=@usr.RID data-toggle="tooltip" title="Update this Ticket?">
+													@usr.TicketNo
+												</a>
+
+												break;
+											case "A":
+												<a asp-controller="Activity" asp-action="ATMEntry" asp-route-id=@usr.RID data-toggle="tooltip" title="Update this Ticket?">
+													@usr.TicketNo
+												</a>
+												break;
+										}
+
+
+										@*@if (ViewBag.Dept == "M")
+											{
+												<a asp-controller="Activity" asp-action="UpdateCMEntry" asp-route-id=@usr.RID data-toggle="tooltip" title="Update this Ticket?">
+													@usr.TicketNo
+												</a>
+											}
+											else
+											{
+												<a asp-controller="Activity" asp-action="ATMEntry" asp-route-id=@usr.RID data-toggle="tooltip" title="Update this Ticket?">
+													@usr.TicketNo
+												</a>
+											}*@
+
+
+									</td>
+
+									<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+										@usr.CustomerName
+									</td>
+
+									<td class="d-none d-sm-table-cell font-size-xs text-primary">
+										@usr.DateReceived.ToString("dd-MMM-yyyy")
+									</td>
+									<td class="d-none d-sm-table-cell font-size-xs" style="white-space:nowrap">
+										@usr.Status
+									</td>
+									<td class="d-none d-sm-table-cell font-size-xs text-danger">
+										@usr.Resolved.ToString("dd-MMM-yyyy")
+									</td>
+									<td class="d-none d-sm-table-cell font-size-xs text-right">
+										@usr.elapsed
+									</td>
+
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+					@switch (ViewBag.Dept)
+					{
+						case "M":
+							<a asp-controller="Activity" asp-action="CustomerService" class="btn btn-warning" data-placement="top" data-toggle="tooltip" title="View List of Activity">
+								<i class="si si-magnifier"></i> Search Activity
+							</a>
+
+
+							<a asp-controller="Activity" asp-action="NewCMEntry" class="btn btn-success" data-placement="top" data-toggle="tooltip" title="Create Activity">
+								<i class="si si-earphones-alt"></i> New Activity
+							</a>
+
+							break;
+						case "A":
+							<a asp-controller="Activity" asp-action="ATMOps" class="btn btn-warning" data-placement="top" data-toggle="tooltip" title="View List of Activity">
+								<i class="si si-magnifier"></i> Search Activity
+							</a>
+							break;
+					}
+
+
+					@*@if (ViewBag.Dept == "M")
+						{
+							<a asp-controller="Activity" asp-action="CustomerService" class="btn btn-warning" data-placement="top" data-toggle="tooltip" title="View List of Activity">
+								<i class="si si-magnifier"></i> Search Activity
+							</a>
+
+
+							<a asp-controller="Activity" asp-action="NewCMEntry" class="btn btn-success" data-placement="top" data-toggle="tooltip" title="Create Activity">
+								<i class="si si-earphones-alt"></i> New Activity
+							</a>
+						}
+						else
+						{
+							<a asp-controller="Activity" asp-action="ATMOps" class="btn btn-warning" data-placement="top" data-toggle="tooltip" title="View List of Activity">
+								<i class="si si-magnifier"></i> Search Activity
+							</a>
+						}*@
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+}
+else
+{
+
+	<div class="hero bg-white">
+		<div class="hero-inner">
+			<div class="content content-full">
+				<div class="py-30 text-center">
+					<div class="display-3 text-danger">
+						<i class="fa fa-group"></i> Welcome to Agent Desktop<sup><span class="badge badge-pill badge-info ml-2">5</span></sup>
+					</div>
+					@*<h1 class="h2 font-w700 mt-30 mb-10">@HttpContextAccessor.HttpContext.Session.GetString("FullName")</h1>
+						<h2 class="h3 font-w400 text-muted mb-50">There some kind of an error were sorry for the inconvenience.</h2>
+						<a class="btn btn-hero btn-rounded btn-alt-secondary" id="backButton">
+							<i class="fa fa-arrow-left mr-10"></i> Go Back
+						</a>*@
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@*<div class="row">
+			<p><h5>Welcome to AgentDesktop 5</h5></p>
+		</div>*@
+}
+
+
+
+@section Scripts {
+
+	<script>
+
+		$(window).on('load', function () {
+			var msgReminder = "@(TempData["msgReminder"] as string)";
+
+			if (msgReminder == "meron") {
+				$('#modal-reminder').modal({ backdrop: 'static', keyboard: false }, 'show');
+			}
+		});
+
+	</script>
+
+}
+
+

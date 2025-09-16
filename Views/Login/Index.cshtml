@@ -1,0 +1,398 @@
+﻿@model Login
+
+@{
+	Layout = null;
+}
+
+<!doctype html>
+<html lang="en" class="no-focus">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+	<title>Welcome to the new AgentDesktop</title>
+
+	<meta name="description" content="AgentDesktop">
+	<meta name="author" content="Arvin Livara">
+	<meta name="robots" content="noindex, nofollow">
+
+	<!-- Icons -->
+	<!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+	<link rel="shortcut icon" href="~/favicon.ico">
+	<link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="~/favicon.ico">
+	<!-- END Icons -->
+	<!-- Stylesheets -->
+	<!-- Fonts and Codebase framework -->
+	<link href="~/assets/fonts/Nunito_Sans/NunitoSans.css?family=Nunito+Sans:300,400,400i,600,700&display=swap" rel="stylesheet" />
+	@*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />*@
+	<link rel="stylesheet" id="css-main" href="~/assets/css/codebase.min.css">
+
+	<!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+	<!-- <link rel="stylesheet" id="css-theme" href="~/assets/css/themes/flat.min.css"> -->
+	<!-- END Stylesheets -->
+	<link href="~/assets/js/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+
+	<style>
+		.field-icon {
+			float: right;
+			margin-left: -25px;
+			margin-top: -25px;
+			margin-right: 10px;
+			position: relative;
+			z-index: 2;
+		}
+
+		.kursor {
+			cursor: pointer;
+		}
+	</style>
+
+</head>
+<body>
+
+	<!-- Page Container -->
+	<div id="page-container" class="main-content-boxed">
+
+		<!-- Main Container -->
+		<main id="main-container">
+
+			<!-- Page Content -->
+			<div class="bg-image" style="background-image: url('assets/media/photos/login2.jpg');">
+				<div class="row mx-0 bg-black-op">
+					<div class="hero-static col-md-6 col-xl-8 d-none d-md-flex align-items-md-end">
+						<div class="p-30 invisible" data-toggle="appear">
+							@*<p class="font-size-h3 font-w600 text-white">
+									You are serving a customer, not a life sentence. Learn how to enjoy your work.
+								</p>*@
+							<p class="font-italic text-white-op">
+								The use of this system is restricted to users authorized by Sterling Bank of Asia. All information and communication on this system are subject to review, monitoring, and recording at any time, without notice or permission. Users should have no expectation of privacy. Unauthorized access or use shall be subject to severe sanctions or penalties.
+							</p>
+						</div>
+					</div>
+					<div class="hero-static col-md-6 col-xl-4 d-flex align-items-center bg-white invisible" data-toggle="appear" data-class="animated fadeInRight">
+						<div class="content content-full">
+							<!-- Header -->
+							<div class="px-30 py-10">
+								@* <a class="link-effect font-w700" href="index.html">
+										<i class="si si-fire"></i>
+										<span class="font-size-xl text-primary-dark">code</span><span class="font-size-xl">base</span>
+									</a>*@
+								@*<img class="logo" src= src="~/Content/login/img/3D-3LINER-BLUE.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;padding-bottom: 5px;">*@
+								<img src="~/img/3-liner 3D blue.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;padding-bottom: 5px;" />
+								<h2 class="h5 font-w700 mt-30 mb-10">Welcome to Agent Desktop<sup><span class="badge badge-pill badge-secondary ml-2">5</span></sup></h2>
+								<h2 class="h5 font-w400 text-muted mb-0">Please log in.</h2>
+							</div>
+							<!-- END Header -->
+							<!-- Sign In Form -->
+							<!-- jQuery Validation functionality is initialized with .js-validation-signin class in js/pages/op_auth_signin.min.js which was auto compiled from _es6/pages/op_auth_signin.js -->
+							<!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+							<form class="js-validation-login px-30" asp-action="Index" asp-controller="Login" method="post">
+								@*<div class="form-group row">
+										<div class="col-12">
+											<div class="form-material floating">
+												<input type="text" class="form-control" asp-for="login_username" autocomplete="off" autofocus="autofocus">
+												<label for="login-username">Username</label>
+											</div>
+										</div>
+									</div>*@
+
+								<div class="form-group row">
+									<div class="col-12">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa fa-user"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control" asp-for="login_username" autocomplete="off" placeholder="User Name" autofocus="autofocus">
+										</div>
+									</div>
+								</div>
+
+								@*<div class="form-group row">
+										<div class="col-12">
+											<div class="form-material floating">
+												<input type="password" class="form-control" asp-for="login_password" autocomplete="off">
+												<label for="login-password">Password</label>
+											</div>
+										</div>
+									</div>*@
+
+
+								@*<div class="form-group row">
+										<div class="col-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa fa-lock"></i>
+													</span>
+												</div>
+												<input type="password" class="form-control" asp-for="login_password" autocomplete="off" placeholder="Password">
+											</div>
+										</div>
+									</div>*@
+
+								<div class="form-group row">
+									<div class="col-lg-12">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa fa-lock"></i>
+												</span>
+											</div>
+											<input type="password" class="form-control" asp-for="login_password" autocomplete="off" placeholder="Password" id="password">
+											<div class="input-group-append kursor">
+												<span class="input-group-text">
+													<i class="fa fa-eye-slash" id="togglePassword"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-12">
+										@*<div class="custom-control custom-checkbox">
+												<input type="checkbox" class="custom-control-input" id="login-remember-me" name="login-remember-me">
+												<label class="custom-control-label" for="login-remember-me">Remember Me</label>
+											</div>*@
+									</div>
+								</div>
+								<div class="form-group row gutters-tiny">
+									<div class="col-12 mb-10">
+										<button type="submit" class="btn btn-sm btn-hero btn-alt-primary" style="width:100%;">
+											<i class="si si-login mr-10"></i> Log In
+										</button>
+
+									</div>
+
+									<div class="col-sm-6 mb-5">
+										<a class="link-effect text-muted mr-10 mb-5 d-inline-block" asp-controller="Login" asp-action="UnlockUser" data-target="#modal-container" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+											<i class="si si-lock-open mr-5"></i> Unlock
+										</a>
+
+									</div>
+
+									<div class="col-sm-6 mb-5">
+										<a class="link-effect text-muted mr-10 mb-5 d-inline-block pull-right" asp-controller="Login" asp-action="ForgotPass" data-target="#modal-container" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+											<i class="fa fa-warning mr-5"></i> Forgot Password
+										</a>
+
+									</div>
+
+
+								</div>
+
+							</form>
+							<!-- END Sign In Form -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END Page Content -->
+
+		</main>
+		<!-- END Main Container -->
+	</div>
+	<!-- END Page Container -->
+	<!-- Pop Out Modal -->
+	<div class="modal fade" id="modal-container" tabindex="-1" role="dialog" aria-labelledby="modal-container" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-popout" role="document">
+			<div class="modal-content">
+
+			</div>
+		</div>
+	</div>
+	<!-- END Pop Out Modal -->
+	<!--
+		Codebase JS Core
+
+		Vital libraries and plugins used in all pages. You can choose to not include this file if you would like
+		to handle those dependencies through webpack. Please check out assets/_es6/main/bootstrap.js for more info.
+
+		If you like, you could also include them separately directly from the assets/js/core folder in the following
+		order. That can come in handy if you would like to include a few of them (eg jQuery) from a CDN.
+
+		assets/js/core/jquery.min.js
+		assets/js/core/bootstrap.bundle.min.js
+		assets/js/core/simplebar.min.js
+		assets/js/core/jquery-scrollLock.min.js
+		assets/js/core/jquery.appear.min.js
+		assets/js/core/jquery.countTo.min.js
+		assets/js/core/js.cookie.min.js
+	-->
+	<script src="~/assets/js/codebase.core.min.js"></script>
+
+	<!--
+		Codebase JS
+
+		Custom functionality including Blocks/Layout API as well as other vital and optional helpers
+		webpack is putting everything together at assets/_es6/main/app.js
+	-->
+	<script src="~/assets/js/codebase.app.min.js"></script>
+
+	<!-- Page JS Plugins -->
+	<script src="~/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+
+	<!-- Page JS Code -->
+	<script src="~/js/LoginValidation.js"></script>
+
+	<script src="~/assets/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+	<script>
+		const togglePassword = document.querySelector("#togglePassword");
+		const password = document.querySelector("#password");
+
+		togglePassword.addEventListener("click", function () {
+			// toggle the type attribute
+			const type = password.getAttribute("type") === "password" ? "text" : "password";
+			password.setAttribute("type", type);
+
+			// toggle the icon
+			this.classList.toggle("fa-eye");
+		});
+
+		//// prevent form submit
+		//const form = document.querySelector("form");
+		//form.addEventListener('submit', function (e) {
+		//	e.preventDefault();
+		//});
+	</script>
+
+	<script>
+
+        $(function(){
+            var msgErr = "@(TempData["msgErr"] as string)"; //
+            var msgInc = "@(TempData["msginc"] as string)"; //
+			var msgOk = "@(TempData["msgok"] as string)"; //
+			var msglock = "@(TempData["msglock"] as string)"; //
+			var msginfo = "@(TempData["msginfo"] as string)"; //
+			var msgLog = "@(TempData["msgLog"] as string)";
+			var msgChg = "@(TempData["msgChg"] as string)"; //
+			var msgusr = "@(TempData["msgusr"] as string)";
+			var msglag = "@(TempData["msglag"]  as string)";
+			var msgChange = "@(TempData["msgChange"] as string)";
+
+            if (msgErr !== "") {
+				Swal.fire({
+					icon: 'error',
+					text: msgErr
+				})
+            }
+
+			if (msgInc !== "") {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Incorrect Password',
+					text: msgInc
+				})
+
+			}
+
+			if (msglock !== "") {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Exceed Login attempts',
+					text: msglock
+				})
+			}
+
+            if (msgOk !== "") {
+				Swal.fire({
+                    text: msgOk,
+                    icon: "success"
+                });
+            }
+
+			if (msginfo !== "") {
+				Swal.fire({
+					text: msginfo,
+					icon: "info"
+				});
+			}
+
+			if (msgLog !== "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Login First!!!',
+					text: msgLog
+				})
+			}
+
+            if (msgChg !== "") {
+				Swal.fire({
+					title: 'Reset Password',
+					text: msgChg,
+					icon: "info"
+    			})
+			}
+
+            if (msgusr !== "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Invalid User',
+					text: msgusr
+				})
+			}
+
+			if (msglag !== "") {
+				Swal.fire({
+					title: 'Duplicate Login',
+					icon: 'warning',
+					html: '<p><strong>This account is already logged in or was not logged out properly.</strong> <br><br>For security reasons, repeated duplicate logins or improper logouts may restrict your account access.<br><br></p>'
+				});
+			}
+
+			if (msgChange !== "") {
+				Swal.fire({
+					icon: 'success',
+					title: 'Successfully Changed Password',
+					text: msgChange
+				})
+
+			}
+
+            $('#modal-container').on('show.bs.modal', function (event) {
+
+                var button = $(event.relatedTarget); // Button that triggered the modal
+
+                var url = button.attr("href");
+
+                var modal = $(this);
+
+                // note that this will replace the content of modal-content everytime the modal is opened
+                modal.find('.modal-content').load(url);
+
+            });
+
+            $('#modal-container').on('hidden.bs.modal', function () {
+
+                // remove the bs.modal data attribute from it
+
+                $(this).removeData('bs.modal');
+
+                // and empty the modal-content element
+
+                $('#modal-container .modal-content').empty();
+
+            });
+
+        });
+
+		//$('#login_username').focus();
+
+		$(".toggle-password").click(function () {
+
+			$(this).toggleClass("fa-eye fa-eye-slash");
+			var input = $($(this).attr("toggle"));
+			if (input.attr("type") == "login_password") {
+				input.attr("type", "text");
+			} else {
+				input.attr("type", "login_password");
+			}
+		});
+
+	</script>
+</body>
+</html>

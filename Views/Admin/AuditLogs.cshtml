@@ -1,0 +1,108 @@
+﻿@{
+	ViewData["Title"] = "Display Audit Logs";
+}
+
+
+<h2 class="content-heading">LIST OF AUDIT LOGS</h2>
+
+<div class="block">
+	<div class="block-header block-header-default">
+		<div class="block-title">
+			<div class="col-lg-6">
+
+				<form asp-controller="Admin" asp-action="AuditLogs" method="post">
+					<div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+						<input type="text" class="form-control" id="dt1" name="dt1" placeholder="Start Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+						<div class="input-group-prepend input-group-append">
+							<span class="input-group-text font-w600">to</span>
+						</div>
+						<input type="text" class="form-control" id="dt2" name="dt2" placeholder="End Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+						<div class="input-group-append">
+							<button class="btn btn-success" type="submit" data-toggle="tooltip" title="Search by Date"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+		<div class="block-options">
+
+			<a asp-controller="Home" asp-action="Index" class="btn-block-option" data-toggle="tooltip" title="Back to Dashboard">
+				<i class="si si-cup"></i>
+			</a>
+			<input type="text" id="myInput" hidden>
+			<a id="btn" href="#" class="btn-block-option" data-toggle="tooltip" title="Export to Excel">
+				<i class="fa fa-file-excel-o"></i>
+			</a>
+
+		</div>
+	</div>
+
+	<div class="block-content block-content-full">
+		<!-- Orders Table -->
+		<table id="ListAuditLog" class="table table-bordered table-striped table-vcenter js-service-dataTable">
+			<thead>
+				<tr>
+					<th class="d-none d-sm-table-cell">LOG DATE</th>
+					<th class="d-none d-sm-table-cell">DESCRIPTION</th>
+					<th class="d-none d-sm-table-cell">WORK STATION</th>
+					<th class="d-none d-sm-table-cell">ACTIVITY</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var usr in ViewBag.ListAuditLog)
+				{
+					<tr>
+						<td class="d-none d-sm-table-cell">
+							@usr.logdate
+						</td>
+
+						<td class="d-none d-sm-table-cell text-primary">
+							@usr.description
+						</td>
+						<td class="d-none d-sm-table-cell">
+							@usr.workstn
+						</td>
+						<td class="d-none d-sm-table-cell text-danger">
+							@usr.activity
+						</td>
+
+					</tr>
+				}
+			</tbody>
+		</table>
+		<!-- END Orders Table -->
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+
+		$('#ListAuditLog').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Admin/ExportAuditLogs";
+						}
+					}
+				});
+			});
+		});
+
+
+	</script>
+
+}

@@ -1,0 +1,985 @@
+﻿@model AgentDesktop.Models.MasterBWFile
+@using AgentDesktop.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<style>
+	.footah {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		color: white;
+		text-align: center;
+	}
+
+	.scroll-to-top {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		display: none;
+		width: 2.75rem;
+		height: 2.75rem;
+		text-align: center;
+		color: #fff;
+		background: rgba(90, 92, 105, 0.5);
+		line-height: 46px;
+	}
+
+		.scroll-to-top:focus, .scroll-to-top:hover {
+			color: white;
+		}
+
+		.scroll-to-top:hover {
+			background: #5a5c69;
+		}
+
+		.scroll-to-top i {
+			font-weight: 800;
+		}
+
+	.rounded-sm {
+		border-radius: 0.2rem !important;
+	}
+</style>
+
+
+<div class="block block-rounded block-themed">
+	<div class="block-header bg-gd-elegancet">
+		<h3 class="block-title">INQUIRY PRE-PAID CARDS (BANKWORKS)</h3>
+	</div>
+	<div class="block-content">
+		@{
+			string accountno = HttpContextAccessor.HttpContext.Session.GetString("acctno");
+			string cardno = HttpContextAccessor.HttpContext.Session.GetString("cardno");
+		}
+
+		<h5 class="content-header text-danger">ACCOUNT NUMBER: @accountno</h5>
+		<div id="inqbw" role="tablist" aria-multiselectable="true">
+
+			@*CLIENT INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="client_info_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqbw" href="#client_info" aria-expanded="true" aria-controls="client_info">
+						CLIENT INFORMATION
+					</a>
+				</div>
+				<div id="client_info" class="collapse show" role="tabpanel" aria-labelledby="customer_info_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							@foreach (var cif in Model.BWClientInfo)
+							{
+								<div class="col-4">
+									<div class="block">
+										<div class="block-content">
+											<div class="form-group">
+												<label class="control-label">Salutation</label>
+												<label class="form-control form-control-sm text-danger">@cif.salutation</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">First Name</label>
+												<label class="form-control form-control-sm text-danger">@cif.first_name</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Last Name</label>
+												<label class="form-control form-control-sm text-danger">@cif.last_name</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Middle Name</label>
+												<label class="form-control form-control-sm text-danger">@cif.BIRTH_NAME</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Short Name</label>
+												<label class="form-control form-control-sm text-danger">@cif.SHORT_NAME</label>
+											</div>
+
+											<div class="form-group">
+												<label class="control-label">Tax ID</label>
+												<label class="form-control form-control-sm text-danger">@cif.tin</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">SSS/GSIS</label>
+												<label class="form-control form-control-sm text-danger">@cif.sss</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Passport Number</label>
+												<label class="form-control form-control-sm text-danger">@cif.PASSPORT_NUMBER</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Date of Birth</label>
+												<label class="form-control form-control-sm text-danger">@cif.birth_date</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Place of Birth</label>
+												<label class="form-control form-control-sm text-danger">@cif.BIRTH_PLACE</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="block">
+										<div class="block-content">
+											<div class="form-group">
+												<label class="control-label">Nationality</label>
+												<label class="form-control form-control-sm text-danger">@cif.NATIONALITY</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Language</label>
+												<label class="form-control form-control-sm text-danger">@cif.CLIENT_LANGUAGE</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Client Status</label>
+												<label class="form-control form-control-sm text-danger">@cif.CARD_STATUS</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Client Branch</label>
+												<label class="form-control form-control-sm text-danger">@cif.CLIENT_BRANCH</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Telephone (Private)</label>
+												<label class="form-control form-control-sm text-danger">@cif.TEL_PRIVATE</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Telephone (Office)</label>
+												<label class="form-control form-control-sm text-danger">@cif.TEL_WORK</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Fax (Private)</label>
+												<label class="form-control form-control-sm text-danger">@cif.FAX_PRIVATE</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Fax (Office)</label>
+												<label class="form-control form-control-sm text-danger">@cif.FAX_WORK</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Client Password</label>
+												<label class="form-control form-control-sm text-danger">@cif.CLIENT_PASSWORD</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">CIF Number</label>
+												<label class="form-control form-control-sm text-danger">@cif.CIFNO</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="block">
+										<div class="block-content">
+											<div class="form-group">
+												<label class="control-label">Email Address</label>
+												<label class="form-control form-control-sm text-danger">@cif.EMAIL_ADDR</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Home Telephone No</label>
+												<label class="form-control form-control-sm text-danger">@cif.tel_home</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Mobile Telephone No</label>
+												<label class="form-control form-control-sm text-danger">@cif.tel_other</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Address 1</label>
+												<label class="form-control form-control-sm text-danger">@cif.ADDR_LINE_1</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Address 2</label>
+												<label class="form-control form-control-sm text-danger">@cif.ADDR_LINE_2</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Address 3</label>
+												<label class="form-control form-control-sm text-danger">@cif.ADDR_LINE_3</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">City</label>
+												<label class="form-control form-control-sm text-danger">@cif.ADDR_CLIENT_CITY</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Post Code</label>
+												<label class="form-control form-control-sm text-danger">@cif.POST_CODE</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Country</label>
+												<label class="form-control form-control-sm text-danger">@cif.client_country</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Delivery Method</label>
+												<label class="form-control form-control-sm text-danger">@cif.delivery_method</label>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+							}
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">ADDRESS DETAILS</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListAddress" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">ADDRESS CATEGORY</th>
+														<th class="d-none d-sm-table-cell">EFFECTIVE DATE</th>
+														<th class="d-none d-sm-table-cell">EXPIRY DATE</th>
+														<th class="d-none d-sm-table-cell">ADDRESS 1</th>
+														<th class="d-none d-sm-table-cell">ADDRESS 2</th>
+														<th class="d-none d-sm-table-cell">ADDRESS 3</th>
+														<th class="d-none d-sm-table-cell">ADDRESS 4</th>
+														<th class="d-none d-sm-table-cell">ADDRESS 5</th>
+														<th class="d-none d-sm-table-cell">POST CODE</th>
+														<th class="d-none d-sm-table-cell">CLIENT CITY</th>
+														<th class="d-none d-sm-table-cell">CLIENT COUNTRY</th>
+														<th class="d-none d-sm-table-cell">CONTACT NAME</th>
+														<th class="d-none d-sm-table-cell">TEL WORK</th>
+														<th class="d-none d-sm-table-cell">FAX WORK</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.BWAddress)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell">
+																@usr.address_category
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.effective_date
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.expiry_date
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_line_1
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_line_2
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_line_3
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_line_4
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_line_5
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.post_code
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.addr_client_city
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.client_country
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.contact_name
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.tel_work
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@usr.fax_work
+															</td>
+														</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+
+
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+			@*CARD DETAILS*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="card_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqbw" href="#cardet" aria-expanded="true" aria-controls="cardet">
+						CARD DETAILS
+					</a>
+				</div>
+
+				<div id="cardet" class="collapse" role="tabpanel" aria-labelledby="card_header">
+					<div class="block-content bg-gray-light">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<h3 class="block-title text-uppercase">ACCOUNT DETAILS</h3>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListAccountDet" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">CARD NUMBER</th>
+														<th class="d-none d-sm-table-cell">EMBOSS LINE 1</th>
+														<th class="d-none d-sm-table-cell">EMBOSS LINE 2</th>
+														<th class="d-none d-sm-table-cell">CARD STATUS</th>
+														<th class="d-none d-sm-table-cell">LAST ISSUED DATE</th>
+														<th class="d-none d-sm-table-cell">EFFECTIVE DATE</th>
+														<th class="d-none d-sm-table-cell">EXPIRY DATE</th>
+														<th class="d-none d-sm-table-cell">LAST UPDATED BY</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var bad in Model.BWAccountDetails)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell">
+																@bad.card_number
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.emboss_line_1
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.emboss_line_2
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.CARD_STATUS
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.last_issued_date
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.effective_date
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.expiry_date
+															</td>
+															<td class="d-none d-sm-table-cell">
+																@bad.username
+															</td>
+														</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+
+
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block">
+									<ul class="nav nav-tabs nav-tabs-block" data-toggle="tabs" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" href="#btabs-animated-fade-home">History Details</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="#btabs-animated-fade-profile">Card Usage</a>
+										</li>
+									</ul>
+									<div class="block-content tab-content overflow-hidden">
+										<div class="tab-pane fade show active" id="btabs-animated-fade-home" role="tabpanel">
+											<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+												<table id="ListHistory" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+													<thead>
+														<tr>
+															<th class="d-none d-sm-table-cell">EFFECTIVE DATE</th>
+															<th class="d-none d-sm-table-cell">TIME</th>
+															<th class="d-none d-sm-table-cell">EXPIRY DATE</th>
+															<th class="d-none d-sm-table-cell">ORIGINAL CARD STATUS</th>
+															<th class="d-none d-sm-table-cell">CARD STATUS</th>
+															<th class="d-none d-sm-table-cell">NOTE</th>
+															<th class="d-none d-sm-table-cell">PIN REQUIRED</th>
+															<th class="d-none d-sm-table-cell">PRODUCTION STATUS</th>
+															<th class="d-none d-sm-table-cell">FEE CHARGED</th>
+															<th class="d-none d-sm-table-cell">PROD FILE NUMBER</th>
+															<th class="d-none d-sm-table-cell">CARD EVENT STATUS</th>
+															<th class="d-none d-sm-table-cell">DELIVERY METHOD</th>
+															<th class="d-none d-sm-table-cell">FILE NUMBER</th>
+															<th class="d-none d-sm-table-cell">LAST FEE DATE</th>
+															<th class="d-none d-sm-table-cell">LAST UPDATED BY</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach (var his in Model.BWHistory)
+														{
+															<tr>
+																<td class="d-none d-sm-table-cell">
+																	@his.effective_date
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.time
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.expiry_date
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.original_card_status
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.card_status
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.note_text
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.pin_required
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.production_status
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.fee_charged
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@his.prod_file_number
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@his.card_event_status
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@his.delivery_method
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.file_number
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.last_fee_date
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@his.username
+																</td>
+
+															</tr>
+														}
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+										<div class="tab-pane fade" id="btabs-animated-fade-profile" role="tabpanel">
+											<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+												<table id="ListCardUsage" class="table table-bordered table-striped table-vcenter js-atmactivity-dataTable" style="width: 100%; white-space: nowrap;">
+													<thead>
+														<tr>
+															<th class="d-none d-sm-table-cell">TRANSACTION TYPE</th>
+															<th class="d-none d-sm-table-cell">WRONG PIN TRIES</th>
+															<th class="d-none d-sm-table-cell">WRONG PIN LIMIT</th>
+															<th class="d-none d-sm-table-cell">DAILY LIMIT AMT</th>
+															<th class="d-none d-sm-table-cell">DAILY LIMIT FREQ</th>
+															<th class="d-none d-sm-table-cell">DAILY USAGE AMT</th>
+															<th class="d-none d-sm-table-cell">DAILY USAGE FREQ</th>
+															<th class="d-none d-sm-table-cell">WINDOW LIMIT AMT</th>
+															<th class="d-none d-sm-table-cell">WINDOW LIMIT FREQ</th>
+															<th class="d-none d-sm-table-cell">WINDOW USAGE AMT</th>
+															<th class="d-none d-sm-table-cell">WINDOW USAGE FREQ</th>
+															<th class="d-none d-sm-table-cell">LAST AMENDMENT DATE</th>
+															<th class="d-none d-sm-table-cell">ACCUM CURRENCY</th>
+															<th class="d-none d-sm-table-cell">WINDOW NO OF DAYS</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach (var bcu in Model.BWCardUsage)
+														{
+															<tr>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.transaction_type
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.wrong_pin_tries
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.wrong_pin_limit
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.daily_limit_amt
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.daily_limit_freq
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.daily_usage_amt
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.daily_usage_freq
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.window_limit_amt
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.window_limit_freq
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@bcu.window_usage_amt
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@bcu.window_usage_freq
+																</td>
+
+																<td class="d-none d-sm-table-cell">
+																	@bcu.last_amendment_date
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.accum_currency
+																</td>
+																<td class="d-none d-sm-table-cell">
+																	@bcu.window_no_of_days
+																</td>
+
+
+															</tr>
+														}
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@*ONLINE AUTHORIZATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="online_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqbw" href="#online" aria-expanded="true" aria-controls="online">
+						ONLINE AUTHORIZATION
+					</a>
+				</div>
+
+				<div id="online" class="collapse" role="tabpanel" aria-labelledby="online_header">
+					<div class="block-content">
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="block block-themed block-rounded">
+									<div class="block-header">
+										<div class="block-title">
+											<div class="col-lg-6">
+												<div class="input-daterange input-group" data-date-format="yyyymmdd" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+													<input type="text" class="form-control" id="dt1" name="dt1" placeholder="Start Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+													<div class="input-group-prepend input-group-append">
+														<span class="input-group-text font-w600">to</span>
+													</div>
+													<input type="text" class="form-control" id="dt2" name="dt2" placeholder="End Date" data-week-start="1" data-autoclose="true" data-today-highlight="true" autocomplete="off">
+													<div class="input-group-append">
+														<a id="btnSearch" href="#" class="btn btn-success" data-placement="top" data-toggle="tooltip" title="Filter by Date">
+															<i class="fa fa-search"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="block-options">
+											@*<input type="text" id="myInput" hidden>
+											<a id="btn" href="#" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" data-placement="top" data-toggle="tooltip" title="Export to Excel">
+												<i class="fa fa-file-excel-o"></i>
+											</a>*@
+										</div>
+									</div>
+									</div>
+
+									<div class="block-content">
+										<div class="dataTables_scroll" style="height:100%; overflow:auto;Width:100%">
+											<table id="ListBWAuth" class="table table-bordered table-striped table-vcenter" style="width: 100%; white-space: nowrap;">
+												<thead>
+													<tr>
+														<th class="d-none d-sm-table-cell">TRANSACTION_DATE</th>
+														<th class="d-none d-sm-table-cell">TIME_TRANSACTION</th>
+														<th class="d-none d-sm-table-cell">MERCHANT_NAME</th>
+														<th class="d-none d-sm-table-cell">MERCHANT_COUNTRY</th>
+														<th class="d-none d-sm-table-cell">DR_CR_INDICATOR</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_TYPE</th>
+														<th class="d-none d-sm-table-cell">ACCOUNT_AMOUNT_GR</th>
+														<th class="d-none d-sm-table-cell">ACCT_CURRENCY</th>
+														<th class="d-none d-sm-table-cell">RESPONSE</th>
+														<th class="d-none d-sm-table-cell">TRAN_AMOUNT_GR</th>
+														<th class="d-none d-sm-table-cell">TRAN_CURRENCY</th>
+														<th class="d-none d-sm-table-cell">RATE_FX_LOCAL_ACCT</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_STATUS</th>
+														<th class="d-none d-sm-table-cell">REVERSAL_FLAG</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_CATEGORY</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_CLASS</th>
+														<th class="d-none d-sm-table-cell">CARD_NUMBER</th>
+														<th class="d-none d-sm-table-cell">AUTH_CODE</th>
+														<th class="d-none d-sm-table-cell">BUSINESS_CLASS</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_SOURCE</th>
+														<th class="d-none d-sm-table-cell">ACCOUNT_AMOUNT_NET</th>
+														<th class="d-none d-sm-table-cell">ACCOUNT_AMOUNT_CHG</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_SLIP</th>
+														<th class="d-none d-sm-table-cell">RETRIEVAL_REFERENCE</th>
+														<th class="d-none d-sm-table-cell">TRANSACTION_ID</th>
+														<th class="d-none d-sm-table-cell">PAN ENTRY</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var usr in Model.BWOnlineAuth)
+													{
+														<tr>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_DATE</td>
+															<td class="d-none d-sm-table-cell">@usr.TIME_TRANSACTION</td>
+															<td class="d-none d-sm-table-cell">@usr.MERCHANT_NAME</td>
+															<td class="d-none d-sm-table-cell">@usr.MERCHANT_COUNTRY</td>
+															<td class="d-none d-sm-table-cell">@usr.DR_CR_INDICATOR</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_TYPE</td>
+															<td class="d-none d-sm-table-cell">@usr.ACCOUNT_AMOUNT_GR</td>
+															<td class="d-none d-sm-table-cell">@usr.ACCT_CURRENCY</td>
+															<td class="d-none d-sm-table-cell">@usr.RESPONSE</td>
+															<td class="d-none d-sm-table-cell">@usr.TRAN_AMOUNT_GR</td>
+															<td class="d-none d-sm-table-cell">@usr.TRAN_CURRENCY</td>
+															<td class="d-none d-sm-table-cell">@usr.RATE_FX_LOCAL_ACCT</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_STATUS</td>
+															<td class="d-none d-sm-table-cell">@usr.REVERSAL_FLAG</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_CATEGORY</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_CLASS</td>
+															<td class="d-none d-sm-table-cell">@usr.CARD_NUMBER</td>
+															<td class="d-none d-sm-table-cell">@usr.AUTH_CODE</td>
+															<td class="d-none d-sm-table-cell">@usr.BUSINESS_CLASS</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_SOURCE</td>
+															<td class="d-none d-sm-table-cell">@usr.ACCOUNT_AMOUNT_NET</td>
+															<td class="d-none d-sm-table-cell">@usr.ACCOUNT_AMOUNT_CHG</td>
+															<td class="d-none d-sm-table-cell">@usr.TRANSACTION_SLIP</td>
+															<td class="d-none d-sm-table-cell">@usr.retrieval_reference</td>
+															<td class="d-none d-sm-table-cell">@usr.transaction_id</td>
+															<td class="d-none d-sm-table-cell">@usr.pan_entry</td>
+														</tr>
+													}
+												</tbody>
+
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+					</div>
+				</div>
+			</div>
+
+			@*SUMMARY INFORMATION*@
+			<div class="block block-bordered block-rounded mb-2">
+				<div class="block-header" role="tab" id="summary_header">
+					<a class="font-w600" data-toggle="collapse" data-parent="#inqbw" href="#summary" aria-expanded="true" aria-controls="summary">
+						SUMMARY INFORMATION
+					</a>
+				</div>
+
+				<div id="summary" class="collapse" role="tabpanel" aria-labelledby="summary_header">
+					<div class="block-content bg-gray-light">
+						<div class="row row-deck">
+
+							<div class="col-sm-4">
+								<div class="block block-themed">
+									<div class="block-header bg-info">
+										<h5 class="block-title">CONTRACT INFORMATION</h5>
+									</div>
+									<div class="block-content">
+										@foreach (var bci in Model.BWContactInfo)
+										{
+											<div class="form-group">
+												<label class="control-label">Service Contract No</label>
+												<label class="form-control form-control-sm">@bci.service_contract</label>
+											</div>
+
+											<div class="form-group">
+												<label class="control-label">Client Tariff</label>
+												<label class="form-control form-control-sm">@bci.client_tariff</label>
+											</div>
+
+											<div class="form-group">
+												<label class="control-label">Settlement Method</label>
+												<label class="form-control form-control-sm">@bci.settlement_method</label>
+											</div>
+
+											<div class="form-group">
+												<label class="control-label">Main/Suppl Card Holder</label>
+												<label class="form-control form-control-sm">@bci.account_level</label>
+											</div>
+
+											<div class="form-group">
+												<label class="control-label">Coapplicant</label>
+												<label class="form-control form-control-sm"></label>
+											</div>
+										}
+
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="block block-themed">
+									<div class="block-header bg-info">
+										<h5 class="block-title">STATUS</h5>
+									</div>
+									<div class="block-content">
+										@foreach (var sts in Model.BWStatus)
+										{
+											<div class="form-group row">
+												<label class="col-12">Client Status</label>
+												<div class="col-12">
+													<div class="input-group">
+														<input type="text" class="form-control col-sm-6" value="@sts.client_status" readonly>
+														<div class="input-group-append">
+															<span class="input-group-text">@sts.client_date</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-12">Contact Status</label>
+												<div class="col-12">
+													<div class="input-group">
+														<input type="text" class="form-control col-sm-6" value="@sts.contract_status" readonly>
+														<div class="input-group-append">
+															<span class="input-group-text">@sts.contract_date</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-12">Account Status</label>
+												<div class="col-12">
+													<div class="input-group">
+														<input type="text" class="form-control col-sm-6" value="@sts.acct_status" readonly>
+														<div class="input-group-append">
+															<span class="input-group-text">@sts.acct_date</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-12">Card Status</label>
+												<div class="col-12">
+													<div class="input-group">
+														<input type="text" class="form-control col-sm-6" value="@sts.card_status" readonly>
+														<div class="input-group-append">
+															<span class="input-group-text">@sts.card_date</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-12">Mobile Banking Status</label>
+												<div class="col-12">
+													<div class="input-group">
+														<input type="text" class="form-control col-sm-6" value="n/a" readonly>
+														<div class="input-group-append">
+															<span class="input-group-text"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										}
+
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="block block-themed">
+									<div class="block-header bg-info">
+										<h5 class="block-title">LIMIT INFORMATION</h5>
+									</div>
+									<div class="block-content">
+										@foreach (var lmt in Model.BWStatus)
+										{
+											<div class="form-group">
+												<label class="control-label">Limit Currency</label>
+												<label class="form-control form-control-sm">@lmt.limit_currency</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Limit</label>
+												<label class="form-control form-control-sm">@lmt.client_limit</label>
+											</div>
+
+										}
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="block block-themed">
+									<div class="block-header bg-info">
+										<h5 class="block-title">BALANCE INFORMATION</h5>
+									</div>
+									<div class="block-content">
+										@foreach (var bls in Model.BWBalance)
+										{
+											<div class="form-group">
+												<label class="control-label">Account Currency</label>
+												<label class="form-control form-control-sm text-danger">@bls.swift_code</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Opening Balance</label>
+												<label class="form-control form-control-sm text-danger">@bls.begin_balance</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Current Balance</label>
+												<label class="form-control form-control-sm text-danger">@bls.current_balance</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Pending Auth</label>
+												<label class="form-control form-control-sm text-danger">@bls.pending_auths</label>
+											</div>
+											<div class="form-group">
+												<label class="control-label">Availability</label>
+												<label class="form-control form-control-sm text-danger">@bls.availability</label>
+											</div>
+										}
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="block block-themed">
+									<div class="block-header bg-info">
+										<h5 class="block-title">PAYMENT STATUS</h5>
+									</div>
+									<div class="block-content">
+										<div class="form-group">
+											<label class="control-label">Account Payment Status</label>
+											<label class="form-control form-control-sm"></label>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Payment Due Date</label>
+											<label class="form-control form-control-sm">00/00/0000</label>
+										</div>
+
+										<div class="form-group">
+											<label class="control-label">Previous Due Amount</label>
+											<label class="form-control form-control-sm">0.00</label>
+										</div>
+
+										<div class="form-group">
+											<label class="control-label">Current Due Amount</label>
+											<label class="form-control form-control-sm">0.00</label>
+										</div>
+
+
+										<div class="form-group">
+											<label class="control-label">OCR Number</label>
+											<label class="form-control form-control-sm">@accountno</label>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+
+@section Scripts {
+
+	<script>
+
+        $(document).ready(function () {
+
+
+			$('#modal-container').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget); // Button that triggered the modal
+				var url = button.attr("href");
+				var modal = $(this);
+				// note that this will replace the content of modal-content everytime the modal is opened
+				modal.find('.modal-content').load(url);
+			});
+
+			$('#modal-container').on('hidden.bs.modal', function () {
+				// remove the bs.modal data attribute from it
+				$(this).removeData('bs.modal');
+				// and empty the modal-content element
+				$('#modal-container .modal-content').empty();
+
+			});
+
+        });
+
+		$('#ListBWAuth').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$@*(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Activity/ExportATMActivity";
+						}
+					}
+				});
+			});
+		});*@
+
+		$(function () {
+			$('#btnSearch').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetAuthorization", "Inquiry")',
+					cache: false,
+					data: { dt1: $("#dt1").val(), dt2: $("#dt2").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Inquiry/OnlineAuth";
+						}
+					}
+				});
+			});
+		});
+
+	</script>
+
+}

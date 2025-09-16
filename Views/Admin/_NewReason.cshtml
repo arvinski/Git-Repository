@@ -1,0 +1,96 @@
+﻿@model NewReason
+
+
+<form asp-action="NewReason" method="post">
+	<div class="block block-themed block-transparent mb-0">
+		<div class="block-header bg-gd-sea">
+			<h3 class="block-title">NEW REASON CODE</h3>
+			<div class="block-options">
+				<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+					<i class="si si-close"></i>
+				</button>
+			</div>
+		</div>
+
+		<div class="block-content">
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label asp-for="RCode" class="control-label"></label>
+						<input asp-for="RCode" class="form-control form-control-sm" placeholder="Enter RCode" autocomplete="off" />
+						<span asp-validation-for="RCode" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Reason" class="control-label"></label>
+						<input asp-for="Reason" class="form-control form-control-sm" placeholder="Enter Reason" autocomplete="off" />
+						<span asp-validation-for="Reason" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Description" class="control-label"></label>
+						<textarea class="form-control" asp-for="Description" rows="4" placeholder="Enter Description"></textarea>
+						<span asp-validation-for="Description" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Class" class="control-label"></label>
+						<select class="js-select2 form-control form-control-sm" asp-for="Class" asp-items="ViewBag.cmbClassification" style="width: 100%;" data-placeholder="Choose Classification">
+							<option></option>
+						</select>
+						<span asp-validation-for="Class" class="text-danger"></span>
+					</div>
+
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label asp-for="FirstLetter" class="control-label"></label>
+						<input asp-for="FirstLetter" class="js-masked-time form-control form-control-sm" placeholder="Enter First Letter" autocomplete="off" />
+						<span asp-validation-for="FirstLetter" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="SecondLetter" class="control-label"></label>
+						<input asp-for="SecondLetter" class="form-control form-control-sm" placeholder="Enter Second Letter" autocomplete="off" />
+						<span asp-validation-for="SecondLetter" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="ThirdLetter" class="control-label"></label>
+						<input asp-for="ThirdLetter" class="form-control form-control-sm" placeholder="Enter Third Letter" autocomplete="off" />
+						<span asp-validation-for="ThirdLetter" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Abbreviation" class="control-label"></label>
+						<input asp-for="Abbreviation" class="form-control form-control-sm" placeholder="Enter Abbreviation" autocomplete="off" />
+						<span asp-validation-for="Abbreviation" class="text-danger"></span>
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-alt-primary"><i class="fa fa-check"></i> Save</button>
+	</div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+			$('#Class').select2({
+				static: true
+			});
+		}
+	</script>
+}

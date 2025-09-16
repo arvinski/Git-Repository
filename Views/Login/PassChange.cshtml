@@ -1,0 +1,285 @@
+﻿@model ResetPassword
+
+@{
+	Layout = null;
+}
+
+<!doctype html>
+<html lang="en" class="no-focus">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+	<title>Change Password - Aget Desktop</title>
+
+	<meta name="description" content="Reset Password Page for AgentDesktop">
+	<meta name="author" content="Arvin Livara">
+	<meta name="robots" content="noindex, nofollow">
+
+	<!-- Icons -->
+	<!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+	<link rel="shortcut icon" href="~/favicon.ico">
+	<link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="~/favicon.ico">
+	<!-- END Icons -->
+	<!-- Stylesheets -->
+	<!-- Fonts and Codebase framework -->
+	<link href="~/fonts/Nunito_Sans/NunitoSans.css?family=Nunito+Sans:300,400,400i,600,700&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" id="css-main" href="~/assets/css/codebase.min.css">
+
+	<!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+	<!-- <link rel="stylesheet" id="css-theme" href="~/assets/css/themes/flat.min.css"> -->
+	<!-- END Stylesheets -->
+
+	<link href="~/assets/js/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+	<style>
+		.field-icon {
+			float: right;
+			margin-left: -25px;
+			margin-top: -25px;
+			margin-right: 10px;
+			position: relative;
+			z-index: 2;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="page-container" class="main-content-boxed">
+
+		<!-- Main Container -->
+		<main id="main-container">
+
+			<!-- Page Content -->
+			<div class="bg-body-dark bg-pattern" style="background-image: url('../assets/media/various/bg-pattern-inverse.png');">
+				<div class="row mx-0 justify-content-center">
+					<div class="hero-static col-lg-8 col-xl-4">
+						<div class="content content-full overflow-hidden">
+							<!-- Header -->
+							<div class="py-30 text-center">
+								<img src="~/img/change_password.png" style="display: block;margin-left: auto;margin-right: auto;width: 30%;padding-bottom: 0px;" />
+							</div>
+							<!-- END Header -->
+							<!-- Sign In Form -->
+							<!-- jQuery Validation functionality is initialized with .js-validation-signin class in js/pages/op_auth_signin.min.js which was auto compiled from _es6/pages/op_auth_signin.js -->
+							<!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+							<form asp-action="PassChange" asp-controller="Login" method="post">
+								<div class="block block-themed block-rounded block-shadow">
+									<div class="block-header bg-gd-dusk">
+										<h3 class="block-title">Please change your password.</h3>
+										@*<div class="block-options">
+												<button type="button" class="btn-block-option">
+													<i class="si si-wrench"></i>
+												</button>
+											</div>*@
+									</div>
+									<div class="block-content">
+										<div class="form-group row">
+											<div class="col-lg-12">
+												<label asp-for="OldPassword"></label>
+												<input type="password" asp-for="OldPassword" class="form-control" placeholder="Enter Old/Temp Password" autocomplete="off">
+												<span toggle="#OldPassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+												<span class="field-validation-valid text-danger" asp-validation-for="OldPassword"></span>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<div class="col-12">
+												<label asp-for="Password"></label>
+												<input type="password" asp-for="Password" class="form-control" placeholder="Enter New Password" autocomplete="off">
+												<span toggle="#Password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+												<span class="field-validation-valid text-danger" asp-validation-for="Password"></span>
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="col-12">
+												<label asp-for="ConfirmPassword"></label>
+												<input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Re-Enter New Password" autocomplete="off">
+												<span toggle="#ConfirmPassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+												<span class="field-validation-valid text-danger" asp-validation-for="ConfirmPassword"></span>
+											</div>
+										</div>
+
+										<div class="form-group row gutters-tiny">
+
+											<div class="col-sm-6 mb-5">
+												<button type="submit" class="btn btn-alt-primary">
+													<i class="fa fa-save mr-10"></i> Update
+												</button>
+
+											</div>
+
+
+											<div class="col-sm-6 mb-5">
+												<button type="submit" class="btn btn-alt-danger pull-right" onclick="history.back()">
+													<i class="si si-action-undo mr-10"></i> Go Back
+												</button>
+
+											</div>
+
+
+										</div>
+
+									</div>
+									<div class="block-content bg-body-light">
+										@*<div class="form-group text-center">
+												<a class="link-effect text-muted mr-10 mb-5 d-inline-block" href="op_auth_signup3.html">
+													<i class="fa fa-plus mr-5"></i> Create Account
+												</a>
+												<a class="link-effect text-muted mr-10 mb-5 d-inline-block" href="op_auth_reminder3.html">
+													<i class="fa fa-warning mr-5"></i> Forgot Password
+												</a>
+											</div>*@
+									</div>
+								</div>
+							</form>
+							<!-- END Sign In Form -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END Page Content -->
+
+		</main>
+		<!-- END Main Container -->
+	</div>
+	<!-- END Page Container -->
+	<!--
+		Codebase JS Core
+
+		Vital libraries and plugins used in all pages. You can choose to not include this file if you would like
+		to handle those dependencies through webpack. Please check out ~/assets/_es6/main/bootstrap.js for more info.
+
+		If you like, you could also include them separately directly from the ~/assets/js/core folder in the following
+		order. That can come in handy if you would like to include a few of them (eg jQuery) from a CDN.
+
+		~/assets/js/core/jquery.min.js
+		~/assets/js/core/bootstrap.bundle.min.js
+		~/assets/js/core/simplebar.min.js
+		~/assets/js/core/jquery-scrollLock.min.js
+		~/assets/js/core/jquery.appear.min.js
+		~/assets/js/core/jquery.countTo.min.js
+		~/assets/js/core/js.cookie.min.js
+	-->
+	<script src="~/assets/js/codebase.core.min.js"></script>
+
+	<!--
+		Codebase JS
+
+		Custom functionality including Blocks/Layout API as well as other vital and optional helpers
+		webpack is putting everything together at ~/assets/_es6/main/app.js
+	-->
+	<script src="~/assets/js/codebase.app.min.js"></script>
+
+	<!-- Page JS Plugins -->
+	@*<script src="~/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>*@
+
+	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+	<!-- Page JS Code -->
+	@*<script src="~/assets/_es6/pages/op_auth_passchange.js"></script>*@
+	@*<script src="~/js/PasswordValidation.js" ></script>*@
+
+	<script src="~/assets/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+	<script>
+			$(function () {
+
+				$(".toggle-password").click(function () {
+
+					$(this).toggleClass("fa-eye fa-eye-slash");
+					var input = $($(this).attr("toggle"));
+					if (input.attr("type") == "password") {
+						input.attr("type", "text");
+					} else {
+						input.attr("type", "password");
+					}
+				});
+
+				var msgPass = "@(TempData["msgPass"] as string)";
+				var msgChange = "@(TempData["msgChange"] as string)";
+				var msgprocerr = "@(TempData["msgprocerr"] as string)";
+				var msgErr = "@(TempData["msgErr"] as string)";
+				var msgOk = "@(TempData["msgok"] as string)";
+				var msgError = "@(TempData["msgError"] as string)";
+
+
+
+				if (msgPass !== "") {
+					Swal.Fire({
+						title: 'Invalid Password',
+						text: msgPass,
+						icon: 'error'
+					});
+				}
+
+				if (msgChange !== "") {
+					Swal.Fire({
+						title: 'Successfully Changed Password',
+						text: msgChange,
+						icon: 'success'
+					}).then(function () {
+						window.location.href = '/Login/Logoff/';
+					});
+				}
+
+				if (msgprocerr !== "") {
+					Swal.Fire({
+						title: 'Server Error',
+						text: msgprocerr,
+						icon: 'error'
+					});
+				}
+
+				if (msgErr !== "") {
+					Swal.fire({
+						icon: 'error',
+						title: 'Process Failure',
+						text: msgErr
+					})
+				}
+
+				if (msgOk !== "") {
+					Swal.fire({
+						text: msgOk,
+						icon: 'success'
+					});
+				}
+
+				if (msgError !== "") {
+					Swal.fire({
+						icon: 'error',
+						title: 'Invalid Password',
+						text: msgError
+					})
+				}
+
+
+            });
+
+	</script>
+
+	<script>
+		const togglePassword = document.querySelector("#togglePassword");
+		const password = document.querySelector("#OldPassword");
+
+		togglePassword.addEventListener("click", function () {
+			// toggle the type attribute
+			const type = password.getAttribute("type") === "password" ? "text" : "password";
+			password.setAttribute("type", type);
+
+			// toggle the icon
+			this.classList.toggle("bi-eye");
+		});
+
+		// prevent form submit
+		const form = document.querySelector("form");
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+		});
+	</script>
+	
+</body>
+</html>

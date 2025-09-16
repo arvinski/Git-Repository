@@ -1,0 +1,111 @@
+﻿@{
+	ViewData["Title"] = "Display User Right";
+}
+
+
+<h2 class="content-heading">User Rights of @ViewBag.User</h2>
+
+
+<div class="block">
+	<div class="block-header block-header-default bg-gray-light">
+		<h3 class="block-title">Check required rights for the user</h3>
+		<div class="block-options">
+			<a asp-controller="Admin" asp-action="Index" class="btn-block-option" data-toggle="tooltip" title="Back to User Menu">
+				<i class="si si-users"></i>
+			</a>
+			<input type="text" id="myInput" hidden>
+
+			<a id="btn" href="#" class="btn-block-option" data-toggle="tooltip" title="Export to Excel">
+				<i class="fa fa-file-excel-o"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="block-content block-content-full">
+
+		<form asp-action="UserRights" method="post">
+			<table id="ListUserRight" class="table table-bordered table-striped table-vcenter">
+				<thead>
+					<tr>
+						<th class="d-none d-sm-table-cell">ID</th>
+						<th class="d-none d-sm-table-cell">Title/Description</th>
+						<th class="d-none d-sm-table-cell text-center">
+							<button type="submit" class="btn btn-outline-primary mr-5 mb-5">
+								<i class="fa fa-refresh mr-5"></i>Update
+							</button>
+							<input class="d-none d-sm-table-cell" type="checkbox" id="allcb" name="allcb" />
+							Select All
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var usr in ViewBag.ListUserRights)
+					{
+						<tr>
+							<td class="d-none d-sm-table-cell">@usr.ID</td>
+							<td class="d-none d-sm-table-cell">@usr.Title</td>
+							@if (usr.Rights == 1)
+							{
+								<td class="d-none d-sm-table-cell text-center"><input type="checkbox" name="ID" value="@usr.ID" checked /></td>
+							}
+							else
+							{
+								<td class="d-none d-sm-table-cell text-center"><input type="checkbox" name="ID" value="@usr.ID" /></td>
+							}
+
+						</tr>
+					}
+				</tbody>
+			</table>
+		</form>
+
+
+		
+
+
+	</div>
+</div>
+
+@section Scripts {
+
+	<script>
+
+
+		$('#ListUserRight').on('search.dt', function () {
+			var value = $('.dataTables_filter input').val();
+			document.getElementById("myInput").value = value; // <-- the value
+		});
+
+		$(function () {
+			$('#btn').click(function (evt) {
+				$.ajax({
+					type: 'GET',
+					url:'@Url.Action("GetSearch", "Admin")',
+					cache: false,
+					data: { myInput: $("#myInput").val() },
+					success: function (data) {
+						if (data.success) {
+							window.location = "/Admin/ExportUserRights";
+						}
+					}
+				});
+			});
+
+			$('#allcb').change(function () {
+				if ($(this).prop('checked')) {
+					$('tbody tr td input[type="checkbox"]').each(function () {
+						$(this).prop('checked', true);
+					});
+				} else {
+					$('tbody tr td input[type="checkbox"]').each(function () {
+						$(this).prop('checked', false);
+					});
+				}
+			});
+
+		});
+
+
+	</script>
+
+}
